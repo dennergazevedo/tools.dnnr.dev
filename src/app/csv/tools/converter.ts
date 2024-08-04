@@ -15,6 +15,27 @@ export function jsonToCSV(jsonData: Array<any>) {
   return csvRows.join('\n');
 }
 
+export function csvToJson(csv: string) {
+  const lines = csv.split('\n');
+  const headers = lines[0].split(',').map(header => header.replace(/"/g, '').trim());
+
+  const result = lines.slice(1).map(line => {
+    const values = line.split(',').map(value => value.replace(/"/g, '').trim());
+    let obj: any = {};
+    headers.forEach((header, index) => {
+      obj[header] = values[index];
+      if (header === 'year') {
+        obj[header] = parseInt(obj[header], 10);
+      } else if (header === 'US_peak_chart_post' && obj[header] !== '-') {
+        obj[header] = parseInt(obj[header], 10);
+      }
+    });
+    return obj;
+  });
+
+  return JSON.stringify(result);
+}
+
 export function downloadFile(filename: string, fileContent: any, type: string) {
   const blob = new Blob([fileContent], { type });
   const url = URL.createObjectURL(blob);
