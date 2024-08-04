@@ -2,11 +2,18 @@
 
 import { UploadCloud } from 'lucide-react'
 import { useFileInput } from './Root'
+import { Fragment } from 'react'
 
-export interface TriggerProps {}
+export interface TriggerProps {
+  type: string
+}
 
 export function Trigger(props: TriggerProps) {
-  const { id } = useFileInput()
+  const { id, files } = useFileInput()
+
+  if(files?.length){
+    return <Fragment />
+  }
 
   return (
     <label
@@ -25,7 +32,7 @@ export function Trigger(props: TriggerProps) {
           or drag and drop
         </span>
 
-        <span className="text-xs">SVG, PNG, JPG or GIF (max. 800x400px)</span>
+        <span className="text-xs">{props.type}</span>
       </div>
     </label>
   )
