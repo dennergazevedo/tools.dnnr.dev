@@ -51,7 +51,7 @@ export function CSVJSON() {
 
   return (
     <form
-      id="settings"
+      id="csvjson"
       onSubmit={handleConvert}
       className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
     >
@@ -89,7 +89,7 @@ export function CSVJSON() {
       <div className="flex items-center justify-start gap-2 pt-5">
         <Button
           type="submit"
-          form="settings"
+          form="csvjson"
           variant="primary"
           className="flex flex-row gap-2"
         >
@@ -113,14 +113,14 @@ export function CSVJSON() {
             <Textarea
               name="convertedText"
               id="convertedText"
-              defaultValue={convertedData}
+              value={convertedData}
               disabled
             />
           </div>
           <div className="flex items-center justify-start gap-2 pt-5">
             <Button
               type="submit"
-              form="settings"
+              form="csvjson"
               variant="primary"
               className="flex flex-row gap-2"
               onClick={handleDownload}

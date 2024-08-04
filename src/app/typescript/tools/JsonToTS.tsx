@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/Button";
-import * as FileInput from "@/components/Form/FileInput";
 import { Textarea } from "@/components/Form/Textarea";
-import { FormEvent, useCallback, useState } from "react";
-import { Eraser, Flame, DownloadCloud, CheckCheck, Copy } from "lucide-react";
+import * as FileInput from "@/components/Form/FileInput";
+import { Fragment, useCallback, useState } from "react";
+import { Copy, CheckCheck, Flame, Eraser } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
-import { downloadFile, jsonToCSV } from "./converter";
+import { jsonToTypescriptInterfaces } from "./converter";
 
-export function JSONCSV() {
+export function JsonToTS() {
   const [entryData, setEntryData] = useState<string>("");
   const [convertedData, setConvertedData] = useState<string>("");
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
@@ -17,31 +17,7 @@ export function JSONCSV() {
   const handleCopyToClipboard = useCallback(async () => {
     setCopySuccess(await copyToClipboard(convertedData));
   }, [convertedData]);
-
-  const handleConvert = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      setReset(false);
-      try {
-        const csv = jsonToCSV(JSON.parse(entryData));
-        if (csv) {
-          setConvertedData(csv);
-        }
-      } catch (err) {
-        console.log("[!] Convert:", err);
-      }
-    },
-    [entryData]
-  );
-
-  const handleDownload = useCallback(() => {
-    try {
-      downloadFile("converted-json-csv-dnnr-dev", convertedData, "text/csv");
-    } catch (err) {
-      console.log("[!] Download:", err);
-    }
-  }, [convertedData]);
-
+  
   const handleClear = useCallback(() => {
     setEntryData("");
     setConvertedData("");
@@ -49,20 +25,32 @@ export function JSONCSV() {
     setReset(true);
   }, []);
 
+  const handleConvert = useCallback(() => {
+    try{
+      const obj = JSON.parse(entryData)
+      if(obj?.length > 1){
+        setConvertedData(jsonToTypescriptInterfaces(obj[0]))
+      }else{
+        setConvertedData(jsonToTypescriptInterfaces(obj));
+      }
+    }catch(err){
+      console.log("[!] Convert:", err)
+    }
+  }, [entryData])
+
   return (
     <form
-      id="jsoncsv"
-      onSubmit={handleConvert}
+      id="jsonToTypescript"
       className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
     >
       <div className="grid gap-3 pt-5 lg:grid-cols-form">
         <label
-          htmlFor="projects"
+          htmlFor="bio"
           className="flex flex-col text-sm font-medium leading-relaxed text-zinc-700 dark:text-zinc-100"
         >
-          JSON to CSV
-          <span className="text-sm font-normal text-zinc-500">
-            Convert JSON files to CSV in one click
+          Convert JSON in Typescripts Interfaces
+          <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400">
+            Enter your data
           </span>
         </label>
       </div>
@@ -88,10 +76,11 @@ export function JSONCSV() {
 
       <div className="flex items-center justify-start gap-2 pt-5">
         <Button
-          type="submit"
-          form="jsoncsv"
+          type="button"
+          form="jsonToTypescript"
           variant="primary"
           className="flex flex-row gap-2"
+          onClick={handleConvert}
         >
           <Flame className="h-5 w-5 flex-shrink-0 text-white" />
           Convert
@@ -107,27 +96,15 @@ export function JSONCSV() {
         </Button>
       </div>
 
-      {convertedData ? (
+      {convertedData.length ? (
         <>
-          <div className="flex flex-row items-center gap-4 pt-4">
-            <Textarea
-              name="convertedText"
-              id="convertedText"
-              value={convertedData}
-              disabled
-            />
-          </div>
+          <Textarea
+            name="convertedText"
+            id="convertedTextToEncode"
+            value={convertedData}
+            disabled
+          />
           <div className="flex items-center justify-start gap-2 pt-5">
-            <Button
-              type="submit"
-              form="jsoncsv"
-              variant="primary"
-              className="flex flex-row gap-2"
-              onClick={handleDownload}
-            >
-              <DownloadCloud className="h-5 w-5 flex-shrink-0 text-white" />
-              Download
-            </Button>
             <Button
               variant="outline"
               className="flex flex-row gap-2"
@@ -143,7 +120,7 @@ export function JSONCSV() {
           </div>
         </>
       ) : (
-        <></>
+        <Fragment />
       )}
     </form>
   );
