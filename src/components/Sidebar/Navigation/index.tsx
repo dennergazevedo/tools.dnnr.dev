@@ -23,7 +23,7 @@ export function Navigation(props: NavigationProps) {
       <NavItem icon={Braces} title="JSON" to='/' />
       <NavItem icon={Layers} title="CSV" to='/' />
       <NavItem icon={Ampersands} title="Base64" to='/base64' />
-      <NavItem icon={FileCode2} title="URI" to='/' />
+      <NavItem icon={FileCode2} title="URI" to='/uri' />
     </nav>
   )
 }
