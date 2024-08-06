@@ -14,7 +14,7 @@ export function Navigation() {
   return (
     <nav className="flex flex-col gap-0.5">
       <NavItem icon={Home} title="Home" to='/' />
-      <NavItem icon={ListChecks} title="To Do" to='/' />
+      <NavItem icon={ListChecks} title="To Do" to='/todo' />
       <NavItem icon={AlarmClock} title="Timer" to='/' />
       <NavItem icon={Code2} title="Typescript" to='/typescript' />
       <NavItem icon={Layers} title="CSV • JSON" to='/csv' />
