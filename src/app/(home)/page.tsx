@@ -32,7 +32,7 @@ export default function Home() {
           <HomeCard
             icon={ListChecks}
             label="To Do"
-            href="/"
+            href="/todo"
             description='A "To Do" is a list or task management tool used to organize and keep track of tasks or activities that need to be completed. '
           />
           <HomeCard
