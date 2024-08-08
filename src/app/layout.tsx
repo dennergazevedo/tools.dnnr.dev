@@ -2,6 +2,7 @@ import './globals.css'
 
 import { ReactNode } from 'react'
 import { Ubuntu } from 'next/font/google'
+import { Toaster, toast } from 'sonner'
 import { Sidebar } from '@/components/Sidebar'
 
 const ubuntu = Ubuntu({
@@ -20,7 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={ubuntu.className}>
         <div className="relative min-h-screen dark:bg-zinc-900 lg:grid lg:grid-cols-app">
           <Sidebar />
-
+          <Toaster />
           <main className="max-w-screen px-4 pb-12 pt-24 lg:col-start-2 lg:w-auto lg:px-8 lg:pt-8">
             {children}
           </main>
