@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/Button";
-import * as FileInput from "@/components/Form/FileInput";
 import { Textarea } from "@/components/Form/Textarea";
-import { FormEvent, useCallback, useState } from "react";
-import { Eraser, Flame, DownloadCloud, CheckCheck, Copy } from "lucide-react";
+import * as FileInput from "@/components/Form/FileInput";
+import { Fragment, useCallback, useState } from "react";
+import { Copy, CheckCheck, Flame, Eraser } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
-import { csvToJson, downloadFile, jsonToCSV } from "./converter";
+import { jsonToTypescriptInterfaces } from "./converter";
 
-export function CSVJSON() {
+export function JsonToTS() {
   const [entryData, setEntryData] = useState<string>("");
   const [convertedData, setConvertedData] = useState<string>("");
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
@@ -17,31 +17,7 @@ export function CSVJSON() {
   const handleCopyToClipboard = useCallback(async () => {
     setCopySuccess(await copyToClipboard(convertedData));
   }, [convertedData]);
-
-  const handleConvert = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      setReset(false);
-      try {
-        const jsonData = csvToJson(entryData);
-        if (jsonData) {
-          setConvertedData(jsonData);
-        }
-      } catch (err) {
-        console.log("[!] Convert:", err);
-      }
-    },
-    [entryData]
-  );
-
-  const handleDownload = useCallback(() => {
-    try {
-      downloadFile("converted-csv-json-dnnr-dev", convertedData, "application/json");
-    } catch (err) {
-      console.log("[!] Download:", err);
-    }
-  }, [convertedData]);
-
+  
   const handleClear = useCallback(() => {
     setEntryData("");
     setConvertedData("");
@@ -49,20 +25,32 @@ export function CSVJSON() {
     setReset(true);
   }, []);
 
+  const handleConvert = useCallback(() => {
+    try{
+      const obj = JSON.parse(entryData)
+      if(obj?.length > 1){
+        setConvertedData(jsonToTypescriptInterfaces(obj[0]))
+      }else{
+        setConvertedData(jsonToTypescriptInterfaces(obj));
+      }
+    }catch(err){
+      console.log("[!] Convert:", err)
+    }
+  }, [entryData])
+
   return (
     <form
-      id="csvjson"
-      onSubmit={handleConvert}
-      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
+      id="jsonToTypescript"
+      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 divide-zinc-800"
     >
       <div className="grid gap-3 pt-5 lg:grid-cols-form">
         <label
-          htmlFor="projects"
-          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-700 dark:text-zinc-100"
+          htmlFor="bio"
+          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-700 text-zinc-100"
         >
-          CSV to JSON
-          <span className="text-sm font-normal text-zinc-500">
-            Convert CSV files to JSON in one click
+          Convert JSON in Typescripts Interfaces
+          <span className="text-sm font-normal text-zinc-500 text-zinc-400">
+            Enter your data
           </span>
         </label>
       </div>
@@ -70,7 +58,7 @@ export function CSVJSON() {
         <Textarea
           name="entryText"
           id="entryTextToEncode"
-          placeholder="Entry your CSV here..."
+          placeholder="Entry your JSON here..."
           value={entryData}
           onChange={(event) => setEntryData(event.target.value)}
         />
@@ -81,17 +69,18 @@ export function CSVJSON() {
         >
           <FileInput.TriggerSelected reset={reset} />
           <FileInput.JSONPreview sendData={setEntryData} />
-          <FileInput.Trigger type="CSV file" />
-          <FileInput.Control accept="text/csv" />
+          <FileInput.Trigger type="JSON file" />
+          <FileInput.Control accept=".json,application/json" />
         </FileInput.Root>
       </div>
 
       <div className="flex items-center justify-start gap-2 pt-5">
         <Button
-          type="submit"
-          form="csvjson"
+          type="button"
+          form="jsonToTypescript"
           variant="primary"
           className="flex flex-row gap-2"
+          onClick={handleConvert}
         >
           <Flame className="h-5 w-5 flex-shrink-0 text-white" />
           Convert
@@ -107,27 +96,15 @@ export function CSVJSON() {
         </Button>
       </div>
 
-      {convertedData ? (
+      {convertedData.length ? (
         <>
-          <div className="flex flex-row items-center gap-4 pt-4">
-            <Textarea
-              name="convertedText"
-              id="convertedText"
-              value={convertedData}
-              disabled
-            />
-          </div>
+          <Textarea
+            name="convertedText"
+            id="convertedTextToEncode"
+            value={convertedData}
+            disabled
+          />
           <div className="flex items-center justify-start gap-2 pt-5">
-            <Button
-              type="submit"
-              form="csvjson"
-              variant="primary"
-              className="flex flex-row gap-2"
-              onClick={handleDownload}
-            >
-              <DownloadCloud className="h-5 w-5 flex-shrink-0 text-white" />
-              Download
-            </Button>
             <Button
               variant="outline"
               className="flex flex-row gap-2"
@@ -143,7 +120,7 @@ export function CSVJSON() {
           </div>
         </>
       ) : (
-        <></>
+        <Fragment />
       )}
     </form>
   );

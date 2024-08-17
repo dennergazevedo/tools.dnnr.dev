@@ -11,17 +11,17 @@ export function MenuTabs() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
 
-  const [currentTab, setCurrentTab] = useState<string>(tabParam ?? 'encodeDecode')
+  const [currentTab, setCurrentTab] = useState<string>(tabParam ?? 'jsonts')
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
       <ScrollArea.Root className="w-full" type="hover">
         <ScrollArea.Viewport className="w-full overflow-x-scroll">
-          <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200 dark:border-zinc-800">
+          <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200 border-zinc-800">
             <TabItem
-              isSelected={currentTab === 'encodeDecode'}
-              value="encodeDecode"
-              title="Encode & Decode"
+              isSelected={currentTab === 'jsonts'}
+              value="jsonts"
+              title="JSON to TS"
             />
           </Tabs.List>
         </ScrollArea.Viewport>

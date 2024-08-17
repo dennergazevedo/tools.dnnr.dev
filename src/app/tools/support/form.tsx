@@ -3,7 +3,7 @@ import * as emailjs from "emailjs-com";
 import { Loader2, Mail, MessageCircle, Send, User } from "lucide-react";
 import { toast } from "sonner";
 
-import * as Input from "../../components/Form/Input";
+import * as Input from "../../../components/Form/Input";
 import { Textarea } from "@/components/Form/Textarea";
 import { Button } from "@/components/Button";
 import { useState } from "react";

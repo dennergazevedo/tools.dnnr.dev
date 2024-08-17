@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/Button";
-import { Textarea } from "@/components/Form/Textarea";
 import * as FileInput from "@/components/Form/FileInput";
-import { Fragment, useCallback, useState } from "react";
-import { Copy, CheckCheck, Flame, Eraser } from "lucide-react";
+import { Textarea } from "@/components/Form/Textarea";
+import { FormEvent, useCallback, useState } from "react";
+import { Eraser, Flame, DownloadCloud, CheckCheck, Copy } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
-import { jsonToTypescriptInterfaces } from "./converter";
+import { csvToJson, downloadFile, jsonToCSV } from "./converter";
 
-export function JsonToTS() {
+export function CSVJSON() {
   const [entryData, setEntryData] = useState<string>("");
   const [convertedData, setConvertedData] = useState<string>("");
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
@@ -17,7 +17,31 @@ export function JsonToTS() {
   const handleCopyToClipboard = useCallback(async () => {
     setCopySuccess(await copyToClipboard(convertedData));
   }, [convertedData]);
-  
+
+  const handleConvert = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setReset(false);
+      try {
+        const jsonData = csvToJson(entryData);
+        if (jsonData) {
+          setConvertedData(jsonData);
+        }
+      } catch (err) {
+        console.log("[!] Convert:", err);
+      }
+    },
+    [entryData]
+  );
+
+  const handleDownload = useCallback(() => {
+    try {
+      downloadFile("converted-csv-json-dnnr-dev", convertedData, "application/json");
+    } catch (err) {
+      console.log("[!] Download:", err);
+    }
+  }, [convertedData]);
+
   const handleClear = useCallback(() => {
     setEntryData("");
     setConvertedData("");
@@ -25,32 +49,20 @@ export function JsonToTS() {
     setReset(true);
   }, []);
 
-  const handleConvert = useCallback(() => {
-    try{
-      const obj = JSON.parse(entryData)
-      if(obj?.length > 1){
-        setConvertedData(jsonToTypescriptInterfaces(obj[0]))
-      }else{
-        setConvertedData(jsonToTypescriptInterfaces(obj));
-      }
-    }catch(err){
-      console.log("[!] Convert:", err)
-    }
-  }, [entryData])
-
   return (
     <form
-      id="jsonToTypescript"
-      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 dark:divide-zinc-800"
+      id="csvjson"
+      onSubmit={handleConvert}
+      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 divide-zinc-800"
     >
       <div className="grid gap-3 pt-5 lg:grid-cols-form">
         <label
-          htmlFor="bio"
-          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-700 dark:text-zinc-100"
+          htmlFor="projects"
+          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-700 text-zinc-100"
         >
-          Convert JSON in Typescripts Interfaces
-          <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400">
-            Enter your data
+          CSV to JSON
+          <span className="text-sm font-normal text-zinc-500">
+            Convert CSV files to JSON in one click
           </span>
         </label>
       </div>
@@ -58,7 +70,7 @@ export function JsonToTS() {
         <Textarea
           name="entryText"
           id="entryTextToEncode"
-          placeholder="Entry your JSON here..."
+          placeholder="Entry your CSV here..."
           value={entryData}
           onChange={(event) => setEntryData(event.target.value)}
         />
@@ -69,18 +81,17 @@ export function JsonToTS() {
         >
           <FileInput.TriggerSelected reset={reset} />
           <FileInput.JSONPreview sendData={setEntryData} />
-          <FileInput.Trigger type="JSON file" />
-          <FileInput.Control accept=".json,application/json" />
+          <FileInput.Trigger type="CSV file" />
+          <FileInput.Control accept="text/csv" />
         </FileInput.Root>
       </div>
 
       <div className="flex items-center justify-start gap-2 pt-5">
         <Button
-          type="button"
-          form="jsonToTypescript"
+          type="submit"
+          form="csvjson"
           variant="primary"
           className="flex flex-row gap-2"
-          onClick={handleConvert}
         >
           <Flame className="h-5 w-5 flex-shrink-0 text-white" />
           Convert
@@ -96,15 +107,27 @@ export function JsonToTS() {
         </Button>
       </div>
 
-      {convertedData.length ? (
+      {convertedData ? (
         <>
-          <Textarea
-            name="convertedText"
-            id="convertedTextToEncode"
-            value={convertedData}
-            disabled
-          />
+          <div className="flex flex-row items-center gap-4 pt-4">
+            <Textarea
+              name="convertedText"
+              id="convertedText"
+              value={convertedData}
+              disabled
+            />
+          </div>
           <div className="flex items-center justify-start gap-2 pt-5">
+            <Button
+              type="submit"
+              form="csvjson"
+              variant="primary"
+              className="flex flex-row gap-2"
+              onClick={handleDownload}
+            >
+              <DownloadCloud className="h-5 w-5 flex-shrink-0 text-white" />
+              Download
+            </Button>
             <Button
               variant="outline"
               className="flex flex-row gap-2"
@@ -120,7 +143,7 @@ export function JsonToTS() {
           </div>
         </>
       ) : (
-        <Fragment />
+        <></>
       )}
     </form>
   );
