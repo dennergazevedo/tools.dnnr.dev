@@ -12,7 +12,7 @@ export function Value({ children, ...props }: ValueProps) {
 
   return (
     <Select.Value {...props}>
-      <span className="flex items-center gap-2 text-black dark:text-zinc-100">
+      <span className="flex items-center gap-2 text-black text-zinc-100">
         {children}
       </span>
     </Select.Value>

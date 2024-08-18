@@ -10,13 +10,15 @@ import {
   UserCog,
 } from "lucide-react";
 import { Button } from "@/components/Button";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../context";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { api } from "@/utils/request";
+import { useAuth } from "../context";
+import Link from "next/link";
 
 export default function Register() {
   const router = useRouter();
-  const { handleRegister } = useAuth();
+  const { handleLogin } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
 
@@ -27,36 +29,19 @@ export default function Register() {
       try {
         const formData = new FormData(event.target);
 
-        const user = {
-          firstName: String(formData.get("firstName")),
-          lastName: String(formData.get("lastName")),
+        const success = await handleLogin({
           email: String(formData.get("email")),
           password: String(formData.get("password")),
-        };
-
-        if (
-          user?.email?.length < 8 ||
-          user?.lastName?.length < 3 ||
-          user?.firstName?.length < 3 ||
-          user.password.length < 8
-        ) {
-          toast("Oops!", {
-            description: "Verify your data and try again.",
-          });
-          setLoading(false);
-          return;
-        }
-
-        const success = await handleRegister(user);
+        });
 
         if (success) {
           setTimeout(() => {
-            router.push("/auth/login");
+            router.push("/");
           }, 3000);
           setSuccess(true);
         }
       } catch (error) {
-        console.log("[!] Register Submit", error);
+        console.log("[!] Login Submit", error);
       }
       setLoading(false);
     },
@@ -68,33 +53,17 @@ export default function Register() {
       <div className="flex w-full flex-col items-center gap-2">
         <h1 className="flex flex-row items-center gap-2 text-2xl font-medium">
           <Lock className="h-5 w-5 text-zinc-500" />
-          Registration
+          Sign in
         </h1>
         <span className="text-zinc-400">
-          Sign up and make the most of the tools
+          Sign in and make the most of the tools
         </span>
       </div>
       <form
-        id="register"
+        id="signin"
         onSubmit={handleSubmit}
         className="mt-8 flex w-96 flex-col gap-2 rounded-lg border border-zinc-500 bg-zinc-700/10 px-8 py-12 pb-8"
       >
-        <Input.Root className="w-auto">
-          <Input.Prefix>
-            <User className="h-5 w-5 text-zinc-500" />
-          </Input.Prefix>
-          <Input.Control
-            name="firstName"
-            type="text"
-            placeholder="First Name"
-          />
-        </Input.Root>
-        <Input.Root className="w-auto">
-          <Input.Prefix>
-            <UserCog className="h-5 w-5 text-zinc-500" />
-          </Input.Prefix>
-          <Input.Control name="lastName" type="text" placeholder="Last Name" />
-        </Input.Root>
         <Input.Root className="w-auto">
           <Input.Prefix>
             <Mail className="h-5 w-5 text-zinc-500" />
@@ -118,7 +87,7 @@ export default function Register() {
         <div className="mt-6 flex flex-col items-center gap-2">
           <Button
             type="submit"
-            form="register"
+            form="signin"
             variant={success ? "success" : "primary"}
             loading={loading}
             disabled={success || loading}
@@ -127,7 +96,7 @@ export default function Register() {
             {success ? (
               <CheckCircle className="h-5 w-5 text-white" />
             ) : (
-              "Register"
+              "Sign In"
             )}
           </Button>
           <Button
@@ -140,6 +109,12 @@ export default function Register() {
           </Button>
         </div>
       </form>
+      <Link
+        href={"/auth/register"}
+        className="mt-4 block text-sm text-zinc-400 hover:text-zinc-100"
+      >
+        Do not have account? Sign Up
+      </Link>
     </Fragment>
   );
 }

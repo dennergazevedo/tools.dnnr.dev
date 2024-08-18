@@ -1,27 +1,44 @@
-import { LogOut } from 'lucide-react'
-import { Button } from '../Button'
+import { LogOut, UserCircle2 } from "lucide-react";
+import { Button } from "../Button";
+import { useAuth } from "@/app/auth/context";
+import Link from "next/link";
 
 export interface ProfileProps {}
 
 export function Profile() {
+  const { user, handleLogout } = useAuth();
+
+  if (!user?.email) {
+    return (
+      <div className="flex items-center gap-3">
+        <UserCircle2 className="h-10 w-10 rounded-full text-zinc-400" />
+        <div className="flex flex-col">
+          <Link
+            href={"/auth/login"}
+            className="block text-md font-semibold text-zinc-100"
+          >
+            Sign In
+          </Link>
+          <Link href={"/auth/register"} className="block text-sm text-zinc-400 hover:text-zinc-100">
+            Do not have account? Sign Up
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center gap-3">
-      <img
-        src="https://github.com/dennergazevedo.png"
-        className="h-10 w-10 rounded-full"
-        alt=""
-      />
+      <UserCircle2 className="h-10 w-10 rounded-full text-zinc-400" />
       <div className="flex flex-col">
-        <span className="block text-sm font-semibold text-zinc-700 dark:text-zinc-100">
-          Denner Azevedo
+        <span className="block text-sm font-semibold text-zinc-100">
+          {`${user.firstName} ${user.lastName}`}
         </span>
-        <span className="block text-sm text-zinc-500 dark:text-zinc-400">
-          me@dnnr.dev
-        </span>
+        <span className="block text-sm text-zinc-400">{user.email}</span>
       </div>
-      <Button variant="ghost" className="ml-auto">
-        <LogOut className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
+      <Button variant="ghost" className="ml-auto" onClick={handleLogout}>
+        <LogOut className="h-5 w-5 text-zinc-400" />
       </Button>
     </div>
-  )
+  );
 }

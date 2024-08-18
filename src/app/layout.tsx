@@ -3,6 +3,7 @@ import './globals.css'
 import { ReactNode } from 'react'
 import { Ubuntu } from 'next/font/google'
 import { Toaster } from 'sonner'
+import { AuthContextProvider } from './auth/context'
 
 const ubuntu = Ubuntu({
   weight: ["400", "500", "700"],
@@ -18,8 +19,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-br">
       <body className={ubuntu.className}>
-        <Toaster />
-        {children}
+        <AuthContextProvider>
+          <Toaster />
+          {children}
+        </AuthContextProvider>
       </body>
     </html>
   )
