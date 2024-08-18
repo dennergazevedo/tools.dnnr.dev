@@ -53,12 +53,12 @@ export function CSVJSON() {
     <form
       id="csvjson"
       onSubmit={handleConvert}
-      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 divide-zinc-800"
+      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-800"
     >
       <div className="grid gap-3 pt-5 lg:grid-cols-form">
         <label
           htmlFor="projects"
-          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-700 text-zinc-100"
+          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-100"
         >
           CSV to JSON
           <span className="text-sm font-normal text-zinc-500">

@@ -51,11 +51,11 @@ export default function ToDo() {
 
   return (
     <Fragment>
-      <h1 className="text-3xl font-medium text-zinc-900 text-zinc-100">
+      <h1 className="text-3xl font-medium text-zinc-100">
         To Do
       </h1>
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-        <span className="text-sm text-zinc-500 text-zinc-400">
+        <span className="text-sm text-zinc-400">
           Organize your life
         </span>
       </div>

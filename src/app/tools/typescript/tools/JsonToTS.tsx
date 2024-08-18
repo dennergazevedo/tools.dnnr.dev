@@ -3,7 +3,7 @@
 import { Button } from "@/components/Button";
 import { Textarea } from "@/components/Form/Textarea";
 import * as FileInput from "@/components/Form/FileInput";
-import { Fragment, useCallback, useState } from "react";
+import { FormEvent, Fragment, useCallback, useState } from "react";
 import { Copy, CheckCheck, Flame, Eraser } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { jsonToTypescriptInterfaces } from "./converter";
@@ -25,7 +25,8 @@ export function JsonToTS() {
     setReset(true);
   }, []);
 
-  const handleConvert = useCallback(() => {
+  const handleConvert = useCallback((event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try{
       const obj = JSON.parse(entryData)
       if(obj?.length > 1){
@@ -41,15 +42,16 @@ export function JsonToTS() {
   return (
     <form
       id="jsonToTypescript"
-      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 divide-zinc-800"
+      onSubmit={handleConvert}
+      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-800"
     >
       <div className="grid gap-3 pt-5 lg:grid-cols-form">
         <label
           htmlFor="bio"
-          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-700 text-zinc-100"
+          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-100"
         >
           Convert JSON in Typescripts Interfaces
-          <span className="text-sm font-normal text-zinc-500 text-zinc-400">
+          <span className="text-sm font-normal text-zinc-400">
             Enter your data
           </span>
         </label>
@@ -76,11 +78,10 @@ export function JsonToTS() {
 
       <div className="flex items-center justify-start gap-2 pt-5">
         <Button
-          type="button"
+          type="submit"
           form="jsonToTypescript"
           variant="primary"
           className="flex flex-row gap-2"
-          onClick={handleConvert}
         >
           <Flame className="h-5 w-5 flex-shrink-0 text-white" />
           Convert

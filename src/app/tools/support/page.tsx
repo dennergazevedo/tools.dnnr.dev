@@ -5,7 +5,7 @@ import { Mail } from 'lucide-react'
 export default function Support() {
   return (
     <Fragment>
-      <h1 className="text-3xl font-medium text-zinc-900 text-zinc-100">
+      <h1 className="text-3xl font-medium text-zinc-100">
         Suport
       </h1>
       <div className="mt-6 flex flex-col">

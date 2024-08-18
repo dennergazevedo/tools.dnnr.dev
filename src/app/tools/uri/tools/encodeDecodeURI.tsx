@@ -59,15 +59,15 @@ export function EncodeDecodeURI() {
     <form
       id="encodeToBase64"
       onSubmit={handleEncode}
-      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200 divide-zinc-800"
+      className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-800"
     >
       <div className="grid gap-3 pt-5 lg:grid-cols-form">
         <label
           htmlFor="bio"
-          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-700 text-zinc-100"
+          className="flex flex-col text-sm font-medium leading-relaxed text-zinc-100"
         >
           Encode or Decode to URI-encoded format
-          <span className="text-sm font-normal text-zinc-500 text-zinc-400">
+          <span className="text-sm font-normal text-zinc-400">
             Enter your data
           </span>
         </label>

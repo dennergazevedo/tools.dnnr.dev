@@ -13,7 +13,7 @@ import { NavItem } from './NavItem'
 export function Navigation() {
   return (
     <nav className="flex flex-col gap-0.5">
-      <NavItem icon={Home} title="Home" to='/tools' />
+      <NavItem icon={Home} title="Home" to='/' />
       <NavItem icon={ListChecks} title="To Do" to='/tools/todo' />
       <NavItem icon={AlarmClock} title="Timer" to='/' />
       <NavItem icon={Code2} title="Typescript" to='/tools/typescript' />
