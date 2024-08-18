@@ -1,7 +1,8 @@
 import { LogOut, UserCircle2 } from "lucide-react";
-import { Button } from "../Button";
+import { Button } from '../ui/button';
 import { useAuth } from "@/app/auth/context";
 import Link from "next/link";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 
 export interface ProfileProps {}
 
@@ -36,9 +37,27 @@ export function Profile() {
         </span>
         <span className="block text-sm text-zinc-400">{user.email}</span>
       </div>
-      <Button variant="ghost" className="ml-auto" onClick={handleLogout}>
-        <LogOut className="h-5 w-5 text-zinc-400" />
-      </Button>
+      <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="ghost" className="ml-auto">
+          <LogOut className="h-5 w-5 text-zinc-400" />
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure you want to leave?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Your next updates will not be saved.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleLogout}>
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function Support() {
           </div>
         </div>
         <div className='flex flex-row flex-wrap relative mt-12 w-full gap-8 justify-around items-center md:mt-24'>
-          <div className="hidden flex-1 items-center justify-center md:flex md:opacity-100">
+          <div className="hidden items-center justify-center md:flex md:opacity-100">
             <Mail className="w-80 h-80 flex-shrink-0 text-zinc-700" />
           </div>
           <Form />

@@ -1,7 +1,10 @@
 "use client";
 import { FormEvent, Fragment, useCallback, useEffect, useState } from "react";
 import ToDoList from "./list";
-import { Plus } from "lucide-react";
+import { Plus, Terminal } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useAuth } from "@/app/auth/context";
+import Link from "next/link";
 
 export interface ToDoItem {
   id: number;
@@ -10,6 +13,7 @@ export interface ToDoItem {
 }
 
 export default function ToDo() {
+  const { token } = useAuth();
   const [list, setList] = useState<ToDoItem[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -59,6 +63,18 @@ export default function ToDo() {
           Organize your life
         </span>
       </div>
+      {
+        !token && (
+          <Alert className="mt-12">
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>You are not logged in!</AlertTitle>
+            <AlertDescription>
+              To save your data in the cloud and access it from any device, please {' '}
+              <Link className="text-white hover:text-sky-600" href="/auth/login">log in to your account</Link>.
+            </AlertDescription>
+          </Alert>
+        )
+      }
       <form onSubmit={handleAddTask} className="mt-16 flex flex-row items-center gap-4">
         <input
           value={inputValue}

@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button'
+import { Button } from '@/components/ui/button'
 import { CheckCircle2, Image as ImageIcon, Trash2 } from 'lucide-react'
 import { useMemo } from 'react'
 import { tv, VariantProps } from 'tailwind-variants'

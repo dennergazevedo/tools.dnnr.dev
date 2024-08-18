@@ -9,7 +9,7 @@ import {
   User,
   UserCog,
 } from "lucide-react";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context";
 import { toast } from "sonner";
