@@ -1,4 +1,5 @@
 'use client'
+import { setCookie, getCookie } from '@/utils/cookie';
 import { api } from '@/utils/request';
 import { useRouter } from 'next/navigation';
 import React, {
@@ -36,7 +37,7 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
       setUser(responseData.data.user);
       setToken(responseData.data.token);
   
-      sessionStorage.setItem("@dnnr:authToken", responseData.data.token);
+      setCookie('@dnnr:authToken', responseData.data.token)
       return true;
     }catch(err){
       console.log("[!] Login", err);
@@ -65,7 +66,7 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
 
   const loadUser = useCallback(async() => {
     try{
-      const token = sessionStorage.getItem("@dnnr:authToken");
+      const token = getCookie("@dnnr:authToken");
       if(!token) return;
 
       const { data: responseData } = await api.get(`/api/auth/user?token=${token}`)
@@ -75,7 +76,7 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
       }
     }catch(error){
       console.log("[!] Load User", error)
-      sessionStorage.setItem("@dnnr:authToken", '');
+      setCookie('@dnnr:authToken', '')
     }
   }, [])
 
@@ -86,7 +87,7 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
   const handleLogout = useCallback(() => {
     setUser({} as User);
     setToken("");
-    sessionStorage.setItem("@dnnr:authToken", '');
+    setCookie('@dnnr:authToken', '')
     router.refresh();
   }, [router])
 
