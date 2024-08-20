@@ -39,20 +39,20 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
     }
   }, [token])
 
-  // const handleUpdateTodo = useCallback(async (item: ToDoItem) => {
-  //   if(token){
-  //     try{
-  //       await api.post('/api/todo/create', {
-  //         ...item,
-  //         token
-  //       })
-  //     }catch(err){
-  //       toast("Oops!", {
-  //         description: "Your task was not saved in the cloud, try again.",
-  //       });
-  //     }
-  //   }
-  // }, [token])
+  const handleUpdateTodo = useCallback(async ({id, ...item}: ToDoItem) => {
+    if(token){
+      try{
+        await api.patch(`/api/todo/update?id=${id}`, {
+          ...item,
+          token
+        })
+      }catch(err){
+        toast("Oops!", {
+          description: "Your task was not saved in the cloud, try again.",
+        });
+      }
+    }
+  }, [token])
 
   const handleDeleteTodo = useCallback(async (item: ToDoItem) => {
     if(token){
@@ -104,8 +104,9 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
     const newList = list?.filter(currentItem => currentItem.id !== item.id)
     newList.push(item)
     setList(newList)
+    handleUpdateTodo(item)
     saveLocalTodos(newList)
-  }, [list])
+  }, [list, handleUpdateTodo])
 
   const saveLocalTodos = useCallback((newTodos: ToDoItem[]) => {
     localStorage.setItem('@dnnr:todo', JSON.stringify(newTodos))
