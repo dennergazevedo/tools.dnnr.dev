@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+
 import { Terminal } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Link from "next/link";
@@ -15,6 +15,7 @@ export interface ToDoItem {
 }
 
 async function fetchTodos(token: string): Promise<ToDoItem[]> {
+  'use server'
   if (!token) return [];
 
   try {
