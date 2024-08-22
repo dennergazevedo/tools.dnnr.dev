@@ -38,7 +38,7 @@ export default function Home() {
           <HomeCard
             icon={AlarmClock}
             label="Timer"
-            href="/"
+            href="/tools/timer"
             description="A timer is a device or tool that measures and counts down a specific amount of time"
           />
           <HomeCard
