@@ -13,14 +13,6 @@ export default async function Timer() {
           Organize your life
         </span>
       </div>
-      <nav className="flex flex-row gap-4 mt-12">
-        <AlarmClock 
-          className={`h-6 w-6 flex-shrink-0 text-white`}
-        />
-        <FolderClock 
-          className={`h-6 w-6 flex-shrink-0 text-white`}
-        />
-      </nav>
       <section>
         <TimerClock />
       </section>
