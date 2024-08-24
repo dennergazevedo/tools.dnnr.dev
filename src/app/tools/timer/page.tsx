@@ -1,8 +1,7 @@
-import { AlarmClock, FolderClock } from "lucide-react";
 import { Fragment } from "react";
 import TimerClock from "./clock";
 
-export default async function Timer() {
+export default function Timer() {
   return (
     <Fragment>
       <h1 className="text-3xl font-medium text-zinc-100">
