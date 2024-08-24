@@ -29,7 +29,7 @@ export function TabItem({ title, value, isSelected }: TabItemProps) {
   return (
     <Tabs.Trigger
       value={value}
-      className="group relative px-1 pb-4 text-sm font-medium leading-5 text-zinc-500 outline-none data-[state=active]:text-sky-700 hover:text-sky-700"
+      className="group relative px-1 pb-4 text-sm font-medium leading-5 text-zinc-500 outline-none data-[state=active]:text-sky-500 hover:text-zinc-200"
     >
       <span className="whitespace-nowrap rounded group-focus-visible:ring-2 group-focus-visible:ring-sky-400 group-focus-visible:ring-offset-4">
         {title}
