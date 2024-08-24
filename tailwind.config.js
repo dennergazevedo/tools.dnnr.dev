@@ -14,6 +14,8 @@ module.exports = {
 
       borderWidth: {
         6: '6px',
+        10: '10px',
+        16: '16px',
       },
 
       colors: {

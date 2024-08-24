@@ -15,7 +15,6 @@ export interface ToDoItem {
 }
 
 async function fetchTodos(token: string): Promise<ToDoItem[]> {
-  'use server'
   if (!token) return [];
 
   try {
@@ -31,7 +30,6 @@ async function fetchTodos(token: string): Promise<ToDoItem[]> {
       completed: todoItem.completed,
     }));
   } catch (error) {
-    console.error("[!] Something went wrong", error);
     return [];
   }
 }

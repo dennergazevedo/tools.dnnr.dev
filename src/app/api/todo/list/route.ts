@@ -5,6 +5,10 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
+    if(!token?.length || token === 'undefined'){
+      throw new Error('[!] Token not found.');
+    }
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/tools/todos`, {
       method: 'GET',
       headers: {

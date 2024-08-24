@@ -14,8 +14,10 @@ const buttonVariants = cva(
         "text-white bg-green-500 transition cursor-no-drop",
         ghost:
           "rounded-md px-2 hover:bg-zinc-50 shadow-none hover:bg-white/5 transition",
-        primary:
+          primary:
           "text-white bg-sky-500 hover:bg-sky-600 transition",
+        neutral:
+          "text-white bg-zinc-200 hover:bg-zinc-300 text-zinc-900 transition",
         outline:
           "border border-zinc-300 border-zinc-700 text-zinc-400 hover:bg-zinc-800 transition",
         link: "text-primary underline-offset-4 hover:underline",
