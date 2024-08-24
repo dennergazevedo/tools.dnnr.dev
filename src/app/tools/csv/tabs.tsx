@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { TabItem } from '@/components/TabItem'
 import * as Tabs from '@radix-ui/react-tabs'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { useSearchParams } from 'next/navigation'
 import { TabContent } from './tabContent'
 
-export function MenuTabs() {
+export function Menu() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
 
@@ -17,7 +17,7 @@ export function MenuTabs() {
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
       <ScrollArea.Root className="w-full" type="hover">
         <ScrollArea.Viewport className="w-full overflow-x-scroll">
-          <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200 border-zinc-800">
+          <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200">
             <TabItem
               isSelected={currentTab === 'jsoncsv'}
               value="jsoncsv"
@@ -39,5 +39,13 @@ export function MenuTabs() {
       </ScrollArea.Root>
       <TabContent currentTab={currentTab}/>
     </Tabs.Root>
+  )
+}
+
+export function MenuTabs() {
+  return (
+    <Suspense>
+      <Menu />
+    </Suspense>
   )
 }
