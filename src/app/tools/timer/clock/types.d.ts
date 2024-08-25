@@ -11,4 +11,6 @@ interface TimerControlProps{
   startTimer: () => void
   pauseTimer: () => void
   stopTimer: () => void
+  timer: number
+  setNewTime: (newTime: number) => void
 }

@@ -28,7 +28,7 @@ export default function Home() {
             </span>
           </div>
         </div>
-        <div className="mt-20 flex flex-row flex-wrap gap-4">
+        <div className="mt-20 grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-4">
           <HomeCard
             icon={ListChecks}
             label="To Do"

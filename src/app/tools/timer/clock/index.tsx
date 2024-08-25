@@ -8,6 +8,8 @@ export default function TimerClock() {
   const [timer, setTimer] = useState<number>(0);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
+  
+
   const startTimer = useCallback(() => {
     if (intervalId !== null) return;
 
@@ -58,6 +60,8 @@ export default function TimerClock() {
                 stopTimer={stopTimer} 
                 pauseTimer={pauseTimer} 
                 startTimer={startTimer}
+                timer={timer}
+                setNewTime={setNewTime}
               />
             </div>
           </div>
