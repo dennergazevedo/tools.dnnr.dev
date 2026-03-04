@@ -9,20 +9,18 @@ import {
   Layers,
   Code2,
   Image,
+  Power,
 } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default function Home() {
   return (
     <div className="flex flex-col gap-10">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-4xl font-bold tracking-tight text-foreground">
-          Get Started
-        </h1>
-        <p className="max-w-2xl text-lg text-muted-foreground">
-          Welcome! Here you will find a curated collection of powerful tools
-          designed to streamline your daily developer workflow.
-        </p>
-      </div>
+      <PageHeader
+        title="Get Started"
+        description="Welcome! Here you will find a curated collection of powerful tools designed to streamline your daily developer workflow."
+        icon={Power}
+      />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <HomeCard

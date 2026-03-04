@@ -1,5 +1,6 @@
-import { Terminal } from "lucide-react";
+import { ListChecks, Terminal } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import ToDoForm from "./form";
 import { cookies } from "next/headers";
@@ -50,10 +51,11 @@ export default async function ToDo() {
 
   return (
     <TodoContextProvider todos={todos}>
-      <h1 className="text-3xl font-medium text-zinc-100">To Do</h1>
-      <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-        <span className="text-sm text-zinc-400">Organize your life</span>
-      </div>
+      <PageHeader
+        title="To Do"
+        description="Organize your life and keep track of your tasks."
+        icon={ListChecks}
+      />
       {isLoggedOut && (
         <Alert className="mt-12">
           <Terminal className="h-4 w-4" />

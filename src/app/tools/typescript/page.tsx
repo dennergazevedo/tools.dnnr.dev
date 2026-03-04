@@ -1,13 +1,16 @@
-import { Fragment } from 'react'
-import { MenuTabs } from './tabs'
+import { MenuTabs } from "./tabs";
+import { PageHeader } from "@/components/ui/page-header";
+import { Code2 } from "lucide-react";
 
 export default function Typescript() {
   return (
-    <Fragment>
-      <h1 className="text-3xl font-medium text-zinc-100">
-        Typescript
-      </h1>
+    <div className="flex flex-col gap-6">
+      <PageHeader
+        title="Typescript"
+        description="Helper tools for your Typescript development workflow."
+        icon={Code2}
+      />
       <MenuTabs />
-    </Fragment>
-  )
+    </div>
+  );
 }
