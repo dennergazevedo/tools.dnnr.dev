@@ -47,14 +47,24 @@
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 40px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: #181818;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-neutral-800 transition-colors hover:bg-neutral-700;
+  background: #999;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #707070;
+}
+
+html {
+  scroll-behavior: smooth;
 }

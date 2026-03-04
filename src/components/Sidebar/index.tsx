@@ -3,9 +3,9 @@
 import { Search, LifeBuoy, Menu } from "lucide-react";
 import * as Input from "../Form/Input";
 import { Logo } from "./Logo";
-import { Profile } from "./Profile";
 import { Navigation } from "./Navigation";
-import { NavItem } from "./Navigation/NavItem";
+import { Profile } from "./Profile";
+import { Ads } from "./Ads";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
@@ -22,7 +22,7 @@ export function Sidebar() {
         </Collapsible.Trigger>
       </div>
 
-      <Separator />
+      <Separator className="hidden md:flex" />
 
       <Collapsible.Content
         asChild
@@ -33,6 +33,7 @@ export function Sidebar() {
           <Navigation />
 
           <div className="mt-auto flex flex-col gap-6">
+            <Ads />
             <Separator />
             <Profile />
           </div>
