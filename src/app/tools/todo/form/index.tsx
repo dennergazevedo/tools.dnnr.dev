@@ -46,7 +46,7 @@ export default function ToDoForm({ todos }: ToDoFormProps) {
   }, []);
 
   return (
-    <div className="mx-auto mt-12 w-full max-w-2xl">
+    <div className="mx-auto mt-12 w-full">
       <form
         onSubmit={handleAddTask}
         className="flex flex-row items-center gap-3"

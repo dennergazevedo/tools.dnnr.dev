@@ -16,8 +16,8 @@ export interface ToDoItem {
   description: string;
 }
 
-async function getTodos(token: string): Promise<ToDoItem[]> {
-  if (!token) return [];
+async function getTodos(token: string | undefined): Promise<ToDoItem[]> {
+  if (!token || token === "undefined" || token === "null") return [];
 
   const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
   try {
@@ -45,7 +45,8 @@ async function getTodos(token: string): Promise<ToDoItem[]> {
 export default async function ToDo() {
   const cookieStore = cookies();
   const token = cookieStore.get("@dnnr:authToken")?.value;
-  const todos = await getTodos(String(token));
+  const isLoggedOut = !token || token === "undefined" || token === "null";
+  const todos = await getTodos(token);
 
   return (
     <TodoContextProvider todos={todos}>
@@ -53,14 +54,25 @@ export default async function ToDo() {
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
         <span className="text-sm text-zinc-400">Organize your life</span>
       </div>
-      {!token && (
+      {isLoggedOut && (
         <Alert className="mt-12">
           <Terminal className="h-4 w-4" />
           <AlertTitle>You are not logged in!</AlertTitle>
           <AlertDescription>
-            To save your data in the cloud and access it from any device, please{" "}
-            <Link className="text-white hover:text-sky-600" href="/auth/login">
-              log in to your account
+            Your tasks will not be saved. To save your data in the cloud and
+            access it from any device, please{" "}
+            <Link
+              className="font-bold text-white underline hover:text-sky-600"
+              href="/auth/login"
+            >
+              log in
+            </Link>{" "}
+            or{" "}
+            <Link
+              className="font-bold text-white underline hover:text-sky-600"
+              href="/auth/register"
+            >
+              register
             </Link>
             .
           </AlertDescription>

@@ -29,7 +29,7 @@ export default function ToDoList() {
   if (!list.length) return <Fragment />;
 
   return (
-    <div className="mx-auto mt-8 flex w-full max-w-2xl flex-col gap-3">
+    <div className="mx-auto mt-8 flex w-full flex-col gap-3">
       <div className="mb-6 flex flex-row items-end justify-between border-b border-border pb-4">
         <div className="flex flex-col gap-1">
           <h2 className="text-xl font-bold text-foreground">Tasks</h2>
