@@ -1,5 +1,5 @@
 "use client";
-import { setCookie, getCookie } from "@/utils/cookie";
+import { setCookie, getCookie, removeCookie } from "@/utils/cookie";
 import { api } from "@/utils/request";
 import { useRouter } from "next/navigation";
 import React, {
@@ -66,12 +66,17 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
   }, []);
 
   const loadUser = useCallback(async () => {
+    const cookieToken = getCookie("@dnnr:authToken");
+
+    if (!cookieToken || cookieToken === "undefined" || cookieToken === "null") {
+      return;
+    }
+
     try {
       const { data: responseData } = await api.get("/api/auth/user");
       if (responseData) {
         setUser(responseData.data);
-        const cookieToken = getCookie("@dnnr:authToken");
-        if (cookieToken) setToken(cookieToken);
+        setToken(cookieToken);
       }
     } catch (error) {
       console.log("[!] Load User", error);
@@ -85,7 +90,8 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
   const handleLogout = useCallback(async () => {
     setUser({} as User);
     setToken("");
-    setCookie("@dnnr:authToken", "");
+    removeCookie("@dnnr:authToken");
+
     // Also call a logout API if needed to clear HTTP-only cookie
     try {
       await api.post("/api/auth/logout");
