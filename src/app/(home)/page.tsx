@@ -8,6 +8,7 @@ import {
   ListChecks,
   Layers,
   Code2,
+  Image,
 } from "lucide-react";
 
 export default function Home() {
@@ -47,6 +48,12 @@ export default function Home() {
           label="CSV • JSON"
           href="/tools/csv"
           description="Seamlessly convert data between CSV and JSON formats with high precision."
+        />
+        <HomeCard
+          icon={Image}
+          label="SVG Tools"
+          href="/tools/svg"
+          description="Convert SVG to PNG, ICO, WebP or React components in seconds."
         />
         <HomeCard
           icon={Ampersands}
