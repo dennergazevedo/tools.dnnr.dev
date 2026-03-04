@@ -39,9 +39,9 @@ export function Navigation({ onClose }: NavigationProps) {
         onClose={onClose}
       />
       <NavItem
-        icon={Layers}
-        title="CSV • JSON"
-        to="/tools/csv"
+        icon={GitCompare}
+        title="Diff Checker"
+        to="/tools/diffchecker"
         onClose={onClose}
       />
       <NavItem
@@ -50,6 +50,8 @@ export function Navigation({ onClose }: NavigationProps) {
         to="/tools/svg"
         onClose={onClose}
       />
+
+      <NavItem icon={FileCode2} title="URI" to="/tools/uri" onClose={onClose} />
       <NavItem
         icon={Ampersands}
         title="Base64"
@@ -57,12 +59,11 @@ export function Navigation({ onClose }: NavigationProps) {
         onClose={onClose}
       />
       <NavItem
-        icon={GitCompare}
-        title="Diff Checker"
-        to="/tools/diffchecker"
+        icon={Layers}
+        title="CSV • JSON"
+        to="/tools/csv"
         onClose={onClose}
       />
-      <NavItem icon={FileCode2} title="URI" to="/tools/uri" onClose={onClose} />
     </nav>
   );
 }
