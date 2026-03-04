@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import { Suspense, useState } from 'react'
-import { TabItem } from '@/components/TabItem'
-import * as Tabs from '@radix-ui/react-tabs'
-import * as ScrollArea from '@radix-ui/react-scroll-area'
-import { useSearchParams } from 'next/navigation'
-import { TabContent } from './tabContent'
+import { Suspense, useState } from "react";
+import { TabItem } from "@/components/TabItem";
+import * as Tabs from "@radix-ui/react-tabs";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { useSearchParams } from "next/navigation";
+import { TabContent } from "./tabContent";
 
 export function Menu() {
   const searchParams = useSearchParams();
-  const tabParam = searchParams.get('tab');
+  const tabParam = searchParams.get("tab");
 
-  const [currentTab, setCurrentTab] = useState<string>(tabParam ?? 'jsoncsv')
+  const [currentTab, setCurrentTab] = useState<string>(tabParam ?? "jsoncsv");
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
@@ -19,14 +19,19 @@ export function Menu() {
         <ScrollArea.Viewport className="w-full overflow-x-scroll">
           <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-800">
             <TabItem
-              isSelected={currentTab === 'jsoncsv'}
+              isSelected={currentTab === "jsoncsv"}
               value="jsoncsv"
               title="JSON to CSV"
             />
             <TabItem
-              isSelected={currentTab === 'csvjson'}
+              isSelected={currentTab === "csvjson"}
               value="csvjson"
               title="CSV to JSON"
+            />
+            <TabItem
+              isSelected={currentTab === "jsonvalidator"}
+              value="jsonvalidator"
+              title="JSON Validator"
             />
           </Tabs.List>
         </ScrollArea.Viewport>
@@ -37,9 +42,9 @@ export function Menu() {
           <ScrollArea.Thumb className="relative flex-1 rounded-lg bg-zinc-300 before:absolute before:left-1/2 before:top-1/2 before:h-full before:min-h-[44px] before:w-full before:min-w-[44px] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']" />
         </ScrollArea.Scrollbar>
       </ScrollArea.Root>
-      <TabContent currentTab={currentTab}/>
+      <TabContent currentTab={currentTab} />
     </Tabs.Root>
-  )
+  );
 }
 
 export function MenuTabs() {
@@ -47,5 +52,5 @@ export function MenuTabs() {
     <Suspense>
       <Menu />
     </Suspense>
-  )
+  );
 }
