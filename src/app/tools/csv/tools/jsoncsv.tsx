@@ -4,10 +4,19 @@ import { Button } from "@/components/ui/button";
 import * as FileInput from "@/components/Form/FileInput";
 import { Textarea } from "@/components/Form/Textarea";
 import { FormEvent, Fragment, useCallback, useState } from "react";
-import { Eraser, Flame, DownloadCloud, CheckCheck, Copy, ShieldCheck } from "lucide-react";
+import {
+  Eraser,
+  Flame,
+  DownloadCloud,
+  CheckCheck,
+  Copy,
+  ShieldCheck,
+} from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { downloadFile, jsonToCSV } from "./converter";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+import { PrivacyAlert } from "@/components/ui/privacy-alert";
 
 export function JSONCSV() {
   const [entryData, setEntryData] = useState<string>("");
@@ -52,13 +61,10 @@ export function JSONCSV() {
 
   return (
     <Fragment>
-      <Alert className="mt-12">
-        <ShieldCheck className="h-4 w-4" />
-        <AlertTitle>Rest assured!</AlertTitle>
-        <AlertDescription>
-          Your conversions/files are processed locally and will not be saved when using this tool.
-        </AlertDescription>
-      </Alert>
+      <PrivacyAlert>
+        Your conversions/files are processed locally and will not be saved when
+        using this tool.
+      </PrivacyAlert>
       <form
         id="jsoncsv"
         onSubmit={handleConvert}

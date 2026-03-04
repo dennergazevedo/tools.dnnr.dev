@@ -15,6 +15,8 @@ import {
 import { diffLines, Change } from "diff";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 
+import { PrivacyAlert } from "@/components/ui/privacy-alert";
+
 export function DiffChecker() {
   const [originalText, setOriginalText] = useState("");
   const [modifiedText, setModifiedText] = useState("");
@@ -48,14 +50,10 @@ export function DiffChecker() {
 
   return (
     <Fragment>
-      <Alert className="mt-12 border-neutral-800 bg-neutral-900/50">
-        <ShieldCheck className="h-4 w-4 text-sky-500" />
-        <AlertTitle className="text-foreground">Private & Local</AlertTitle>
-        <AlertDescription className="text-muted-foreground">
-          Your text is compared locally in your browser and never leaves your
-          device.
-        </AlertDescription>
-      </Alert>
+      <PrivacyAlert>
+        Your text is compared locally in your browser and never leaves your
+        device.
+      </PrivacyAlert>
 
       <div className="mt-6 flex w-full flex-col gap-8 divide-y divide-neutral-800">
         <div className="grid grid-cols-1 gap-6 pt-5 lg:grid-cols-2">

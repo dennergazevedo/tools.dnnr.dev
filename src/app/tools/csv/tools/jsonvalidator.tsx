@@ -22,6 +22,8 @@ interface ValidationError {
   suggestion?: string;
 }
 
+import { PrivacyAlert } from "@/components/ui/privacy-alert";
+
 export function JSONValidator() {
   const [entryData, setEntryData] = useState<string>("");
   const [error, setError] = useState<ValidationError | null>(null);
@@ -97,14 +99,10 @@ export function JSONValidator() {
 
   return (
     <Fragment>
-      <Alert className="mt-12 border-neutral-800 bg-neutral-900/50">
-        <ShieldCheck className="h-4 w-4 text-sky-500" />
-        <AlertTitle className="text-foreground">Private & Secure</AlertTitle>
-        <AlertDescription className="text-muted-foreground">
-          Your JSON is validated locally in your browser and never leaves your
-          device.
-        </AlertDescription>
-      </Alert>
+      <PrivacyAlert title="Private & Secure">
+        Your JSON is validated locally in your browser and never leaves your
+        device.
+      </PrivacyAlert>
 
       <form
         id="jsonvalidator"

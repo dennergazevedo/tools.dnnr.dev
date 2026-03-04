@@ -7,6 +7,8 @@ import { Copy, CheckCheck, ShieldCheck } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+import { PrivacyAlert } from "@/components/ui/privacy-alert";
+
 export function ToBase64() {
   const [entryText, setEntryText] = useState<string>("");
   const [convertedText, setConvertedText] = useState<string>("");
@@ -15,10 +17,10 @@ export function ToBase64() {
   const handleEncode = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      try{
+      try {
         setConvertedText(btoa(entryText));
-      }catch(err){
-        console.log("[!] Encode:", err)
+      } catch (err) {
+        console.log("[!] Encode:", err);
         setConvertedText(entryText);
       }
     },
@@ -26,13 +28,13 @@ export function ToBase64() {
   );
 
   const handleDecode = useCallback(() => {
-    try{
+    try {
       setConvertedText(atob(entryText));
-    }catch(err){
+    } catch (err) {
       console.log("[!] Decode:", err);
       setConvertedText(entryText);
     }
-  },[entryText]);
+  }, [entryText]);
 
   const handleCopyToClipboard = useCallback(async () => {
     setCopySuccess(await copyToClipboard(convertedText));
@@ -40,13 +42,10 @@ export function ToBase64() {
 
   return (
     <Fragment>
-      <Alert className="mt-12">
-        <ShieldCheck className="h-4 w-4" />
-        <AlertTitle>Rest assured!</AlertTitle>
-        <AlertDescription>
-          Your conversions/files are processed locally and will not be saved when using this tool.
-        </AlertDescription>
-      </Alert>
+      <PrivacyAlert>
+        Your conversions/files are processed locally and will not be saved when
+        using this tool.
+      </PrivacyAlert>
       <form
         id="encodeToBase64"
         onSubmit={handleEncode}
@@ -75,11 +74,7 @@ export function ToBase64() {
           <Button type="submit" form="encodeToBase64" variant="primary">
             Encode
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleDecode}
-          >
+          <Button type="button" variant="outline" onClick={handleDecode}>
             Decode
           </Button>
         </div>

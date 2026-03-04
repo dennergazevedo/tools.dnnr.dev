@@ -8,6 +8,8 @@ import { Eraser, Flame, DownloadCloud, ShieldCheck } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { convertSvgToImage, downloadDataUrl } from "./converter";
 
+import { PrivacyAlert } from "@/components/ui/privacy-alert";
+
 export function SvgToWebp() {
   const [entryData, setEntryData] = useState<string>("");
   const [convertedData, setConvertedData] = useState<string>("");
@@ -41,14 +43,10 @@ export function SvgToWebp() {
 
   return (
     <Fragment>
-      <Alert className="mt-12">
-        <ShieldCheck className="h-4 w-4" />
-        <AlertTitle>Rest assured!</AlertTitle>
-        <AlertDescription>
-          Your conversions/files are processed locally and will not be saved
-          when using this tool.
-        </AlertDescription>
-      </Alert>
+      <PrivacyAlert>
+        Your conversions/files are processed locally and will not be saved when
+        using this tool.
+      </PrivacyAlert>
       <form
         id="svgtowebp"
         onSubmit={handleConvert}
