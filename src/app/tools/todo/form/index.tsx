@@ -1,56 +1,73 @@
-'use client'
-import { FormEvent, Fragment, useCallback, useEffect, useState } from "react";
+"use client";
+import {
+  FormEvent,
+  Fragment,
+  useCallback,
+  useEffect,
+  useState,
+  ChangeEvent,
+} from "react";
 import { Plus } from "lucide-react";
 import { useTodo } from "../context";
 import { ToDoItem } from "../page";
+import * as Input from "@/components/Form/Input";
+import { Button } from "@/components/ui/button";
 
 interface ToDoFormProps {
-  todos: ToDoItem[]
+  todos: ToDoItem[];
 }
 
 export default function ToDoForm({ todos }: ToDoFormProps) {
-  const { 
-    saveLocalTodos, 
-    setList, 
-    addTask, 
-  } = useTodo()
+  const { saveLocalTodos, setList, addTask } = useTodo();
   const [inputValue, setInputValue] = useState<string>("");
 
   const loadTodoData = useCallback(async () => {
-    if(todos){
-      saveLocalTodos(todos)
+    if (todos) {
+      saveLocalTodos(todos);
       setList(todos);
     }
-  }, [todos])
+  }, [todos]);
 
-  const handleAddTask = useCallback((event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (inputValue.trim()) {
-      addTask(inputValue);
-      setInputValue("");
-    }
-  }, [inputValue, addTask])
+  const handleAddTask = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (inputValue.trim()) {
+        addTask(inputValue);
+        setInputValue("");
+      }
+    },
+    [inputValue, addTask]
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      loadTodoData()
+      loadTodoData();
     }
   }, []);
 
   return (
-    <Fragment>
-      <form onSubmit={handleAddTask} className="mt-16 flex flex-row items-center gap-4">
-        <input
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          className="flex-1 rounded-lg border border-zinc-600 bg-zinc-800 p-4 text-zinc-100"
-          placeholder="Write your task here..."
-        />
-        <button type="submit" className="flex cursor-pointer flex-row items-center gap-1 rounded-lg bg-sky-700 p-4 text-zinc-100 hover:bg-sky-800">
-          Create
-          <Plus className="h-5 w-5 flex-shrink-0" />
-        </button>
+    <div className="mx-auto mt-12 w-full max-w-2xl">
+      <form
+        onSubmit={handleAddTask}
+        className="flex flex-row items-center gap-3"
+      >
+        <div className="flex-1">
+          <Input.Root className="h-12 border-neutral-800 bg-neutral-900 focus-within:border-primary">
+            <Input.Control
+              value={inputValue}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setInputValue(e.target.value)
+              }
+              placeholder="What needs to be done?"
+              className="text-base"
+            />
+          </Input.Root>
+        </div>
+        <Button type="submit" size="lg" className="h-12 px-6 font-bold">
+          Add Task
+          <Plus className="ml-2 h-5 w-5" />
+        </Button>
       </form>
-    </Fragment>
+    </div>
   );
 }

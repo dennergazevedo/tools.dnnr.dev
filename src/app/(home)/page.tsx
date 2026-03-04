@@ -12,61 +12,55 @@ import {
 
 export default function Home() {
   return (
-    <Fragment>
-      <h1 className="text-3xl font-medium text-zinc-100">
-        Get Started
-      </h1>
-      <div className="mt-6 flex flex-col">
-        <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-lg font-medium text-white">
-              Welcome!
-            </h2>
-            <span className="text-sm text-zinc-400">
-              Here you will find some useful tools for your daily life as a
-              Developer.
-            </span>
-          </div>
-        </div>
-        <div className="mt-20 grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-4">
-          <HomeCard
-            icon={ListChecks}
-            label="To Do"
-            href="/tools/todo"
-            description='A "To Do" is a list or task management tool used to organize and keep track of tasks or activities that need to be completed. '
-          />
-          <HomeCard
-            icon={AlarmClock}
-            label="Timer"
-            href="/tools/timer"
-            description="A timer is a device or tool that measures and counts down a specific amount of time"
-          />
-          <HomeCard
-            icon={Code2}
-            label="Typescript"
-            href="/tools/typescript"
-            description="A JSON to TypeScript interface converter is a tool that automatically generates TypeScript interface definitions from JSON data."
-          />
-          <HomeCard
-            icon={Layers}
-            label="CSV • JSON"
-            href="/tools/csv"
-            description="A CSV to JSON and JSON to CSV converter is a tool that transforms data between CSV (Comma-Separated Values) and JSON (JavaScript Object Notation) formats."
-          />
-          <HomeCard
-            icon={Ampersands}
-            label="Base64"
-            href="/tools/base64"
-            description="A Base64 encoder and decoder is a tool that converts data to and from Base64 encoding. "
-          />
-          <HomeCard
-            icon={FileCode2}
-            label="URI"
-            href="/tools/uri"
-            description="A URI encoder and decoder is a tool that converts characters in a Uniform Resource Identifier (URI) into a format that can be transmitted over the internet."
-          />
-        </div>
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground">
+          Get Started
+        </h1>
+        <p className="max-w-2xl text-lg text-muted-foreground">
+          Welcome! Here you will find a curated collection of powerful tools
+          designed to streamline your daily developer workflow.
+        </p>
       </div>
-    </Fragment>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <HomeCard
+          icon={ListChecks}
+          label="To Do"
+          href="/tools/todo"
+          description="Organize your tasks and boost your productivity with our cloud-synced todo list."
+        />
+        <HomeCard
+          icon={AlarmClock}
+          label="Timer"
+          href="/tools/timer"
+          description="A precise countdown tool to help you manage your focus sessions effectively."
+        />
+        <HomeCard
+          icon={Code2}
+          label="Typescript"
+          href="/tools/typescript"
+          description="Transform JSON data into clean TypeScript interfaces automatically."
+        />
+        <HomeCard
+          icon={Layers}
+          label="CSV • JSON"
+          href="/tools/csv"
+          description="Seamlessly convert data between CSV and JSON formats with high precision."
+        />
+        <HomeCard
+          icon={Ampersands}
+          label="Base64"
+          href="/tools/base64"
+          description="Reliable Base64 encoding and decoding for your data strings."
+        />
+        <HomeCard
+          icon={FileCode2}
+          label="URI"
+          href="/tools/uri"
+          description="Encode and decode URIs to ensure safe data transmission over the web."
+        />
+      </div>
+    </div>
   );
 }

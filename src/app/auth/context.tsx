@@ -1,17 +1,17 @@
-'use client'
-import { setCookie, getCookie } from '@/utils/cookie';
-import { api } from '@/utils/request';
-import { useRouter } from 'next/navigation';
+"use client";
+import { setCookie, getCookie } from "@/utils/cookie";
+import { api } from "@/utils/request";
+import { useRouter } from "next/navigation";
 import React, {
   createContext,
   useCallback,
   useContext,
   useEffect,
   useState,
-} from 'react'
-import { toast } from 'sonner';
+} from "react";
+import { toast } from "sonner";
 
-const AuthContext = createContext<AuthContext>({} as AuthContext)
+const AuthContext = createContext<AuthContext>({} as AuthContext);
 
 export const AuthContextProvider: React.FC<AuthContextProvider> = ({
   children,
@@ -20,73 +20,78 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
   const [user, setUser] = useState<User>({} as User);
   const [token, setToken] = useState<string>("");
 
-  const handleLogin = useCallback(async ({
-    email,
-    password
-  }: UserLogin) => {
-    try{
-      const { data: responseData } = await api.post('/api/auth/login', {
-        email,
-        password
-      })
-  
-      toast("Success!", {
-        description: "You will be redirected...",
-      });
-  
-      setUser(responseData.data.user);
-      router.refresh();
-      return true;
-    } catch (err) {
-      console.log("[!] Login", err);
-      toast("Oops!", {
-        description: "Something went wrong, try again.",
-      });
-      return false;
-    }
-  }, [router])
+  const handleLogin = useCallback(
+    async ({ email, password }: UserLogin) => {
+      try {
+        const { data: responseData } = await api.post("/api/auth/login", {
+          email,
+          password,
+        });
+
+        toast("Success!", {
+          description: "You will be redirected...",
+        });
+
+        setUser(responseData.data.user);
+        const cookieToken = getCookie("@dnnr:authToken");
+        if (cookieToken) setToken(cookieToken);
+
+        router.refresh();
+        return true;
+      } catch (err) {
+        console.log("[!] Login", err);
+        toast("Oops!", {
+          description: "Something went wrong, try again.",
+        });
+        return false;
+      }
+    },
+    [router]
+  );
 
   const handleRegister = useCallback(async (user: UserRegister) => {
     try {
-      await api.post('/api/auth/register', user)
+      await api.post("/api/auth/register", user);
       toast("Success!", {
         description: "You have been registered and will be redirected...",
       });
-      return true
+      return true;
     } catch (error) {
-      console.log("[!] Register", error)
+      console.log("[!] Register", error);
       toast("Oops!", {
         description: "Something went wrong, try again.",
       });
       return false;
     }
-  }, [])
+  }, []);
 
   const loadUser = useCallback(async () => {
     try {
-      const { data: responseData } = await api.get('/api/auth/user')
+      const { data: responseData } = await api.get("/api/auth/user");
       if (responseData) {
         setUser(responseData.data);
+        const cookieToken = getCookie("@dnnr:authToken");
+        if (cookieToken) setToken(cookieToken);
       }
     } catch (error) {
-      console.log("[!] Load User", error)
+      console.log("[!] Load User", error);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     loadUser();
-  }, [])
+  }, [loadUser]);
 
   const handleLogout = useCallback(async () => {
     setUser({} as User);
     setToken("");
-    setCookie('@dnnr:authToken', '')
+    setCookie("@dnnr:authToken", "");
     // Also call a logout API if needed to clear HTTP-only cookie
     try {
-      await api.post('/api/auth/logout');
-    } catch (e) { }
+      await api.post("/api/auth/logout");
+    } catch (e) {}
     router.refresh();
-  }, [router])
+  }, [router]);
 
   return (
     <AuthContext.Provider
@@ -95,20 +100,20 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
         token,
         handleLogin,
         handleRegister,
-        handleLogout
+        handleLogout,
       }}
     >
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 export const useAuth = () => {
-  const context = useContext(AuthContext)
+  const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error('useAuth must be used inside a AuthContext')
+    throw new Error("useAuth must be used inside a AuthContext");
   }
 
-  return context
-}
+  return context;
+};

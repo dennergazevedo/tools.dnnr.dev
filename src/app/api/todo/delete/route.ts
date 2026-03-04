@@ -1,16 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import jwt from "jsonwebtoken";
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const token = searchParams.get("token");
     const id = searchParams.get("id");
+    const token = request.cookies.get("@dnnr:authToken")?.value;
 
     if (!token || !id) {
       return NextResponse.json(
-        { error: "Token and ID are required." },
+        { error: "Authentication and ID are required." },
         { status: 400 }
       );
     }

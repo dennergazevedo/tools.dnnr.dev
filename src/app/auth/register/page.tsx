@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function Register() {
   const router = useRouter();
@@ -64,82 +65,127 @@ export default function Register() {
   );
 
   return (
-    <Fragment>
-      <div className="flex w-full flex-col items-center gap-2">
-        <h1 className="flex flex-row items-center gap-2 text-2xl font-medium">
-          <Lock className="h-5 w-5 text-zinc-500" />
-          Registration
-        </h1>
-        <span className="text-zinc-400">
-          Sign up and make the most of the tools
-        </span>
-      </div>
-      <form
-        id="register"
-        onSubmit={handleSubmit}
-        className="mt-8 flex w-96 flex-col gap-2 rounded-lg border border-zinc-500 bg-zinc-700/10 px-8 py-12 pb-8"
-      >
-        <Input.Root className="w-auto">
-          <Input.Prefix>
-            <User className="h-5 w-5 text-zinc-500" />
-          </Input.Prefix>
-          <Input.Control
-            name="firstname"
-            type="text"
-            placeholder="First Name"
-          />
-        </Input.Root>
-        <Input.Root className="w-auto">
-          <Input.Prefix>
-            <UserCog className="h-5 w-5 text-zinc-500" />
-          </Input.Prefix>
-          <Input.Control name="lastname" type="text" placeholder="Last Name" />
-        </Input.Root>
-        <Input.Root className="w-auto">
-          <Input.Prefix>
-            <Mail className="h-5 w-5 text-zinc-500" />
-          </Input.Prefix>
-          <Input.Control
-            name="email"
-            type="email"
-            placeholder="email@example.com"
-          />
-        </Input.Root>
-        <Input.Root className="w-auto">
-          <Input.Prefix>
-            <ShieldCheck className="h-5 w-5 text-zinc-500" />
-          </Input.Prefix>
-          <Input.Control
-            name="password"
-            type="password"
-            placeholder="********"
-          />
-        </Input.Root>
-        <div className="mt-6 flex flex-col items-center gap-2">
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
+      <div className="flex w-full max-w-md flex-col items-center gap-6">
+        <div className="flex flex-col items-center gap-2 text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-highlight">
+            <ShieldCheck className="h-6 w-6" />
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Join us today
+          </h1>
+          <p className="text-muted-foreground">
+            Create your account to start organizing your work
+          </p>
+        </div>
+
+        <form
+          id="register"
+          onSubmit={handleSubmit}
+          className="w-full space-y-4 rounded-2xl border border-border bg-neutral-900/50 p-8 shadow-premium"
+        >
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="ml-1 text-sm font-medium text-foreground">
+                First name
+              </label>
+              <Input.Root>
+                <Input.Prefix>
+                  <User className="h-4 w-4 text-muted-foreground" />
+                </Input.Prefix>
+                <Input.Control
+                  name="firstname"
+                  type="text"
+                  placeholder="John"
+                  required
+                />
+              </Input.Root>
+            </div>
+            <div className="space-y-2">
+              <label className="ml-1 text-sm font-medium text-foreground">
+                Last name
+              </label>
+              <Input.Root>
+                <Input.Prefix>
+                  <UserCog className="h-4 w-4 text-muted-foreground" />
+                </Input.Prefix>
+                <Input.Control
+                  name="lastname"
+                  type="text"
+                  placeholder="Doe"
+                  required
+                />
+              </Input.Root>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="ml-1 text-sm font-medium text-foreground">
+              Email
+            </label>
+            <Input.Root>
+              <Input.Prefix>
+                <Mail className="h-4 w-4 text-muted-foreground" />
+              </Input.Prefix>
+              <Input.Control
+                name="email"
+                type="email"
+                placeholder="john@example.com"
+                required
+              />
+            </Input.Root>
+          </div>
+
+          <div className="space-y-2">
+            <label className="ml-1 text-sm font-medium text-foreground">
+              Password
+            </label>
+            <Input.Root>
+              <Input.Prefix>
+                <Lock className="h-4 w-4 text-muted-foreground" />
+              </Input.Prefix>
+              <Input.Control
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                required
+              />
+            </Input.Root>
+          </div>
+
+          <div className="pt-2">
+            <Button
+              type="submit"
+              variant={success ? "success" : "primary"}
+              loading={loading}
+              disabled={success || loading}
+              className="h-12 w-full text-base font-bold transition-all"
+            >
+              {success ? <CheckCircle className="mr-2 h-5 w-5" /> : null}
+              {success ? "Welcome!" : "Create Account"}
+            </Button>
+          </div>
+
           <Button
-            type="submit"
-            form="register"
-            variant={success ? "success" : "primary"}
-            loading={loading}
-            disabled={success || loading}
-            className="flex w-full flex-row items-center justify-center gap-4 py-4"
-          >
-            {success ? (
-              <CheckCircle className="h-5 w-5 text-white" />
-            ) : (
-              "Register"
-            )}
-          </Button>
-          <Button
-            type='button'
+            type="button"
             variant="ghost"
             onClick={() => router.back()}
-            className="flex w-full flex-row items-center justify-center gap-4 py-4"
+            className="w-full text-muted-foreground hover:text-foreground"
           >
-            Back
+            Go back
           </Button>
-        </div>
-      </form>
-    </Fragment>
+        </form>
+
+        <p className="text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link
+            href="/auth/login"
+            className="font-semibold text-primary transition-colors hover:text-sky-400"
+          >
+            Sign in
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 }

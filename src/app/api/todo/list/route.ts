@@ -1,15 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import jwt from "jsonwebtoken";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const token = searchParams.get("token");
+    const token = request.cookies.get("@dnnr:authToken")?.value;
 
-    if (!token || token === "undefined") {
+    if (!token) {
       return NextResponse.json(
-        { error: "Token not provided." },
+        { error: "Authentication required." },
         { status: 401 }
       );
     }

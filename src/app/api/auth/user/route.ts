@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const token = request.cookies.get("@dnnr:authToken")?.value;
 

@@ -1,26 +1,29 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
-import { Loader2 } from "lucide-react"
+import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95",
   {
     variants: {
       variant: {
-        success:
-        "text-white bg-green-500 transition cursor-no-drop",
-        ghost:
-          "rounded-md px-2 hover:bg-zinc-50 shadow-none hover:bg-white/5 transition",
-          primary:
-          "text-white bg-sky-500 hover:bg-sky-600 transition",
-        neutral:
-          "text-white bg-zinc-200 hover:bg-zinc-300 text-zinc-900 transition",
+        primary:
+          "bg-primary text-primary-foreground shadow-highlight hover:bg-sky-400 active:bg-sky-600 transition-all",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-neutral-800 transition-all",
         outline:
-          "border border-zinc-300 border-zinc-700 text-zinc-400 hover:bg-zinc-800 transition",
+          "border border-border bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground transition-all",
+        ghost:
+          "text-foreground hover:bg-accent hover:text-accent-foreground transition-all",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-red-600 transition-all",
         link: "text-primary underline-offset-4 hover:underline",
+        success: "bg-green-600 text-white hover:bg-green-500 transition-all",
+        neutral:
+          "bg-neutral-800 text-neutral-100 hover:bg-neutral-700 transition-all",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -34,33 +37,36 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  loading?: boolean
+  asChild?: boolean;
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, loading, size, asChild = false, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+  (
+    { className, variant, loading, size, asChild = false, children, ...props },
+    ref
+  ) => {
+    const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       >
-              {loading ? (
-        <Loader2 className="h-5 w-5 flex-shrink-0 animate-spin text-white" />
-      ) : (
-        children
-      )}
+        {loading ? (
+          <Loader2 className="h-5 w-5 flex-shrink-0 animate-spin text-white" />
+        ) : (
+          children
+        )}
       </Comp>
-    )
+    );
   }
-)
-Button.displayName = "Button"
+);
+Button.displayName = "Button";
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };

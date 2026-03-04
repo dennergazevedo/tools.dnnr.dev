@@ -1,22 +1,15 @@
-import { NextResponse } from "next/server";
-import { sql } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
+import { neon } from "@neondatabase/serverless";
 import jwt from "jsonwebtoken";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("@dnnr:authToken")?.value;
-    const { id, description } = await request.json();
+    const { description } = await request.json();
 
-    if (!token) {
+    if (!token || !description) {
       return NextResponse.json(
-        { error: "Unauthorized." },
-        { status: 401 }
-      );
-    }
-
-    if (!description) {
-      return NextResponse.json(
-        { error: "Description is required." },
+        { error: "Token and description are required." },
         { status: 400 }
       );
     }
@@ -34,10 +27,13 @@ export async function POST(request: Request) {
       );
     }
 
+    const databaseUrl = process.env.DATABASE_URL!;
+    const sql = neon(databaseUrl);
+
     const result = await sql`
-      INSERT INTO todos (id, user_id, description, completed)
-      VALUES (COALESCE(${id}, gen_random_uuid()), ${userId}, ${description}, false)
-      RETURNING id, description, completed
+      INSERT INTO todos (user_id, description, completed)
+      VALUES (${userId}, ${description}, false)
+      RETURNING id, description, completed, created_at
     `;
 
     return NextResponse.json({ data: result[0] });

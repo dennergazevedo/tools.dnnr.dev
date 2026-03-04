@@ -1,17 +1,18 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import jwt from "jsonwebtoken";
 
-export async function PATCH(request: Request) {
+export async function PATCH(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    const { token, description, completed } = await request.json();
+    const token = request.cookies.get("@dnnr:authToken")?.value;
+    const { description, completed } = await request.json();
 
     if (!token || !id) {
       return NextResponse.json(
-        { error: "Token and ID are required." },
+        { error: "Authentication and ID are required." },
         { status: 400 }
       );
     }
