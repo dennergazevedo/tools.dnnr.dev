@@ -6,10 +6,6 @@ import ToDoForm from "./form";
 import { cookies } from "next/headers";
 import { TodoContextProvider } from "./context";
 import ToDoList from "./list";
-import { api } from "@/utils/request";
-
-import { sql } from "@/lib/db";
-import jwt from "jsonwebtoken";
 
 export interface ToDoItem {
   id: string;
@@ -17,28 +13,45 @@ export interface ToDoItem {
   description: string;
 }
 
-async function getTodos(token: string | undefined): Promise<ToDoItem[]> {
+async function getTodos(): Promise<ToDoItem[]> {
+  const cookieStore = cookies();
+  const token = cookieStore.get("@dnnr:authToken")?.value;
+
   if (!token || token === "undefined" || token === "null") return [];
 
-  const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
   try {
-    const decoded = jwt.verify(token, jwtSecret) as { id: string };
-    const userId = decoded.id;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    console.log(`[getTodos] Attempting fetch to: ${baseUrl}/api/todo/list`);
 
-    const todos = await sql`
-      SELECT id, description, completed 
-      FROM todos 
-      WHERE user_id = ${userId}
-      ORDER BY created_at DESC
-    `;
+    // In Next.js App Router, we should pass the cookies header
+    const response = await fetch(`${baseUrl}/api/todo/list`, {
+      headers: {
+        Cookie: `@dnnr:authToken=${token}`,
+      },
+      cache: "no-store",
+    });
 
-    return (todos || []).map((todoItem: any) => ({
+    console.log(
+      `[getTodos] Response Status: ${response.status} ${response.statusText}`
+    );
+
+    if (!response.ok) {
+      const errorBody = await response.text().catch(() => "No body");
+      console.error(`[getTodos] API Error: ${errorBody}`);
+      return [];
+    }
+
+    const json = await response.json();
+    const items = json.data || [];
+    console.log(`[getTodos] Successfully fetched ${items.length} items`);
+
+    return items.map((todoItem: any) => ({
       id: todoItem.id,
       description: todoItem.description,
-      completed: todoItem.completed,
+      completed: !!todoItem.completed,
     }));
   } catch (error) {
-    console.error("Error fetching todos from DB:", error);
+    console.error("Error fetching todos from API:", error);
     return [];
   }
 }
@@ -47,7 +60,7 @@ export default async function ToDo() {
   const cookieStore = cookies();
   const token = cookieStore.get("@dnnr:authToken")?.value;
   const isLoggedOut = !token || token === "undefined" || token === "null";
-  const todos = await getTodos(token);
+  const todos = await getTodos();
 
   return (
     <TodoContextProvider todos={todos}>

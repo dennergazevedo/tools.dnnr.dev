@@ -21,12 +21,8 @@ export default function ToDoForm({ todos }: ToDoFormProps) {
   const { saveLocalTodos, setList, addTask } = useTodo();
   const [inputValue, setInputValue] = useState<string>("");
 
-  const loadTodoData = useCallback(async () => {
-    if (todos) {
-      saveLocalTodos(todos);
-      setList(todos);
-    }
-  }, [todos]);
+  // We rely on the initial 'todos' prop passed to TodoContextProvider to populate the list.
+  // The client side 'setList' and 'saveLocalTodos' are only called for new interactions.
 
   const handleAddTask = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -38,12 +34,6 @@ export default function ToDoForm({ todos }: ToDoFormProps) {
     },
     [inputValue, addTask]
   );
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      loadTodoData();
-    }
-  }, []);
 
   return (
     <div className="mx-auto mt-12 w-full">
