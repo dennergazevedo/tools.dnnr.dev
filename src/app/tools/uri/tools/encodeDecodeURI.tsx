@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/Form/Textarea";
 import { FormEvent, Fragment, useCallback, useState } from "react";
-import { Copy, CheckCheck, ShieldCheck } from "lucide-react";
+import { Copy, CheckCheck, ShieldCheck, Link, Unlock } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -16,7 +16,7 @@ export function EncodeDecodeURI() {
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       try {
-        setConvertedText(encodeURI(entryText));
+        setConvertedText(encodeURIComponent(entryText));
       } catch (err) {
         console.log("[!] Encode:", err);
         setConvertedText(entryText);
@@ -25,25 +25,7 @@ export function EncodeDecodeURI() {
     [entryText]
   );
 
-  const handleEncodeComponent = useCallback(() => {
-    try {
-      setConvertedText(encodeURIComponent(entryText));
-    } catch (err) {
-      console.log("[!] Encode:", err);
-      setConvertedText(entryText);
-    }
-  }, [entryText]);
-
   const handleDecode = useCallback(() => {
-    try {
-      setConvertedText(decodeURI(entryText));
-    } catch (err) {
-      console.log("[!] Decode:", err);
-      setConvertedText(entryText);
-    }
-  }, [entryText]);
-
-  const handleDecodeComponent = useCallback(() => {
     try {
       setConvertedText(decodeURIComponent(entryText));
     } catch (err) {
@@ -62,17 +44,18 @@ export function EncodeDecodeURI() {
         <ShieldCheck className="h-4 w-4" />
         <AlertTitle>Rest assured!</AlertTitle>
         <AlertDescription>
-          Your conversions/files are processed locally and will not be saved when using this tool.
+          Your conversions/files are processed locally and will not be saved
+          when using this tool.
         </AlertDescription>
       </Alert>
       <form
-        id="encodeToBase64"
+        id="uriForm"
         onSubmit={handleEncode}
         className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-800"
       >
         <div className="grid gap-3 pt-5 lg:grid-cols-form">
           <label
-            htmlFor="bio"
+            htmlFor="entryText"
             className="flex flex-col text-sm font-medium leading-relaxed text-zinc-100"
           >
             Encode or Decode to URI-encoded format
@@ -83,35 +66,43 @@ export function EncodeDecodeURI() {
         </div>
         <Textarea
           name="entryText"
-          id="entryTextToEncode"
+          id="entryText"
           placeholder="Entry your text here..."
           value={entryText}
           onChange={(event) => setEntryText(event.target.value)}
         />
 
         <div className="flex items-center justify-start gap-2 pt-5">
-          <Button type="submit" form="encodeToBase64" variant="primary">
-            Encode URI
+          <Button
+            type="submit"
+            form="uriForm"
+            variant="primary"
+            className="gap-2"
+          >
+            <Link className="h-4 w-4" />
+            Encode
           </Button>
-          <Button type="button" variant="primary" onClick={handleEncodeComponent}>
-            Encode URI Component
-          </Button>
-          <Button type="button" variant="outline" onClick={handleDecode}>
-            Decode URI
-          </Button>
-          <Button type="button" variant="outline" onClick={handleDecodeComponent}>
-            Decode URI Component
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleDecode}
+            className="gap-2"
+          >
+            <Unlock className="h-4 w-4" />
+            Decode
           </Button>
         </div>
 
         {convertedText.length ? (
           <>
-            <Textarea
-              name="convertedText"
-              id="convertedTextToEncode"
-              value={convertedText}
-              onChange={(event) => setConvertedText(event.target.value)}
-            />
+            <div className="pt-5">
+              <Textarea
+                name="convertedText"
+                id="convertedText"
+                value={convertedText}
+                readOnly
+              />
+            </div>
             <div className="flex items-center justify-start gap-2 pt-5">
               <Button
                 variant="outline"

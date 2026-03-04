@@ -11,17 +11,51 @@ import {
 
 import { NavItem } from "./NavItem";
 
-export function Navigation() {
+interface NavigationProps {
+  onClose?: () => void;
+}
+
+export function Navigation({ onClose }: NavigationProps) {
   return (
     <nav className="flex flex-col gap-0.5">
-      <NavItem icon={Home} title="Home" to="/" />
-      <NavItem icon={ListChecks} title="To Do" to="/tools/todo" />
-      <NavItem icon={AlarmClock} title="Timer" to="/tools/timer" />
-      <NavItem icon={Code2} title="Typescript" to="/tools/typescript" />
-      <NavItem icon={Layers} title="CSV • JSON" to="/tools/csv" />
-      <NavItem icon={Image} title="SVG Tools" to="/tools/svg" />
-      <NavItem icon={Ampersands} title="Base64" to="/tools/base64" />
-      <NavItem icon={FileCode2} title="URI" to="/tools/uri" />
+      <NavItem icon={Home} title="Home" to="/" onClose={onClose} />
+      <NavItem
+        icon={ListChecks}
+        title="To Do"
+        to="/tools/todo"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={AlarmClock}
+        title="Timer"
+        to="/tools/timer"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={Code2}
+        title="Typescript"
+        to="/tools/typescript"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={Layers}
+        title="CSV • JSON"
+        to="/tools/csv"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={Image}
+        title="SVG Tools"
+        to="/tools/svg"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={Ampersands}
+        title="Base64"
+        to="/tools/base64"
+        onClose={onClose}
+      />
+      <NavItem icon={FileCode2} title="URI" to="/tools/uri" onClose={onClose} />
     </nav>
   );
 }
