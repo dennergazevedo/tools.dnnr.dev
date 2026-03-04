@@ -7,6 +7,7 @@ import {
   Layers,
   Code2,
   Image,
+  GitCompare,
 } from "lucide-react";
 
 import { NavItem } from "./NavItem";
@@ -53,6 +54,12 @@ export function Navigation({ onClose }: NavigationProps) {
         icon={Ampersands}
         title="Base64"
         to="/tools/base64"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={GitCompare}
+        title="Diff Checker"
+        to="/tools/diffchecker"
         onClose={onClose}
       />
       <NavItem icon={FileCode2} title="URI" to="/tools/uri" onClose={onClose} />

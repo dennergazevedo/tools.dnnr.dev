@@ -10,6 +10,7 @@ import {
   Code2,
   Image,
   Power,
+  GitCompare,
 } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 
@@ -64,6 +65,12 @@ export default function Home() {
           label="URI"
           href="/tools/uri"
           description="Encode and decode URIs to ensure safe data transmission over the web."
+        />
+        <HomeCard
+          icon={GitCompare}
+          label="Diff Checker"
+          href="/tools/diffchecker"
+          description="Compare text versions and identify changes with clear diff highlights."
         />
       </div>
     </div>
