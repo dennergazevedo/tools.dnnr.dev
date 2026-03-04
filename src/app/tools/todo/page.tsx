@@ -21,7 +21,6 @@ async function getTodos(): Promise<ToDoItem[]> {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    console.log(`[getTodos] Attempting fetch to: ${baseUrl}/api/todo/list`);
 
     // In Next.js App Router, we should pass the cookies header
     const response = await fetch(`${baseUrl}/api/todo/list`, {
@@ -31,10 +30,6 @@ async function getTodos(): Promise<ToDoItem[]> {
       cache: "no-store",
     });
 
-    console.log(
-      `[getTodos] Response Status: ${response.status} ${response.statusText}`
-    );
-
     if (!response.ok) {
       const errorBody = await response.text().catch(() => "No body");
       console.error(`[getTodos] API Error: ${errorBody}`);
@@ -43,7 +38,6 @@ async function getTodos(): Promise<ToDoItem[]> {
 
     const json = await response.json();
     const items = json.data || [];
-    console.log(`[getTodos] Successfully fetched ${items.length} items`);
 
     return items.map((todoItem: any) => ({
       id: todoItem.id,
