@@ -19,7 +19,9 @@ import {
   Database,
   Binary,
   Code2 as Code,
+  Asterisk,
 } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const CATEGORIES = [
   {
@@ -280,6 +282,13 @@ export default function Home() {
               )
             )}
           </div>
+
+          <Separator />
+
+          <span className="flex items-center gap-2 rounded-full text-xs text-neutral-600">
+            <Asterisk className="h-4 w-4" /> Exceto em ferramentas de
+            armazenamento proposital, como To-Do e Bookmarks.
+          </span>
         </section>
       </div>
     </div>
