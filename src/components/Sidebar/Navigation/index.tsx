@@ -3,6 +3,7 @@ import {
   FileCode2,
   Ampersands,
   AlarmClock,
+  Bookmark,
   ListChecks,
   Layers,
   Code2,
@@ -24,6 +25,12 @@ export function Navigation({ onClose }: NavigationProps) {
         icon={ListChecks}
         title="To Do"
         to="/tools/todo"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={Bookmark}
+        title="Bookmarks"
+        to="/tools/bookmark"
         onClose={onClose}
       />
       <NavItem

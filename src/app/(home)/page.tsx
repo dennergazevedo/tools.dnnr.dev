@@ -5,6 +5,7 @@ import {
   FileCode2,
   Ampersands,
   AlarmClock,
+  Bookmark,
   ListChecks,
   Layers,
   Code2,
@@ -30,6 +31,13 @@ const CATEGORIES = [
         href: "/tools/todo",
         description:
           "Organize suas tarefas e aumente sua produtividade com nossa lista sincronizada.",
+      },
+      {
+        icon: Bookmark,
+        label: "Bookmarks",
+        href: "/tools/bookmark",
+        description:
+          "Salve seus links úteis e acesse-os de qualquer lugar com facilidade.",
       },
       {
         icon: AlarmClock,
