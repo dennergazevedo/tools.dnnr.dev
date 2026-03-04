@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("@dnnr:authToken")?.value;
-    const { description } = await request.json();
+    const { id, description } = await request.json();
 
     if (!token || !description) {
       return NextResponse.json(
@@ -14,7 +14,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET is not defined");
+    }
     let userId: string;
 
     try {
@@ -31,8 +34,8 @@ export async function POST(request: NextRequest) {
     const sql = neon(databaseUrl);
 
     const result = await sql`
-      INSERT INTO todos (user_id, description, completed)
-      VALUES (${userId}, ${description}, false)
+      INSERT INTO todos (id, user_id, description, completed)
+      VALUES (COALESCE(${id}, gen_random_uuid()), ${userId}, ${description}, false)
       RETURNING id, description, completed, created_at
     `;
 

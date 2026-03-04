@@ -17,7 +17,10 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET is not defined");
+    }
     let userId: string;
 
     try {
@@ -39,6 +42,9 @@ export async function PATCH(request: NextRequest) {
     `;
 
     if (updateQuery.length === 0) {
+      console.warn(
+        `[TodoUpdate] No rows affected for ID: ${id} and UserID: ${userId}`
+      );
       return NextResponse.json(
         { error: "Todo not found or unauthorized." },
         { status: 404 }
@@ -47,7 +53,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ data: { status: "OK" } });
   } catch (error: any) {
-    console.error("Todo update error:", error);
+    console.error("[TodoUpdate] Error:", error);
     return NextResponse.json(
       { error: error.message || "[!] Something went wrong." },
       { status: 500 }

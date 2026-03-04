@@ -13,7 +13,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET is not defined");
+    }
     let userId: string;
 
     try {

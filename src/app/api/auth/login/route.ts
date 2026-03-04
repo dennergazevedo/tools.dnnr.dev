@@ -35,7 +35,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET is not defined");
+    }
     const token = jwt.sign(
       {
         id: user.id,

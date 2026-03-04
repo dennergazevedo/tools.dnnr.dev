@@ -13,7 +13,7 @@ export function PageHeader({
   icon: Icon,
 }: PageHeaderProps) {
   return (
-    <div className="mb-8 flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900 shadow-lg ring-1 ring-white/5">

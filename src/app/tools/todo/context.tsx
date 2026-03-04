@@ -19,12 +19,12 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
   children,
   todos,
 }) => {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const [list, setList] = useState<ToDoItem[]>(todos);
 
   const handleSaveTodo = useCallback(
     async (item: ToDoItem) => {
-      if (token) {
+      if (user?.id) {
         try {
           await api.post("/api/todo/create", {
             id: item.id,
@@ -45,12 +45,12 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
         );
       }
     },
-    [token]
+    [user?.id]
   );
 
   const handleUpdateTodo = useCallback(
     async (item: ToDoItem) => {
-      if (token) {
+      if (user?.id) {
         try {
           await api.patch(`/api/todo/update?id=${item.id}`, {
             description: item.description,
@@ -71,12 +71,12 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
         localStorage.setItem("@dnnr:todo", JSON.stringify(newList));
       }
     },
-    [token]
+    [user?.id]
   );
 
   const handleDeleteTodo = useCallback(
     async (item: ToDoItem) => {
-      if (token) {
+      if (user?.id) {
         try {
           await api.delete("/api/todo/delete", {
             params: {
@@ -96,7 +96,7 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
         localStorage.setItem("@dnnr:todo", JSON.stringify(newList));
       }
     },
-    [token]
+    [user?.id]
   );
 
   const handleAddTask = useCallback(
