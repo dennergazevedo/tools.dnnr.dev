@@ -4,7 +4,7 @@ import { Code2 } from "lucide-react";
 
 export default function Typescript() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col">
       <PageHeader
         title="Typescript"
         description="Helper tools for your Typescript development workflow."

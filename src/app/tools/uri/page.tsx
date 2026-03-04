@@ -4,7 +4,7 @@ import { FileCode2 } from "lucide-react";
 
 export default function URI() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col">
       <PageHeader
         title="URI"
         description="Safely encode and decode Uniform Resource Identifiers."

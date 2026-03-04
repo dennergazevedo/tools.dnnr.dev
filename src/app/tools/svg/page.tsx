@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function SvgToolPage() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col">
       <PageHeader
         title="SVG Tools"
         description="Convert your SVG files to different formats or React components easily."

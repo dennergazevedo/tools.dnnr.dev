@@ -5,7 +5,7 @@ import { AlarmClock } from "lucide-react";
 
 export default function Timer() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col">
       <PageHeader
         title="Timer"
         description="Stay focused and productive with customizable intervals."

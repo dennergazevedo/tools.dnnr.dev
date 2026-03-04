@@ -19,7 +19,7 @@ export function PageHeader({
           <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900 shadow-lg ring-1 ring-white/5">
             <Icon className="h-5 w-5 text-sky-500" />
           </div>
-          <h1 className="text-3xl font-bold italic tracking-tight text-zinc-100">
+          <h1 className="text-3xl font-bold tracking-tight text-zinc-100">
             {title}
           </h1>
         </div>
