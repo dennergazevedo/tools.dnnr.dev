@@ -1,30 +1,51 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { sql } from "@/lib/db";
+import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
   try {
-    const {token, ...requestBody}: TodoCreate = await request.json();
+    const token = request.cookies.get("@dnnr:authToken")?.value;
+    const { id, description } = await request.json();
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/tools/todos`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!res.ok) {
-      throw new Error('[!] Something went wrong.');
+    if (!token) {
+      return NextResponse.json(
+        { error: "Unauthorized." },
+        { status: 401 }
+      );
     }
 
-    const { id, description, completed }: TodoCreateResponse = await res.json();
+    if (!description) {
+      return NextResponse.json(
+        { error: "Description is required." },
+        { status: 400 }
+      );
+    }
 
-    return NextResponse.json({ data: {
-      id,
-      description,
-      completed,
-    } });
+    const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
+    let userId: string;
+
+    try {
+      const decoded = jwt.verify(token, jwtSecret) as { id: string };
+      userId = decoded.id;
+    } catch (err) {
+      return NextResponse.json(
+        { error: "Invalid or expired token." },
+        { status: 401 }
+      );
+    }
+
+    const result = await sql`
+      INSERT INTO todos (id, user_id, description, completed)
+      VALUES (COALESCE(${id}, gen_random_uuid()), ${userId}, ${description}, false)
+      RETURNING id, description, completed
+    `;
+
+    return NextResponse.json({ data: result[0] });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Todo creation error:", error);
+    return NextResponse.json(
+      { error: error.message || "[!] Something went wrong." },
+      { status: 500 }
+    );
   }
 }

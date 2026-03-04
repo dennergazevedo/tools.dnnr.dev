@@ -1,25 +1,41 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { sql } from "@/lib/db";
+import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
   try {
-    const requestBody = await request.json();
+    const { email, password, firstname, lastname } = await request.json();
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    if (!res.ok) {
-      throw new Error('[!] Something went wrong.');
+    if (!email || !password || !firstname || !lastname) {
+      return NextResponse.json(
+        { error: "All fields are required." },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json({ data: {
-      status: 'OK'
-    } });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    try {
+      await sql`
+        INSERT INTO users (email, password, "firstname", "lastname")
+        VALUES (${email}, ${hashedPassword}, ${firstname}, ${lastname})
+      `;
+    } catch (dbError: any) {
+      if (dbError.message.includes("unique constraint")) {
+        return NextResponse.json(
+          { error: "User already exists." },
+          { status: 400 }
+        );
+      }
+      throw dbError;
+    }
+
+    return NextResponse.json({ data: { status: "OK" } });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Registration error:", error);
+    return NextResponse.json(
+      { error: error.message || "[!] Something went wrong." },
+      { status: 500 }
+    );
   }
 }

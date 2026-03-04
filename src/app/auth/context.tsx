@@ -35,27 +35,25 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
       });
   
       setUser(responseData.data.user);
-      setToken(responseData.data.token);
-  
-      setCookie('@dnnr:authToken', responseData.data.token)
+      router.refresh();
       return true;
-    }catch(err){
+    } catch (err) {
       console.log("[!] Login", err);
       toast("Oops!", {
         description: "Something went wrong, try again.",
       });
       return false;
     }
-  }, [])
+  }, [router])
 
   const handleRegister = useCallback(async (user: UserRegister) => {
-    try{
+    try {
       await api.post('/api/auth/register', user)
       toast("Success!", {
         description: "You have been registered and will be redirected...",
       });
       return true
-    }catch(error){
+    } catch (error) {
       console.log("[!] Register", error)
       toast("Oops!", {
         description: "Something went wrong, try again.",
@@ -64,19 +62,14 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
     }
   }, [])
 
-  const loadUser = useCallback(async() => {
-    try{
-      const token = getCookie("@dnnr:authToken");
-      if(!token) return;
-
-      const { data: responseData } = await api.get(`/api/auth/user?token=${token}`)
-      if(responseData){
+  const loadUser = useCallback(async () => {
+    try {
+      const { data: responseData } = await api.get('/api/auth/user')
+      if (responseData) {
         setUser(responseData.data);
-        setToken(token);
       }
-    }catch(error){
+    } catch (error) {
       console.log("[!] Load User", error)
-      setCookie('@dnnr:authToken', '')
     }
   }, [])
 
@@ -84,10 +77,14 @@ export const AuthContextProvider: React.FC<AuthContextProvider> = ({
     loadUser();
   }, [])
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = useCallback(async () => {
     setUser({} as User);
     setToken("");
     setCookie('@dnnr:authToken', '')
+    // Also call a logout API if needed to clear HTTP-only cookie
+    try {
+      await api.post('/api/auth/logout');
+    } catch (e) { }
     router.refresh();
   }, [router])
 

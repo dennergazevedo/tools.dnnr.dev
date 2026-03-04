@@ -22,60 +22,70 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
   const { token } = useAuth();
 
   const [list, setList] = useState<ToDoItem[]>(todos);
-  
 
   const handleSaveTodo = useCallback(async (item: ToDoItem) => {
-    if(token){
-      try{
+    if (token) {
+      try {
         await api.post('/api/todo/create', {
-          ...item,
-          token
+          id: item.id,
+          description: item.description
         })
-      }catch(err){
+      } catch (err) {
         toast("Oops!", {
           description: "Your task was not saved in the cloud, try again.",
         });
       }
+    } else {
+      // If not logged in, we could still use localStorage
+      const currentLocal = JSON.parse(localStorage.getItem('@dnnr:todo') || '[]');
+      localStorage.setItem('@dnnr:todo', JSON.stringify([...currentLocal, item]));
     }
   }, [token])
 
-  const handleUpdateTodo = useCallback(async ({id, ...item}: ToDoItem) => {
-    if(token){
-      try{
-        await api.patch(`/api/todo/update?id=${id}`, {
-          ...item,
-          token
+  const handleUpdateTodo = useCallback(async (item: ToDoItem) => {
+    if (token) {
+      try {
+        await api.patch(`/api/todo/update?id=${item.id}`, {
+          description: item.description,
+          completed: item.completed
         })
-      }catch(err){
+      } catch (err) {
         toast("Oops!", {
-          description: "Your task was not saved in the cloud, try again.",
+          description: "Your task was not updated in the cloud, try again.",
         });
       }
+    } else {
+      const currentLocal = JSON.parse(localStorage.getItem('@dnnr:todo') || '[]');
+      const newList = currentLocal.map((i: ToDoItem) => i.id === item.id ? item : i);
+      localStorage.setItem('@dnnr:todo', JSON.stringify(newList));
     }
   }, [token])
 
   const handleDeleteTodo = useCallback(async (item: ToDoItem) => {
-    if(token){
-      try{
+    if (token) {
+      try {
         await api.delete('/api/todo/delete', {
           params: {
-            id: item.id,
-            token
+            id: item.id
           }
         })
         toast("Success!", {
           description: "Deleted successfully!",
         });
-      }catch(err){
+      } catch (err) {
         toast("Oops!", {
-          description: "Your task was not saved in the cloud, try again.",
+          description: "Your task was not deleted in the cloud, try again.",
         });
       }
+    } else {
+      const currentLocal = JSON.parse(localStorage.getItem('@dnnr:todo') || '[]');
+      const newList = currentLocal.filter((i: ToDoItem) => i.id !== item.id);
+      localStorage.setItem('@dnnr:todo', JSON.stringify(newList));
     }
   }, [token])
 
   const handleAddTask = useCallback((inputValue: string) => {
-    if(!inputValue) return
+    if (!inputValue) return
 
     const newItem: ToDoItem = {
       id: createUUID(),
@@ -83,34 +93,19 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
       description: inputValue,
     }
 
-    handleSaveTodo(newItem)
-
-    const newList: ToDoItem[] = [
-      ...list, 
-      newItem
-    ]
-    setList(newList);
-    saveLocalTodos(newList);
-  }, [list, handleSaveTodo]);
+    setList(prev => [...prev, newItem]);
+    handleSaveTodo(newItem);
+  }, [handleSaveTodo]);
 
   const handleRemoveTask = useCallback((removedItem: ToDoItem) => {
-    const newList = list?.filter(currentItem => currentItem.id !== removedItem.id)
+    setList(prev => prev.filter(currentItem => currentItem.id !== removedItem.id))
     handleDeleteTodo(removedItem)
-    setList(newList)
-    saveLocalTodos(newList)
-  }, [list, handleDeleteTodo])
+  }, [handleDeleteTodo])
 
   const handleUpdateTask = useCallback((item: ToDoItem) => {
-    const newList = list?.filter(currentItem => currentItem.id !== item.id)
-    newList.push(item)
-    setList(newList)
+    setList(prev => prev.map(currentItem => currentItem.id === item.id ? item : currentItem))
     handleUpdateTodo(item)
-    saveLocalTodos(newList)
-  }, [list, handleUpdateTodo])
-
-  const saveLocalTodos = useCallback((newTodos: ToDoItem[]) => {
-    localStorage.setItem('@dnnr:todo', JSON.stringify(newTodos))
-  }, [])
+  }, [handleUpdateTodo])
 
   return (
     <TodoContext.Provider
@@ -120,7 +115,7 @@ export const TodoContextProvider: React.FC<TodoContextProviderProps> = ({
         addTask: handleAddTask,
         removeTask: handleRemoveTask,
         updateTask: handleUpdateTask,
-        saveLocalTodos: saveLocalTodos,
+        saveLocalTodos: (newTodos) => localStorage.setItem('@dnnr:todo', JSON.stringify(newTodos)),
         setList,
         list
       }}
@@ -134,7 +129,7 @@ export const useTodo = () => {
   const context = useContext(TodoContext)
 
   if (!context) {
-    throw new Error('useAuth must be used inside a TodoContext')
+    throw new Error('useTodo must be used inside a TodoContextProvider')
   }
 
   return context

@@ -28,16 +28,16 @@ export default function Register() {
         const formData = new FormData(event.target);
 
         const user = {
-          firstName: String(formData.get("firstName")),
-          lastName: String(formData.get("lastName")),
+          firstname: String(formData.get("firstname")),
+          lastname: String(formData.get("lastname")),
           email: String(formData.get("email")),
           password: String(formData.get("password")),
         };
 
         if (
           user?.email?.length < 8 ||
-          user?.lastName?.length < 3 ||
-          user?.firstName?.length < 3 ||
+          user?.lastname?.length < 3 ||
+          user?.firstname?.length < 3 ||
           user.password.length < 8
         ) {
           toast("Oops!", {
@@ -84,7 +84,7 @@ export default function Register() {
             <User className="h-5 w-5 text-zinc-500" />
           </Input.Prefix>
           <Input.Control
-            name="firstName"
+            name="firstname"
             type="text"
             placeholder="First Name"
           />
@@ -93,7 +93,7 @@ export default function Register() {
           <Input.Prefix>
             <UserCog className="h-5 w-5 text-zinc-500" />
           </Input.Prefix>
-          <Input.Control name="lastName" type="text" placeholder="Last Name" />
+          <Input.Control name="lastname" type="text" placeholder="Last Name" />
         </Input.Root>
         <Input.Root className="w-auto">
           <Input.Prefix>

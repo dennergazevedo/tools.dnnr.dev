@@ -18,18 +18,20 @@ async function fetchTodos(token: string): Promise<ToDoItem[]> {
   if (!token) return [];
 
   try {
-    const { data: responseData } = await api.get(`/api/todo/list?token=${token}`);
+    const { data: responseBody } = await api.get(`/api/todo/list`);
+    const todoList = responseBody.data;
 
-    if (!responseData?.length) {
-      throw new Error("Failed to fetch todos");
+    if (!Array.isArray(todoList)) {
+      return [];
     }
 
-    return responseData?.map((todoItem: ToDoItem) => ({
+    return todoList.map((todoItem: ToDoItem) => ({
       id: todoItem.id,
       description: todoItem.description,
       completed: todoItem.completed,
     }));
   } catch (error) {
+    console.error("Error fetching todos:", error);
     return [];
   }
 }

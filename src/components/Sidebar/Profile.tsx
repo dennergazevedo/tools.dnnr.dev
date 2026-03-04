@@ -33,7 +33,7 @@ export function Profile() {
       <UserCircle2 className="h-10 w-10 rounded-full text-zinc-400" />
       <div className="flex flex-col">
         <span className="block text-sm font-semibold text-zinc-100">
-          {`${user.firstName} ${user.lastName}`}
+          {`${user.firstname} ${user.lastname}`}
         </span>
         <span className="block text-sm text-zinc-400">{user.email}</span>
       </div>

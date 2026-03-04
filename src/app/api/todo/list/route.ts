@@ -1,30 +1,44 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { sql } from "@/lib/db";
+import jwt from "jsonwebtoken";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const token = searchParams.get('token');
+    const token = searchParams.get("token");
 
-    if(!token?.length || token === 'undefined'){
-      throw new Error('[!] Token not found.');
+    if (!token || token === "undefined") {
+      return NextResponse.json(
+        { error: "Token not provided." },
+        { status: 401 }
+      );
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/tools/todos`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
+    let userId: string;
 
-    if (!res.ok) {
-      throw new Error('[!] Something went wrong.');
+    try {
+      const decoded = jwt.verify(token, jwtSecret) as { id: string };
+      userId = decoded.id;
+    } catch (err) {
+      return NextResponse.json(
+        { error: "Invalid or expired token." },
+        { status: 401 }
+      );
     }
 
-    const responseData = await res.json();
+    const todos = await sql`
+      SELECT id, description, completed FROM todos 
+      WHERE user_id = ${userId}
+      ORDER BY created_at DESC
+    `;
 
-    return NextResponse.json(responseData);
+    return NextResponse.json({ data: todos });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Todo list error:", error);
+    return NextResponse.json(
+      { error: error.message || "[!] Something went wrong." },
+      { status: 500 }
+    );
   }
 }

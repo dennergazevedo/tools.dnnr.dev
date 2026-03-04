@@ -6,15 +6,15 @@ interface UserLogin {
 }
 
 interface UserRegister{
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   email: string
   password: string
 }
 
 interface User {
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   email: string
   roles: string
 }

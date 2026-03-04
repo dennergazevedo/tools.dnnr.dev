@@ -25,7 +25,10 @@ export default function ToDoForm({ todos }: ToDoFormProps) {
 
   const handleAddTask = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addTask(inputValue)
+    if (inputValue.trim()) {
+      addTask(inputValue);
+      setInputValue("");
+    }
   }, [inputValue, addTask])
 
   useEffect(() => {

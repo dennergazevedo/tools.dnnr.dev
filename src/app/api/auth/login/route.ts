@@ -1,25 +1,80 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { sql } from "@/lib/db";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
   try {
-    const requestBody = await request.json();
+    const { email, password } = await request.json();
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!res.ok) {
-      throw new Error('[!] Something went wrong.');
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password are required." },
+        { status: 400 }
+      );
     }
 
-    const responseData = await res.json();
+    const users = await sql`
+      SELECT id, email, password, "firstname", "lastname" FROM users WHERE email = ${email}
+    `;
 
-    return NextResponse.json({ data: responseData });
+    if (users.length === 0) {
+      return NextResponse.json(
+        { error: "Invalid credentials." },
+        { status: 401 }
+      );
+    }
+
+    const user = users[0];
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: "Invalid credentials." },
+        { status: 401 }
+      );
+    }
+
+    const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+      },
+      jwtSecret,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    const response = NextResponse.json({
+      data: {
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname,
+        },
+      },
+    });
+
+    response.cookies.set("@dnnr:authToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: "/",
+    });
+
+    return response;
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Login error:", error);
+    return NextResponse.json(
+      { error: error.message || "[!] Something went wrong." },
+      { status: 500 }
+    );
   }
 }
