@@ -29,6 +29,7 @@ interface ColorState {
   a: number; // 0-1
 }
 
+// Renamed from ColorPicker to ColorPickerTool to break any possible caching
 export function ColorPicker() {
   const [hsva, setHsva] = useState<ColorState>({ h: 217, s: 73, v: 96, a: 1 });
   const [copyStatus, setCopyStatus] = useState<Record<string, boolean>>({});
@@ -58,14 +59,13 @@ export function ColorPicker() {
     try {
       const c = culoriOklch(hex);
       if (!c) return "N/A";
-      // Format: oklch(XX.X% X.XXX XX.XXX)
+
+      // EXPLICIT FORMATTING
       const l = (Number(c.l) * 100).toFixed(1);
       const chroma = Number(c.c).toFixed(3);
-      const hVal = c.h;
-      const hue =
-        typeof hVal === "number" && !isNaN(hVal)
-          ? hVal.toFixed(3)
-          : (0).toFixed(3);
+      const hVal = Number(c.h !== undefined && !isNaN(c.h) ? c.h : 0);
+      const hue = hVal.toFixed(3);
+
       return `oklch(${l}% ${chroma} ${hue})`;
     } catch (e) {
       return "N/A";
@@ -119,9 +119,9 @@ export function ColorPicker() {
         if (oklchColor) {
           const hexString = formatHex(oklchColor);
           if (hexString) {
-            const c = colord(hexString);
-            if (c.isValid()) {
-              const { h, s, v, a } = c.toHsv();
+            const result = colord(hexString);
+            if (result.isValid()) {
+              const { h, s, v, a } = result.toHsv();
               setHsva({ h, s, v, a });
             }
           }
@@ -238,6 +238,7 @@ export function ColorPicker() {
             </div>
 
             <button
+              id="random-color-btn"
               onClick={() =>
                 setHsva({ h: Math.random() * 360, s: 70, v: 90, a: 1 })
               }
@@ -385,6 +386,7 @@ export function ColorPicker() {
               </label>
               <div className="group relative flex items-center">
                 <input
+                  id="oklch-input"
                   type="text"
                   value={oklchValue}
                   onChange={(e) => updateColorFromOklch(e.target.value)}
