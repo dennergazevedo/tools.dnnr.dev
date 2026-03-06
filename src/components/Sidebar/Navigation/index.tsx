@@ -1,5 +1,4 @@
 import {
-  Home,
   FileCode2,
   Ampersands,
   AlarmClock,
@@ -9,6 +8,7 @@ import {
   Code2,
   Image,
   GitCompare,
+  Palette,
 } from "lucide-react";
 
 import { NavItem } from "./NavItem";
@@ -20,7 +20,7 @@ interface NavigationProps {
 export function Navigation({ onClose }: NavigationProps) {
   return (
     <nav className="flex flex-col gap-0.5">
-      <NavItem icon={Home} title="Home" to="/" onClose={onClose} />
+      {/* <NavItem icon={Home} title="Home" to="/" onClose={onClose} /> */}
       <NavItem
         icon={ListChecks}
         title="To Do"
@@ -55,6 +55,12 @@ export function Navigation({ onClose }: NavigationProps) {
         icon={Image}
         title="SVG Tools"
         to="/tools/svg"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={Palette}
+        title="Color Picker"
+        to="/tools/color-picker"
         onClose={onClose}
       />
 
