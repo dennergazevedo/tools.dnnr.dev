@@ -9,6 +9,7 @@ import {
   Image,
   GitCompare,
   Palette,
+  Sparkles,
 } from "lucide-react";
 
 import { NavItem } from "./NavItem";
@@ -39,12 +40,7 @@ export function Navigation({ onClose }: NavigationProps) {
         to="/tools/timer"
         onClose={onClose}
       />
-      <NavItem
-        icon={Code2}
-        title="Typescript"
-        to="/tools/typescript"
-        onClose={onClose}
-      />
+      <NavItem icon={Code2} title="JSON" to="/tools/json" onClose={onClose} />
       <NavItem
         icon={GitCompare}
         title="Diff Checker"
@@ -61,6 +57,18 @@ export function Navigation({ onClose }: NavigationProps) {
         icon={Palette}
         title="Color Picker"
         to="/tools/color-picker"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={AlarmClock}
+        title="Cron Generator"
+        to="/tools/cron"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={Sparkles}
+        title="Generators"
+        to="/tools/generators"
         onClose={onClose}
       />
 

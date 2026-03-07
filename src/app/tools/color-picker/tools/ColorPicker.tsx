@@ -1,24 +1,12 @@
 "use client";
 
-import React, {
-  useState,
-  useCallback,
-  useMemo,
-  useEffect,
-  useRef,
-} from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import { colord, extend } from "colord";
 import cmykPlugin from "colord/plugins/cmyk";
 import { Copy, CheckCheck, RefreshCw } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { PrivacyAlert } from "@/components/ui/privacy-alert";
-import {
-  oklch as culoriOklch,
-  formatCss,
-  rgb as culoriRgb,
-  formatHex,
-  parse as culoriParse,
-} from "culori";
+import { oklch as culoriOklch, formatHex, parse as culoriParse } from "culori";
 
 extend([cmykPlugin]);
 

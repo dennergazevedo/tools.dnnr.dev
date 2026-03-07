@@ -20,6 +20,7 @@ import {
   Binary,
   Code2 as Code,
   Asterisk,
+  Palette,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -55,10 +56,23 @@ const CATEGORIES = [
     tools: [
       {
         icon: Code2,
-        label: "Typescript",
-        href: "/tools/typescript",
+        label: "JSON",
+        href: "/tools/json",
         description:
-          "Transforme JSON em interfaces TypeScript limpas automaticamente.",
+          "Valide JSON e transforme em interfaces TypeScript automaticamente.",
+      },
+      {
+        icon: Palette,
+        label: "Color Picker",
+        href: "/tools/color-picker",
+        description:
+          "Escolha cores e veja seus valores em diferentes formatos.",
+      },
+      {
+        icon: Image,
+        label: "SVG Tools",
+        href: "/tools/svg",
+        description: "Converta SVG para PNG, ICO, WebP ou componentes React.",
       },
       {
         icon: GitCompare,
@@ -68,10 +82,22 @@ const CATEGORIES = [
           "Compare versões de texto e identifique mudanças com facilidade.",
       },
       {
-        icon: Image,
-        label: "SVG Tools",
-        href: "/tools/svg",
-        description: "Converta SVG para PNG, ICO, WebP ou componentes React.",
+        icon: AlarmClock,
+        label: "Cron",
+        href: "/tools/cron",
+        description:
+          "Crie e valide expressões cron para seus agendamentos com facilidade.",
+      },
+    ],
+  },
+  {
+    title: "Geradores",
+    tools: [
+      {
+        icon: Sparkles,
+        label: "UUID & Senhas",
+        href: "/tools/generators",
+        description: "Gere UUIDs aleatórios e senhas seguras instantaneamente.",
       },
     ],
   },
