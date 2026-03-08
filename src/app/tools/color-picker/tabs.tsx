@@ -23,6 +23,11 @@ export function Menu() {
               value="picker"
               title="Color Picker"
             />
+            <TabItem
+              isSelected={currentTab === "palette"}
+              value="palette"
+              title="Palette Generator"
+            />
           </Tabs.List>
         </ScrollArea.Viewport>
         <ScrollArea.Scrollbar
