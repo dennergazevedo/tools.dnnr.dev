@@ -2,12 +2,12 @@ import { MenuTabs } from "./tabs";
 import { PageHeader } from "@/components/ui/page-header";
 import { Layers } from "lucide-react";
 
-export default function CSV() {
+export default function Spreadsheet() {
   return (
     <div className="flex flex-col">
       <PageHeader
-        title="CSV • JSON"
-        description="Transform your data effortlessly between CSV and JSON formats."
+        title="Spreadsheet"
+        description="Convert your data effortlessly between Spreadsheets (XLS, XLSX, CSV, ODS) and JSON formats."
         icon={Layers}
       />
       <MenuTabs />

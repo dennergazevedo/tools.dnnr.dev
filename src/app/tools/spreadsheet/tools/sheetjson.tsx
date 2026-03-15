@@ -10,44 +10,49 @@ import {
   DownloadCloud,
   CheckCheck,
   Copy,
-  ShieldCheck,
 } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
-import { csvToJson, downloadFile, jsonToCSV } from "./converter";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
+import { downloadFile, sheetToJson } from "./converter";
 import { PrivacyAlert } from "@/components/ui/privacy-alert";
 
-export function CSVJSON() {
+export function SheetJSON() {
   const [entryData, setEntryData] = useState<string>("");
+  const [entryFile, setEntryFile] = useState<File | null>(null);
   const [convertedData, setConvertedData] = useState<string>("");
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
+  const [isConverting, setIsConverting] = useState<boolean>(false);
 
   const handleCopyToClipboard = useCallback(async () => {
     setCopySuccess(await copyToClipboard(convertedData));
   }, [convertedData]);
 
   const handleConvert = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setReset(false);
+      setIsConverting(true);
       try {
-        const jsonData = csvToJson(entryData);
+        const input = entryFile || entryData;
+        if (!input) return;
+
+        const jsonData = await sheetToJson(input);
         if (jsonData) {
           setConvertedData(jsonData);
         }
       } catch (err) {
         console.log("[!] Convert:", err);
+      } finally {
+        setIsConverting(false);
       }
     },
-    [entryData]
+    [entryData, entryFile]
   );
 
   const handleDownload = useCallback(() => {
     try {
       downloadFile(
-        "converted-csv-json-dnnr-dev",
+        "converted-sheet-json-dnnr-dev.json",
         convertedData,
         "application/json"
       );
@@ -58,6 +63,7 @@ export function CSVJSON() {
 
   const handleClear = useCallback(() => {
     setEntryData("");
+    setEntryFile(null);
     setConvertedData("");
     setCopySuccess(false);
     setReset(true);
@@ -70,18 +76,18 @@ export function CSVJSON() {
         using this tool.
       </PrivacyAlert>
       <form
-        id="csvjson"
+        id="sheetjson"
         onSubmit={handleConvert}
         className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-800"
       >
         <div className="grid gap-3 pt-5 lg:grid-cols-form">
           <label
-            htmlFor="projects"
+            htmlFor="sheet-json"
             className="flex flex-col text-sm font-medium leading-relaxed text-zinc-100"
           >
-            CSV to JSON
+            Planilha to JSON
             <span className="text-sm font-normal text-zinc-500">
-              Convert CSV files to JSON in one click
+              Convert Spreadsheets (XLS, XLSX, CSV, ODS) to JSON in one click
             </span>
           </label>
         </div>
@@ -89,31 +95,33 @@ export function CSVJSON() {
           <Textarea
             name="entryText"
             id="entryTextToEncode"
-            placeholder="Entry your CSV here..."
+            placeholder="Entry your CSV or TSV data here..."
             value={entryData}
             onChange={(event) => setEntryData(event.target.value)}
+            disabled={!!entryFile}
           />
           <span className="text-zinc-500">or</span>
           <FileInput.Root
-            id="csv-json"
+            id="sheet-json"
             className="flex flex-col items-start gap-5 lg:flex-row"
           >
             <FileInput.TriggerSelected reset={reset} />
-            <FileInput.JSONPreview sendData={setEntryData} />
-            <FileInput.Trigger type="CSV file" />
-            <FileInput.Control accept="text/csv" />
+            <FileInput.FileListener onFileChange={setEntryFile} />
+            <FileInput.Trigger type="Spreadsheet file" />
+            <FileInput.Control accept=".csv,.tsv,.xls,.xlsx,.ods" />
           </FileInput.Root>
         </div>
 
         <div className="flex items-center justify-start gap-2 pt-5">
           <Button
             type="submit"
-            form="csvjson"
+            form="sheetjson"
             variant="primary"
             className="flex flex-row gap-2"
+            disabled={isConverting || (!entryData && !entryFile)}
           >
             <Flame className="h-5 w-5 flex-shrink-0 text-white" />
-            Convert
+            {isConverting ? "Converting..." : "Convert"}
           </Button>
           <Button
             type="button"
@@ -138,8 +146,7 @@ export function CSVJSON() {
             </div>
             <div className="flex items-center justify-start gap-2 pt-5">
               <Button
-                type="submit"
-                form="csvjson"
+                type="button"
                 variant="primary"
                 className="flex flex-row gap-2"
                 onClick={handleDownload}
@@ -148,6 +155,7 @@ export function CSVJSON() {
                 Download
               </Button>
               <Button
+                type="button"
                 variant="outline"
                 className="flex flex-row gap-2"
                 onClick={handleCopyToClipboard}

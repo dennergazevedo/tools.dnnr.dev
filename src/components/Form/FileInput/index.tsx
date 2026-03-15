@@ -5,6 +5,7 @@ import { Trigger, TriggerProps } from "./Trigger";
 import { TriggerSelected, TriggerSelectedProps } from "./TriggerSelected";
 import { Control, ControlProps } from "./Control";
 import { JSONPreview, JSONPreviewProps } from "./JSONPreview";
+import { FileListener, FileListenerProps } from "./FileListener";
 
 export {
   FileList,
@@ -13,6 +14,7 @@ export {
   Trigger,
   Control,
   JSONPreview,
+  FileListener,
   TriggerSelected,
 };
 
@@ -23,5 +25,6 @@ export type {
   TriggerProps,
   ControlProps,
   JSONPreviewProps,
+  FileListenerProps,
   TriggerSelectedProps,
 };

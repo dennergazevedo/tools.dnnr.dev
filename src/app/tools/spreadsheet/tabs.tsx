@@ -11,7 +11,7 @@ export function Menu() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
 
-  const [currentTab, setCurrentTab] = useState<string>(tabParam ?? "jsoncsv");
+  const [currentTab, setCurrentTab] = useState<string>(tabParam ?? "json-sheet");
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
@@ -19,14 +19,14 @@ export function Menu() {
         <ScrollArea.Viewport className="w-full overflow-x-scroll">
           <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-800">
             <TabItem
-              isSelected={currentTab === "jsoncsv"}
-              value="jsoncsv"
-              title="JSON to CSV"
+              isSelected={currentTab === "json-sheet"}
+              value="json-sheet"
+              title="JSON → Planilha"
             />
             <TabItem
-              isSelected={currentTab === "csvjson"}
-              value="csvjson"
-              title="CSV to JSON"
+              isSelected={currentTab === "sheet-json"}
+              value="sheet-json"
+              title="Planilha → JSON"
             />
           </Tabs.List>
         </ScrollArea.Viewport>

@@ -106,10 +106,10 @@ const CATEGORIES = [
     tools: [
       {
         icon: Layers,
-        label: "CSV • JSON",
-        href: "/tools/csv",
+        label: "Spreadsheet",
+        href: "/tools/spreadsheet",
         description:
-          "Converta dados entre CSV e JSON com alta precisão e facilidade.",
+          "Converta planilhas (XLS, XLSX, CSV, ODS) em JSON e vice-versa com alta precisão e facilidade.",
       },
       {
         icon: Ampersands,

@@ -81,8 +81,8 @@ export function Navigation({ onClose }: NavigationProps) {
       />
       <NavItem
         icon={Layers}
-        title="CSV • JSON"
-        to="/tools/csv"
+        title="Spreadsheet"
+        to="/tools/spreadsheet"
         onClose={onClose}
       />
     </nav>

@@ -9,52 +9,56 @@ import {
   Flame,
   DownloadCloud,
   CheckCheck,
-  Copy,
-  ShieldCheck,
 } from "lucide-react";
-import { copyToClipboard } from "@/utils/copyToClipboard";
-import { downloadFile, jsonToCSV } from "./converter";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
+import { downloadFile, jsonToSheet } from "./converter";
 import { PrivacyAlert } from "@/components/ui/privacy-alert";
+import * as XLSX from "xlsx";
 
-export function JSONCSV() {
+export function JSONSheet() {
   const [entryData, setEntryData] = useState<string>("");
-  const [convertedData, setConvertedData] = useState<string>("");
+  const [outputFormat, setOutputFormat] = useState<XLSX.BookType>("xlsx");
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
-
-  const handleCopyToClipboard = useCallback(async () => {
-    setCopySuccess(await copyToClipboard(convertedData));
-  }, [convertedData]);
+  const [convertedBuffer, setConvertedBuffer] = useState<ArrayBuffer | null>(null);
 
   const handleConvert = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setReset(false);
       try {
-        const csv = jsonToCSV(JSON.parse(entryData));
-        if (csv) {
-          setConvertedData(csv);
+        if (!entryData) return;
+        const buffer = jsonToSheet(entryData, outputFormat);
+        if (buffer) {
+          setConvertedBuffer(buffer);
         }
       } catch (err) {
         console.log("[!] Convert:", err);
       }
     },
-    [entryData]
+    [entryData, outputFormat]
   );
 
   const handleDownload = useCallback(() => {
     try {
-      downloadFile("converted-json-csv-dnnr-dev", convertedData, "text/csv");
+      if (!convertedBuffer) return;
+      
+      let mimeType = "application/octet-stream";
+      if (outputFormat === "csv") mimeType = "text/csv";
+      else if (outputFormat === "xlsx") mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+      
+      downloadFile(
+        `converted-json-sheet-dnnr-dev.${outputFormat}`,
+        convertedBuffer,
+        mimeType
+      );
     } catch (err) {
       console.log("[!] Download:", err);
     }
-  }, [convertedData]);
+  }, [convertedBuffer, outputFormat]);
 
   const handleClear = useCallback(() => {
     setEntryData("");
-    setConvertedData("");
+    setConvertedBuffer(null);
     setCopySuccess(false);
     setReset(true);
   }, []);
@@ -66,18 +70,18 @@ export function JSONCSV() {
         using this tool.
       </PrivacyAlert>
       <form
-        id="jsoncsv"
+        id="jsonsheet"
         onSubmit={handleConvert}
         className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-800"
       >
         <div className="grid gap-3 pt-5 lg:grid-cols-form">
           <label
-            htmlFor="projects"
+            htmlFor="json-sheet"
             className="flex flex-col text-sm font-medium leading-relaxed text-zinc-100"
           >
-            JSON to CSV
+            JSON to Planilha
             <span className="text-sm font-normal text-zinc-500">
-              Convert JSON files to CSV in one click
+              Convert JSON files to Spreadsheets (XLS, XLSX, CSV, ODS) in one click. Input must be a valid JSON array of objects.
             </span>
           </label>
         </div>
@@ -91,7 +95,7 @@ export function JSONCSV() {
           />
           <span className="text-zinc-500">or</span>
           <FileInput.Root
-            id="csv-json"
+            id="json-sheet"
             className="flex flex-col items-start gap-5 lg:flex-row"
           >
             <FileInput.TriggerSelected reset={reset} />
@@ -101,12 +105,28 @@ export function JSONCSV() {
           </FileInput.Root>
         </div>
 
+        <div className="flex flex-col items-start gap-2 pt-5">
+          <label className="text-sm font-medium text-zinc-100">Select output format:</label>
+          <select 
+            className="w-[200px] bg-zinc-900 border border-zinc-700 text-zinc-100 rounded-md p-2"
+            value={outputFormat} 
+            onChange={(e) => setOutputFormat(e.target.value as XLSX.BookType)}
+          >
+            <option value="xlsx">XLSX</option>
+            <option value="xls">XLS</option>
+            <option value="csv">CSV</option>
+            <option value="ods">ODS</option>
+            <option value="tsv">TSV</option>
+          </select>
+        </div>
+
         <div className="flex items-center justify-start gap-2 pt-5">
           <Button
             type="submit"
-            form="jsoncsv"
+            form="jsonsheet"
             variant="primary"
             className="flex flex-row gap-2"
+            disabled={!entryData}
           >
             <Flame className="h-5 w-5 flex-shrink-0 text-white" />
             Convert
@@ -122,38 +142,21 @@ export function JSONCSV() {
           </Button>
         </div>
 
-        {convertedData ? (
+        {convertedBuffer ? (
           <>
-            <div className="flex flex-row items-center gap-4 pt-4">
-              <Textarea
-                name="convertedText"
-                id="convertedText"
-                value={convertedData}
-                disabled
-              />
+            <div className="flex bg-zinc-900/40 p-4 border border-zinc-800 rounded-md items-center gap-4 pt-4 text-emerald-400">
+              <CheckCheck className="h-5 w-5 flex-shrink-0" />
+              <span>Conversion successful! Ready to download.</span>
             </div>
             <div className="flex items-center justify-start gap-2 pt-5">
               <Button
-                type="submit"
-                form="jsoncsv"
+                type="button"
                 variant="primary"
                 className="flex flex-row gap-2"
                 onClick={handleDownload}
               >
                 <DownloadCloud className="h-5 w-5 flex-shrink-0 text-white" />
-                Download
-              </Button>
-              <Button
-                variant="outline"
-                className="flex flex-row gap-2"
-                onClick={handleCopyToClipboard}
-              >
-                {copySuccess ? (
-                  <CheckCheck className="h-5 w-5 flex-shrink-0 text-emerald-500" />
-                ) : (
-                  <Copy className="h-5 w-5 flex-shrink-0 text-zinc-500" />
-                )}
-                Copy to clipboard
+                Download {outputFormat.toUpperCase()}
               </Button>
             </div>
           </>
