@@ -51,7 +51,7 @@ This project is built using modern, robust web technologies:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/tools.dnnr.dev.git
+   git clone https://github.com/dennergazevedo/tools.dnnr.dev.git
    cd tools.dnnr.dev
    ```
 
