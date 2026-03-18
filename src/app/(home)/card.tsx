@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ElementType } from "react";
+import { ArrowRight } from "lucide-react";
 
 interface HomeCardProps {
   icon: ElementType;
@@ -17,22 +18,20 @@ export default function HomeCard({
   return (
     <Link
       href={href}
-      className="group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-neutral-900/50 p-6 transition-all hover:border-neutral-700 hover:bg-neutral-800/80 hover:shadow-premium"
+      className="group relative flex flex-col items-start gap-2 rounded-xl border border-border bg-neutral-900/40 p-4 transition-all hover:border-neutral-700 hover:bg-neutral-800/80 hover:shadow-premium"
     >
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all group-hover:bg-primary group-hover:text-white group-hover:shadow-highlight">
-        <Icon className="h-6 w-6" />
-      </div>
-      <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-bold text-foreground transition-colors group-hover:text-primary">
-          {label}
-        </h3>
+        <div className="flex items-center justify-start gap-2">
+          <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-primary/10 text-primary transition-all group-hover:bg-primary group-hover:text-white group-hover:shadow-highlight">
+            <Icon className="h-3 w-3" />
+          </div>
+          <h3 className="truncate font-semibold text-foreground transition-colors group-hover:text-primary">
+            {label}
+          </h3>
+          <ArrowRight className="h-3 w-3 shrink-0 -translate-x-2 text-primary opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+        </div>
         <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {description}
         </p>
-      </div>
-      <div className="mt-2 flex translate-x-[-10px] items-center text-xs font-bold text-primary opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100">
-        Try now →
-      </div>
     </Link>
   );
 }

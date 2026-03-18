@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import HomeCard from "./card";
+import FAQ from "./faq";
+import { HomeNavbar } from "./navbar";
 
 import {
   FileCode2,
@@ -15,44 +17,17 @@ import {
   ShieldCheck,
   Terminal,
   Sparkles,
-  Cpu,
   Database,
   Binary,
   Code2 as Code,
   Asterisk,
   Palette,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 
 const CATEGORIES = [
   {
-    title: "Produtividade",
-    tools: [
-      {
-        icon: ListChecks,
-        label: "To Do",
-        href: "/tools/todo",
-        description:
-          "Organize suas tarefas e aumente sua produtividade com nossa lista sincronizada.",
-      },
-      {
-        icon: Bookmark,
-        label: "Bookmarks",
-        href: "/tools/bookmark",
-        description:
-          "Salve seus links úteis e acesse-os de qualquer lugar com facilidade.",
-      },
-      {
-        icon: AlarmClock,
-        label: "Timer",
-        href: "/tools/timer",
-        description:
-          "Um cronômetro preciso para ajudar você a gerenciar seus blocos de foco.",
-      },
-    ],
-  },
-  {
-    title: "Desenvolvimento",
+    id: "texto-codigo",
+    title: "Texto e Código",
     tools: [
       {
         icon: Code2,
@@ -62,47 +37,17 @@ const CATEGORIES = [
           "Valide JSON e transforme em interfaces TypeScript automaticamente.",
       },
       {
-        icon: Palette,
-        label: "Color Picker",
-        href: "/tools/color-picker",
-        description:
-          "Escolha cores e veja seus valores em diferentes formatos.",
-      },
-      {
-        icon: Image,
-        label: "SVG Tools",
-        href: "/tools/svg",
-        description: "Converta SVG para PNG, ICO, WebP ou componentes React.",
-      },
-      {
         icon: GitCompare,
         label: "Diff Checker",
         href: "/tools/diffchecker",
         description:
           "Compare versões de texto e identifique mudanças com facilidade.",
       },
-      {
-        icon: AlarmClock,
-        label: "Cron",
-        href: "/tools/cron",
-        description:
-          "Crie e valide expressões cron para seus agendamentos com facilidade.",
-      },
     ],
   },
   {
-    title: "Geradores",
-    tools: [
-      {
-        icon: Sparkles,
-        label: "UUID & Senhas",
-        href: "/tools/generators",
-        description: "Gere UUIDs aleatórios e senhas seguras instantaneamente.",
-      },
-    ],
-  },
-  {
-    title: "Manipulação de Dados",
+    id: "conversores-encoders",
+    title: "Conversores e Encoders",
     tools: [
       {
         icon: Layers,
@@ -127,19 +72,86 @@ const CATEGORIES = [
       },
     ],
   },
+  {
+    id: "cores-imagens",
+    title: "Cores e Imagens",
+    tools: [
+      {
+        icon: Palette,
+        label: "Color Picker",
+        href: "/tools/color-picker",
+        description:
+          "Escolha cores e veja seus valores em diferentes formatos.",
+      },
+      {
+        icon: Image,
+        label: "SVG Tools",
+        href: "/tools/svg",
+        description: "Converta SVG para PNG, ICO, WebP ou componentes React.",
+      },
+    ],
+  },
+  {
+    id: "utilitarios-dev",
+    title: "Utilitários DEV",
+    tools: [
+      {
+        icon: AlarmClock,
+        label: "Cron",
+        href: "/tools/cron",
+        description:
+          "Crie e valide expressões cron para seus agendamentos com facilidade.",
+      },
+      {
+        icon: Sparkles,
+        label: "UUID & Senhas",
+        href: "/tools/generators",
+        description: "Gere UUIDs aleatórios e senhas seguras instantaneamente.",
+      },
+    ],
+  },
+  {
+    id: "organizacao-foco",
+    title: "Organização e Foco",
+    tools: [
+      {
+        icon: ListChecks,
+        label: "To Do",
+        href: "/tools/todo",
+        description:
+          "Organize suas tarefas e aumente sua produtividade com nossa lista sincronizada.",
+      },
+      {
+        icon: AlarmClock,
+        label: "Timer",
+        href: "/tools/timer",
+        description:
+          "Um cronômetro preciso para ajudar você a gerenciar seus blocos de foco.",
+      },
+      {
+        icon: Bookmark,
+        label: "Bookmarks",
+        href: "/tools/bookmark",
+        description:
+          "Salve seus links úteis e acesse-os de qualquer lugar com facilidade.",
+      },
+    ],
+  },
 ];
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-16 py-10">
+    <Fragment>
+      <HomeNavbar />
+      <div className="flex flex-col gap-12 py-10">
       {/* Hero Section */}
       <section className="flex flex-col items-center gap-6 text-center">
         <div className="mb-2 flex gap-2">
-          <span className="flex items-center gap-1 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-400">
+          <span className="flex items-center gap-1 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-sm font-medium text-sky-400">
             <ShieldCheck className="h-3 w-3" />
             100% privado
           </span>
-          <span className="flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400">
+          <span className="flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-400">
             <Terminal className="h-3 w-3" />
             ferramentas dev
           </span>
@@ -161,9 +173,9 @@ export default function Home() {
       </section>
 
       {/* Categories Grid */}
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-12">
         {CATEGORIES.map((category) => (
-          <section key={category.title} className="flex flex-col gap-8">
+          <section key={category.id} id={category.id} className="flex scroll-mt-24 flex-col gap-6">
             <div className="flex items-center gap-4">
               <h2 className="whitespace-nowrap text-xl font-semibold text-zinc-100">
                 {category.title}
@@ -171,7 +183,7 @@ export default function Home() {
               <div className="h-px w-full bg-gradient-to-r from-zinc-800 to-transparent" />
             </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {category.tools.map((tool) => (
                 <HomeCard
                   key={tool.href}
@@ -186,137 +198,64 @@ export default function Home() {
         ))}
       </div>
       {/* SEO Sections */}
-      <div className="mt-24 flex flex-col gap-12 border-t border-zinc-800/50 pt-24 text-zinc-400">
-        {/* Highlights Section */}
-        <section className="flex flex-col gap-12">
-          <div className="flex flex-col gap-4 text-center lg:text-left">
-            <h2 className="text-3xl font-bold text-zinc-100 md:text-4xl">
+      <div className="mt-12 flex flex-col gap-8 pt-8 text-zinc-400">
+        {/* Highlights — compact icon+text row */}
+        <section className="flex flex-col gap-3">
+          <div className="flex items-center gap-4">
+            <h2 className="whitespace-nowrap text-xl font-semibold text-zinc-100">
               Ferramentas Essenciais para Desenvolvedores
             </h2>
-            <p className="max-w-2xl text-zinc-500">
-              Descubra como nossos utilitários podem acelerar seu processo
-              criativo e técnico.
-            </p>
+            <div className="h-px w-full bg-gradient-to-r from-zinc-800 to-transparent" />
           </div>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div className="flex flex-col gap-4 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 p-8 transition-all hover:bg-zinc-900/40">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400">
-                <Database className="h-5 w-5" />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {[
+              { icon: Database, title: "Manipulação de Dados", text: "Converta planilhas e JSON com alta fidelidade de tipos." },
+              { icon: Binary, title: "Encoding & Debugging", text: "Base64, URI e mais — funciona 100% offline." },
+              { icon: Code, title: "Assets & Frontend", text: "SVG para PNG, ICO, WebP ou componente React instantaneamente." },
+            ].map(({ icon: Ic, title, text }) => (
+              <div key={title} className="flex items-start gap-3 rounded-xl border border-zinc-800/60 bg-zinc-900/20 p-4">
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+                  <Ic className="h-4 w-4" />
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-sm font-semibold text-zinc-200">{title}</span>
+                  <span className="text-sm leading-relaxed text-zinc-500">{text}</span>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-zinc-200">
-                Manipulação de Dados
-              </h3>
-              <p className="text-sm leading-relaxed">
-                Converta CSV para JSON com um clique. Garantimos a integridade
-                dos tipos de dados durante a conversão, facilitando a importação
-                em bancos ou APIs.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-4 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 p-8 transition-all hover:bg-zinc-900/40">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400">
-                <Binary className="h-5 w-5" />
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-200">
-                Encoding e Debugging
-              </h3>
-              <p className="text-sm leading-relaxed">
-                Codificadores Base64 e URI que funcionam offline. Verifique
-                headers de autenticação ou URLs complexas sem expor dados
-                sensíveis.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-4 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 p-8 transition-all hover:bg-zinc-900/40">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400">
-                <Code className="h-5 w-5" />
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-200">
-                Assets e Frontend
-              </h3>
-              <p className="text-sm leading-relaxed">
-                Nossas ferramentas de SVG preparam seus ícones para produção
-                instantaneamente, gerando componentes React prontos para uso.
-              </p>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* Features Grid */}
-        <section className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          <div className="group relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/40 p-8 shadow-premium transition-all hover:bg-zinc-900/60 md:p-12">
-            <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-sky-500/5 blur-3xl transition-all group-hover:bg-sky-500/10" />
-            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-400 ring-1 ring-sky-500/20">
-              <Sparkles className="h-6 w-6" />
-            </div>
-            <h2 className="mb-4 text-2xl font-bold text-zinc-100">
-              Por que usar o dnnr.dev?
-            </h2>
-            <p className="text-sm leading-relaxed md:text-base">
-              Como desenvolvedores, frequentemente precisamos de utilitários
-              rápidos para converter dados, formatar textos ou debugar códigos.
-              O dnnr.dev foi criado para ser o seu canivete suíço digital:
-              rápido, sem anúncios intrusivos e, acima de tudo, seguro.
+        {/* Privacy — single compact bar */}
+        <section className="flex flex-col items-center gap-4 rounded-xl border border-zinc-800/60 bg-zinc-900/20 p-5 text-center">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-base font-semibold text-zinc-200">Privacidade em Primeiro Lugar</h2>
+            <p className="mx-auto max-w-xl text-sm leading-relaxed text-zinc-500">
+              <strong className="text-zinc-400">dnnr.dev não envia seus dados para nenhum servidor.</strong>{" "}
+              Todo o processamento acontece localmente no seu navegador. Segredos, senhas e dados de clientes nunca saem da sua máquina.
             </p>
           </div>
-
-          <div className="group relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/40 p-8 shadow-premium transition-all hover:bg-zinc-900/60 md:p-12">
-            <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-emerald-500/5 blur-3xl transition-all group-hover:bg-emerald-500/10" />
-            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20">
-              <Cpu className="h-6 w-6" />
-            </div>
-            <h2 className="mb-4 text-2xl font-bold text-zinc-100">
-              Produtividade no Workflow
-            </h2>
-            <p className="text-sm leading-relaxed md:text-base">
-              Economize tempo integrando nossas ferramentas no seu dia a dia.
-              Seja gerando interfaces TypeScript a partir de um JSON ou
-              comparando diffs de código, cada ferramenta foi otimizada para
-              oferecer a melhor experiência DX possível.
-            </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {["No Server Processing", "No Tracking", "Open Source Spirit"].map((tag) => (
+              <span
+                key={tag}
+                className="flex items-center gap-1.5 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-sky-400"
+              >
+                <div className="h-1 w-1 rounded-full bg-sky-500" />
+                {tag}
+              </span>
+            ))}
           </div>
-        </section>
-
-        {/* Privacy Highlight */}
-        <section className="flex flex-col items-center gap-8 rounded-[2rem] border border-zinc-800 bg-zinc-900/40 p-8 text-center shadow-premium transition-all hover:bg-zinc-900/60 md:p-16">
-          <div className="flex flex-col gap-4">
-            <h2 className="text-3xl font-bold text-zinc-100 md:text-5xl">
-              Privacidade em Primeiro Lugar
-            </h2>
-            <p className="mx-auto max-w-3xl text-sm leading-relaxed text-zinc-400 md:text-lg">
-              Diferente de outros sites de utilitários web, o{" "}
-              <strong className="text-zinc-100">
-                dnnr.dev não envia seus dados para nenhum servidor
-              </strong>
-              . Todo o processamento acontece localmente no seu navegador. Isso
-              significa que segredos, senhas e dados de clientes nunca saem da
-              sua máquina.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4 pt-4">
-            {["No Server Processing", "No Tracking", "Open Source Spirit"].map(
-              (tag) => (
-                <span
-                  key={tag}
-                  className="flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-sky-400 transition-all hover:bg-sky-500/20"
-                >
-                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.5)]" />
-                  {tag}
-                </span>
-              )
-            )}
-          </div>
-
-          <Separator />
-
-          <span className="flex items-center gap-2 rounded-full text-xs text-neutral-600">
-            <Asterisk className="h-4 w-4" /> Exceto em ferramentas de
-            armazenamento proposital, como To-Do e Bookmarks.
+          <span className="flex items-center gap-1 text-[10px] text-neutral-600">
+            <Asterisk className="h-3 w-3" /> Exceto ferramentas de armazenamento proposital (To-Do, Bookmarks).
           </span>
         </section>
+
+
+        {/* FAQ */}
+        <FAQ />
       </div>
-    </div>
+      </div>
+    </Fragment>
   );
 }
