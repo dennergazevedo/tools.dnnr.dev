@@ -88,8 +88,8 @@ const CATEGORIES = [
     tools: [
       {
         icon: Palette,
-        label: "Color Picker",
-        href: "/tools/color-picker",
+        label: "Colors",
+        href: "/tools/colors",
         description:
           "Choose colors and see their values in different formats.",
       },

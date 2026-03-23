@@ -21,12 +21,17 @@ export function Menu() {
             <TabItem
               isSelected={currentTab === "picker"}
               value="picker"
-              title="Color Picker"
+              title="Picker"
             />
             <TabItem
               isSelected={currentTab === "palette"}
               value="palette"
               title="Palette Generator"
+            />
+            <TabItem
+              isSelected={currentTab === "contrast"}
+              value="contrast"
+              title="Contrast Checker"
             />
           </Tabs.List>
         </ScrollArea.Viewport>

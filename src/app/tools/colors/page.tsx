@@ -6,7 +6,7 @@ export default function ColorPickerPage() {
   return (
     <div className="flex flex-col">
       <PageHeader
-        title="Color Picker"
+        title="Colors"
         description="Pick, convert and experiment with different color formats."
         icon={Palette}
       />

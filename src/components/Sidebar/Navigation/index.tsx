@@ -69,8 +69,8 @@ export function Navigation({ onClose }: NavigationProps) {
       />
       <NavItem
         icon={Palette}
-        title="Color Picker"
-        to="/tools/color-picker"
+        title="Colors"
+        to="/tools/colors"
         onClose={onClose}
       />
       <NavItem
