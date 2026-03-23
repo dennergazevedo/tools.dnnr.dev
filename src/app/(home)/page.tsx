@@ -23,6 +23,7 @@ import {
   Asterisk,
   Palette,
 } from "lucide-react";
+import Link from "next/link";
 
 const CATEGORIES = [
   {
@@ -169,6 +170,12 @@ export default function Home() {
 
         <div className="mt-4 animate-bounce">
           <Zap className="h-6 w-6 text-sky-500 opacity-50" />
+        </div>
+
+        <div>
+          <Link href="/tools" className="bg-sky-500 text-white hover:bg-sky-600 p-4 px-8 rounded-full">
+            Ver ferramentas
+          </Link>
         </div>
       </section>
 

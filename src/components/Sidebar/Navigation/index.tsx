@@ -11,6 +11,7 @@ import {
   Palette,
   Sparkles,
   Rocket,
+  Regex,
 } from "lucide-react";
 
 import { NavItem } from "./NavItem";
@@ -48,6 +49,12 @@ export function Navigation({ onClose }: NavigationProps) {
         onClose={onClose}
       />
       <NavItem icon={Code2} title="JSON" to="/tools/json" onClose={onClose} />
+      <NavItem
+        icon={Regex}
+        title="Regex"
+        to="/tools/regex"
+        onClose={onClose}
+      />
       <NavItem
         icon={GitCompare}
         title="Diff Checker"
