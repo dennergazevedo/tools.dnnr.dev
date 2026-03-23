@@ -22,119 +22,128 @@ import {
   Code2 as Code,
   Asterisk,
   Palette,
+  Hammer,
+  Regex,
 } from "lucide-react";
 import Link from "next/link";
 
 const CATEGORIES = [
   {
     id: "texto-codigo",
-    title: "Texto e Código",
+    title: "Text and Code",
     tools: [
       {
         icon: Code2,
         label: "JSON",
         href: "/tools/json",
         description:
-          "Valide JSON e transforme em interfaces TypeScript automaticamente.",
+          "Validate JSON and transform it into TypeScript interfaces automatically.",
       },
       {
         icon: GitCompare,
         label: "Diff Checker",
         href: "/tools/diffchecker",
         description:
-          "Compare versões de texto e identifique mudanças com facilidade.",
+          "Compare text versions and easily identify changes.",
+      },
+      {
+        icon: Regex,
+        label: "Regex",
+        href: "/tools/regex",
+        description:
+          "Test, break down, and get human-readable explanations for your Regular Expressions.",
       },
     ],
   },
   {
     id: "conversores-encoders",
-    title: "Conversores e Encoders",
+    title: "Converters and Encoders",
     tools: [
       {
         icon: Layers,
         label: "Spreadsheet",
         href: "/tools/spreadsheet",
         description:
-          "Converta planilhas (XLS, XLSX, CSV, ODS) em JSON e vice-versa com alta precisão e facilidade.",
+          "Convert spreadsheets (XLS, XLSX, CSV, ODS) to JSON and vice versa with high precision and ease.",
       },
       {
         icon: Ampersands,
         label: "Base64",
         href: "/tools/base64",
         description:
-          "Codificação e decodificação Base64 confiável para seus dados.",
+          "Reliable Base64 encoding and decoding for your data.",
       },
       {
         icon: FileCode2,
         label: "URI",
         href: "/tools/uri",
         description:
-          "Codifique e decodifique URIs para transmissões seguras na web.",
+          "Encode and decode URIs for secure web transmissions.",
       },
     ],
   },
   {
     id: "cores-imagens",
-    title: "Cores e Imagens",
+    title: "Colors and Images",
     tools: [
       {
         icon: Palette,
         label: "Color Picker",
         href: "/tools/color-picker",
         description:
-          "Escolha cores e veja seus valores em diferentes formatos.",
+          "Choose colors and see their values in different formats.",
       },
       {
         icon: Image,
         label: "SVG Tools",
         href: "/tools/svg",
-        description: "Converta SVG para PNG, ICO, WebP ou componentes React.",
+        description: "Convert SVG to PNG, ICO, WebP, or React components.",
       },
     ],
   },
   {
     id: "utilitarios-dev",
-    title: "Utilitários DEV",
+    title: "DEV Utilities",
     tools: [
       {
         icon: AlarmClock,
         label: "Cron",
         href: "/tools/cron",
         description:
-          "Crie e valide expressões cron para seus agendamentos com facilidade.",
+          "Easily create and validate cron expressions for your schedules.",
       },
       {
         icon: Sparkles,
-        label: "UUID & Senhas",
+        label: "UUID & Passwords",
         href: "/tools/generators",
-        description: "Gere UUIDs aleatórios e senhas seguras instantaneamente.",
+        description: "Generate random UUIDs and secure passwords instantly.",
       },
     ],
   },
   {
     id: "organizacao-foco",
-    title: "Organização e Foco",
+    title: "Organization and Focus",
     tools: [
       {
         icon: ListChecks,
         label: "To Do",
         href: "/tools/todo",
         description:
-          "Organize suas tarefas e aumente sua produtividade com nossa lista sincronizada.",
+          "Organize your tasks and boost your productivity with our synchronized list.",
       },
       {
         icon: AlarmClock,
         label: "Timer",
         href: "/tools/timer",
         description:
-          "Um cronômetro preciso para ajudar você a gerenciar seus blocos de foco.",
+          "A precise timer to help you manage your focus blocks.",
       },
       {
         icon: Bookmark,
         label: "Bookmarks",
         href: "/tools/bookmark",
         description:
-          "Salve seus links úteis e acesse-os de qualquer lugar com facilidade.",
+          "Save your useful links and access them from anywhere with ease.",
       },
     ],
   },
@@ -150,22 +159,22 @@ export default function Home() {
         <div className="mb-2 flex gap-2">
           <span className="flex items-center gap-1 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-sm font-medium text-sky-400">
             <ShieldCheck className="h-3 w-3" />
-            100% privado
+            100% private
           </span>
           <span className="flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-400">
             <Terminal className="h-3 w-3" />
-            ferramentas dev
+            dev tools
           </span>
         </div>
 
         <h1 className="max-w-4xl bg-gradient-to-r from-white via-zinc-200 to-zinc-500 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent md:text-6xl">
-          Ferramentas Web Gratuitas que Respeitam Sua Privacidade
+          Free Web Tools That Respect Your Privacy
         </h1>
 
         <p className="max-w-2xl text-lg leading-relaxed text-zinc-400 md:text-xl">
-          Sua privacidade é nossa prioridade. Processamos todos os dados
-          localmente no seu navegador, garantindo que nada saia do seu
-          dispositivo.
+          Your privacy is our priority. We process all data
+          locally in your browser, ensuring nothing leaves your
+          device.
         </p>
 
         <div className="mt-4 animate-bounce">
@@ -173,8 +182,9 @@ export default function Home() {
         </div>
 
         <div>
-          <Link href="/tools" className="bg-sky-500 text-white hover:bg-sky-600 p-4 px-8 rounded-full">
-            Ver ferramentas
+          <Link href="/tools" className="flex items-center gap-2 bg-sky-500 text-white hover:bg-sky-600 p-3 px-8 rounded-full">
+            <Hammer className="h-4 w-4" />
+            Get started
           </Link>
         </div>
       </section>
@@ -210,15 +220,15 @@ export default function Home() {
         <section className="flex flex-col gap-3">
           <div className="flex items-center gap-4">
             <h2 className="whitespace-nowrap text-xl font-semibold text-zinc-100">
-              Ferramentas Essenciais para Desenvolvedores
+              Essential Tools for Developers
             </h2>
             <div className="h-px w-full bg-gradient-to-r from-zinc-800 to-transparent" />
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[
-              { icon: Database, title: "Manipulação de Dados", text: "Converta planilhas e JSON com alta fidelidade de tipos." },
-              { icon: Binary, title: "Encoding & Debugging", text: "Base64, URI e mais — funciona 100% offline." },
-              { icon: Code, title: "Assets & Frontend", text: "SVG para PNG, ICO, WebP ou componente React instantaneamente." },
+              { icon: Database, title: "Data Manipulation", text: "Convert spreadsheets and JSON with high type fidelity." },
+              { icon: Binary, title: "Encoding & Debugging", text: "Base64, URI and more — works 100% offline." },
+              { icon: Code, title: "Assets & Frontend", text: "SVG to PNG, ICO, WebP, or React component instantly." },
             ].map(({ icon: Ic, title, text }) => (
               <div key={title} className="flex items-start gap-3 rounded-xl border border-zinc-800/60 bg-zinc-900/20 p-4">
                 <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
@@ -236,10 +246,10 @@ export default function Home() {
         {/* Privacy — single compact bar */}
         <section className="flex flex-col items-center gap-4 rounded-xl border border-zinc-800/60 bg-zinc-900/20 p-5 text-center">
           <div className="flex flex-col gap-1">
-            <h2 className="text-base font-semibold text-zinc-200">Privacidade em Primeiro Lugar</h2>
+            <h2 className="text-base font-semibold text-zinc-200">Privacy First</h2>
             <p className="mx-auto max-w-xl text-sm leading-relaxed text-zinc-500">
-              <strong className="text-zinc-400">dnnr.dev não envia seus dados para nenhum servidor.</strong>{" "}
-              Todo o processamento acontece localmente no seu navegador. Segredos, senhas e dados de clientes nunca saem da sua máquina.
+              <strong className="text-zinc-400">dnnr.dev does not send your data to any server.</strong>{" "}
+              All processing happens locally in your browser. Secrets, passwords, and client data never leave your machine.
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-2">
@@ -254,7 +264,7 @@ export default function Home() {
             ))}
           </div>
           <span className="flex items-center gap-1 text-[10px] text-neutral-600">
-            <Asterisk className="h-3 w-3" /> Exceto ferramentas de armazenamento proposital (To-Do, Bookmarks).
+            <Asterisk className="h-3 w-3" /> Except purposeful storage tools (To-Do, Bookmarks).
           </span>
         </section>
 

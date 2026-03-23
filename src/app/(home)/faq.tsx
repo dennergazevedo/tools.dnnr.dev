@@ -5,28 +5,28 @@ import { ChevronDown } from "lucide-react";
 
 const FAQ_ITEMS = [
   {
-    q: "Por que usar o dnnr.dev?",
-    a: "Criado por devs para devs: sem anúncios intrusivos, sem coleta de dados, sem cadastro obrigatório. Todas as ferramentas funcionam direto no browser, então você tem resultados instantâneos sem depender de uma conexão ou de um servidor externo.",
+    q: "Why use dnnr.dev?",
+    a: "Built by devs for devs: no intrusive ads, no data collection, no mandatory registration. All tools work directly in the browser, providing instant results without requiring an external server or internet connection.",
   },
   {
-    q: "Meus dados são enviados para algum servidor?",
-    a: "Não. Todo o processamento acontece localmente no seu navegador. Segredos de API, senhas, JSONs confidenciais e quaisquer outros dados que você inserir nunca saem da sua máquina — exceto nas ferramentas de armazenamento intencional (To-Do e Bookmarks), que sincronizam apenas com sua conta caso você esteja logado.",
+    q: "Is my data sent to any server?",
+    a: "No. All processing happens locally in your browser. API secrets, passwords, confidential JSONs, and any other data you enter never leave your machine — except in intentional storage tools (To-Do and Bookmarks), which only sync with your account if you are logged in.",
   },
   {
-    q: "Preciso criar uma conta para usar as ferramentas?",
-    a: "Não. A grande maioria das ferramentas funciona sem nenhum cadastro. Criar uma conta é opcional e serve apenas para sincronizar dados entre dispositivos em ferramentas como To-Do e Bookmarks.",
+    q: "Do I need to create an account to use the tools?",
+    a: "No. The vast majority of the tools work without any registration. Creating an account is optional and serves only to sync data between devices in tools like To-Do and Bookmarks.",
   },
   {
-    q: "As ferramentas funcionam offline?",
-    a: "Sim! Uma vez carregada a página, ferramentas como Base64, URI Encoder, JSON Validator, Diff Checker e outras funcionam completamente offline. Apenas funcionalidades com sincronização em nuvem exigem conexão.",
+    q: "Do the tools work offline?",
+    a: "Yes! Once the page is loaded, tools like Base64, URI Encoder, JSON Validator, Diff Checker, and others work completely offline. Only cloud-sync features require a connection.",
   },
   {
-    q: "Com que frequência novas ferramentas são adicionadas?",
-    a: "O dnnr.dev é desenvolvido ativamente. Novas ferramentas são adicionadas conforme a necessidade dos usuários e da comunidade. Se você tem uma sugestão, pode entrar em contato!",
+    q: "How often are new tools added?",
+    a: "dnnr.dev is actively developed. New tools are added based on the needs of users and the community. If you have a suggestion, feel free to reach out!",
   },
   {
-    q: "As ferramentas são gratuitas?",
-    a: "Sim, completamente gratuitas. O objetivo do dnnr.dev é ser um recurso acessível para todos os desenvolvedores, sem planos pagos ou funcionalidades ocultas.",
+    q: "Are the tools free?",
+    a: "Yes, completely free. The goal of dnnr.dev is to be an accessible resource for all developers, with no paid plans or hidden features.",
   },
 ];
 
@@ -37,15 +37,15 @@ export default function FAQ() {
     <section className="flex flex-col gap-3 mt-12">
       <div className="flex items-center gap-4">
         <h2 className="whitespace-nowrap text-xl font-semibold text-zinc-100">
-          Perguntas Frequentes
+          Frequently Asked Questions
         </h2>
         <div className="h-px w-full bg-gradient-to-r from-zinc-800 to-transparent" />
       </div>
       <span className="text-sm text-zinc-500 mb-4">
-        Respostas rápidas para as dúvidas mais comuns sobre o tools.dnnr.dev. 
-        Nosso objetivo é tornar o uso das ferramentas simples e direto, 
-        então reunimos aqui tudo o que você precisa saber — Se ainda restar alguma dúvida, 
-        você pode explorar as ferramentas livremente ou entrar em contato para saber mais.
+        Quick answers to the most common questions about tools.dnnr.dev. 
+        Our goal is to make using the tools simple and straightforward, 
+        so we've gathered everything you need to know here. If you still have questions, 
+        you can freely explore the tools or contact us to learn more.
       </span>
       <div className="flex flex-col divide-y divide-zinc-800/60 overflow-hidden">
         {FAQ_ITEMS.map((item, i) => (

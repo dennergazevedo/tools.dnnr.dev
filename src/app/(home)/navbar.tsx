@@ -17,31 +17,31 @@ export function HomeNavbar() {
             href="#texto-codigo"
             className="transition-colors hover:text-zinc-100"
           >
-            Texto e Código
+            Text and Code
           </a>
           <a
             href="#conversores-encoders"
             className="transition-colors hover:text-zinc-100"
           >
-            Conversores
+            Converters
           </a>
           <a
             href="#cores-imagens"
             className="transition-colors hover:text-zinc-100"
           >
-            Cores e Imagens
+            Colors and Images
           </a>
           <a
             href="#utilitarios-dev"
             className="transition-colors hover:text-zinc-100"
           >
-            Utilitários DEV
+            DEV Utilities
           </a>
           <a
             href="#organizacao-foco"
             className="transition-colors hover:text-zinc-100"
           >
-            Organização
+            Organization
           </a>
         </div>
       </div>
