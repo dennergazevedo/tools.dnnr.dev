@@ -68,6 +68,12 @@ export function Navigation({ onClose }: NavigationProps) {
         onClose={onClose}
       />
       <NavItem
+        icon={Image}
+        title="Image Tools"
+        to="/tools/image"
+        onClose={onClose}
+      />
+      <NavItem
         icon={Palette}
         title="Colors"
         to="/tools/colors"

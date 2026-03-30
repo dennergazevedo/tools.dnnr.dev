@@ -99,6 +99,12 @@ const CATEGORIES = [
         href: "/tools/svg",
         description: "Convert SVG to PNG, ICO, WebP, or React components.",
       },
+      {
+        icon: Image,
+        label: "Image Tools",
+        href: "/tools/image",
+        description: "Convert images to different formats and sizes.",
+      },
     ],
   },
   {
