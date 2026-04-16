@@ -1,7 +1,17 @@
 "use client";
 
 import { Fragment, useState, useRef, useCallback, useMemo } from "react";
-import { Upload, Search, X, ChevronDown, ChevronRight, Clock, FileText } from "lucide-react";
+import {
+  Upload,
+  Search,
+  X,
+  ChevronDown,
+  ChevronRight,
+  Clock,
+  FileText,
+  Copy,
+  Check,
+} from "lucide-react";
 import { PrivacyAlert } from "@/components/ui/privacy-alert";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -23,6 +33,12 @@ interface HarHeader {
   value: string;
 }
 
+interface HarPostData {
+  mimeType: string;
+  text?: string;
+  params?: { name: string; value: string }[];
+}
+
 interface HarEntry {
   startedDateTime: string;
   time: number;
@@ -30,6 +46,7 @@ interface HarEntry {
     method: string;
     url: string;
     headers: HarHeader[];
+    postData?: HarPostData;
   };
   response: {
     status: number;
@@ -45,7 +62,15 @@ interface HarData {
   log: { entries: HarEntry[] };
 }
 
-type FilterType = "all" | "xhr" | "js" | "css" | "img" | "media" | "other" | "errors";
+type FilterType =
+  | "all"
+  | "xhr"
+  | "js"
+  | "css"
+  | "img"
+  | "media"
+  | "other"
+  | "errors";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -61,11 +86,36 @@ const FILTERS: { label: string; value: FilterType; isError?: boolean }[] = [
 ];
 
 const TIMING_PHASES = [
-  { key: "dns" as const,     label: "DNS Lookup",         color: "bg-blue-500",   dot: "#3b82f6" },
-  { key: "connect" as const, label: "Initial Connection", color: "bg-purple-500", dot: "#a855f7" },
-  { key: "ssl" as const,     label: "SSL/TLS",            color: "bg-pink-500",   dot: "#ec4899" },
-  { key: "wait" as const,    label: "Waiting (TTFB)",     color: "bg-amber-500",  dot: "#f59e0b" },
-  { key: "receive" as const, label: "Content Download",   color: "bg-emerald-500",dot: "#10b981" },
+  {
+    key: "dns" as const,
+    label: "DNS Lookup",
+    color: "bg-blue-500",
+    dot: "#3b82f6",
+  },
+  {
+    key: "connect" as const,
+    label: "Initial Connection",
+    color: "bg-purple-500",
+    dot: "#a855f7",
+  },
+  {
+    key: "ssl" as const,
+    label: "SSL/TLS",
+    color: "bg-pink-500",
+    dot: "#ec4899",
+  },
+  {
+    key: "wait" as const,
+    label: "Waiting (TTFB)",
+    color: "bg-amber-500",
+    dot: "#f59e0b",
+  },
+  {
+    key: "receive" as const,
+    label: "Content Download",
+    color: "bg-emerald-500",
+    dot: "#10b981",
+  },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -73,13 +123,16 @@ const TIMING_PHASES = [
 function getResourceType(entry: HarEntry): string {
   if (entry._resourceType) return entry._resourceType.toLowerCase();
   // Strip parameters like "; charset=utf-8" before matching
-  const mime = (entry.response.content.mimeType ?? "").split(";")[0].trim().toLowerCase();
+  const mime = (entry.response.content.mimeType ?? "")
+    .split(";")[0]
+    .trim()
+    .toLowerCase();
   // Most-specific checks first — order matters to avoid false matches
-  if (mime.startsWith("image/")) return "image";                          // image/svg+xml must not hit xml check
+  if (mime.startsWith("image/")) return "image"; // image/svg+xml must not hit xml check
   if (mime.startsWith("audio/") || mime.startsWith("video/")) return "media";
   if (mime.includes("javascript")) return "script";
   if (mime.includes("css")) return "stylesheet";
-  if (mime.includes("html")) return "document";                           // xhtml+xml must not hit xml check
+  if (mime.includes("html")) return "document"; // xhtml+xml must not hit xml check
   if (mime.includes("json") || mime.includes("xml")) return "xhr";
   if (mime.includes("font") || mime.includes("woff")) return "font";
   return "other";
@@ -95,7 +148,18 @@ function matchesFilter(entry: HarEntry, filter: FilterType): boolean {
   if (filter === "img") return ["image", "img"].includes(t);
   if (filter === "media") return t === "media";
   // "other" = anything not covered by a dedicated filter
-  return !["xhr","fetch","script","js","stylesheet","css","image","img","media","document"].includes(t);
+  return ![
+    "xhr",
+    "fetch",
+    "script",
+    "js",
+    "stylesheet",
+    "css",
+    "image",
+    "img",
+    "media",
+    "document",
+  ].includes(t);
 }
 
 function statusDot(status: number) {
@@ -114,8 +178,11 @@ function statusText(status: number) {
 
 function methodColor(method: string) {
   const map: Record<string, string> = {
-    GET: "text-amber-400", POST: "text-orange-400", PUT: "text-purple-400",
-    DELETE: "text-red-400", PATCH: "text-yellow-400",
+    GET: "text-amber-400",
+    POST: "text-orange-400",
+    PUT: "text-purple-400",
+    DELETE: "text-red-400",
+    PATCH: "text-yellow-400",
   };
   return map[method?.toUpperCase()] ?? "text-zinc-400";
 }
@@ -128,7 +195,10 @@ function formatMs(ms: number) {
 function parseUrl(url: string) {
   try {
     const p = new URL(url);
-    return { domain: p.hostname, path: p.pathname + (p.search.length > 1 ? p.search : "") };
+    return {
+      domain: p.hostname,
+      path: p.pathname + (p.search.length > 1 ? p.search : ""),
+    };
   } catch {
     return { domain: "", path: url };
   }
@@ -136,8 +206,15 @@ function parseUrl(url: string) {
 
 function formatTime(iso: string) {
   try {
-    return new Date(iso).toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
-  } catch { return ""; }
+    return new Date(iso).toLocaleTimeString("en-US", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  } catch {
+    return "";
+  }
 }
 
 function clamp(v: number, lo: number, hi: number) {
@@ -162,9 +239,14 @@ function TimelineHeader({ totalRange }: { totalRange: number }) {
             key={i}
             style={{
               left: `${pct}%`,
-              transform: i === 0 ? "none" : i === n - 1 ? "translateX(-100%)" : "translateX(-50%)",
+              transform:
+                i === 0
+                  ? "none"
+                  : i === n - 1
+                  ? "translateX(-100%)"
+                  : "translateX(-50%)",
             }}
-            className="absolute text-[9px] whitespace-nowrap text-zinc-600"
+            className="absolute whitespace-nowrap text-[9px] text-zinc-600"
           >
             {i === 0 ? "0ms" : formatMs(ms)}
           </span>
@@ -216,6 +298,102 @@ function WaterfallBar({
   );
 }
 
+function RequestBodySection({ postData }: { postData: HarPostData }) {
+  const [copied, setCopied] = useState(false);
+  const [shown, setShown] = useState(true);
+
+  const isJson = postData.mimeType.includes("json");
+  const isForm = postData.mimeType.includes("form");
+
+  const formattedText = (() => {
+    if (isJson && postData.text) {
+      try {
+        return JSON.stringify(JSON.parse(postData.text), null, 2);
+      } catch {
+        return postData.text;
+      }
+    }
+    return postData.text ?? "";
+  })();
+
+  const copyText =
+    isForm && postData.params
+      ? postData.params.map((p) => `${p.name}=${p.value}`).join("\n")
+      : formattedText;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(copyText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  };
+
+  return (
+    <div className="rounded-lg border border-zinc-800 bg-zinc-900/40">
+      <button
+        onClick={() => setShown((v) => !v)}
+        className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-zinc-300"
+      >
+        <span>
+          Request Body
+          <span className="ml-2 text-[10px] font-normal text-zinc-500">
+            {postData.mimeType.split(";")[0]}
+          </span>
+        </span>
+        <div className="flex items-center gap-2">
+          <span
+            role="button"
+            tabIndex={0}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCopy();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.stopPropagation();
+                handleCopy();
+              }
+            }}
+            className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-zinc-500 transition-colors hover:bg-zinc-700 hover:text-zinc-300"
+          >
+            {copied ? (
+              <Check className="h-3 w-3 text-emerald-400" />
+            ) : (
+              <Copy className="h-3 w-3" />
+            )}
+            {copied ? "Copied" : "Copy"}
+          </span>
+          {shown ? (
+            <ChevronDown className="h-4 w-4 text-zinc-500" />
+          ) : (
+            <ChevronRight className="h-4 w-4 text-zinc-500" />
+          )}
+        </div>
+      </button>
+      {shown && (
+        <div className="border-t border-zinc-800">
+          {isForm && postData.params ? (
+            <div className="max-h-52 overflow-y-auto px-4 py-3">
+              {postData.params.map((p, i) => (
+                <div key={i} className="flex gap-2 py-0.5 text-xs">
+                  <span className="shrink-0 text-sky-400">{p.name}:</span>
+                  <span className="break-all text-zinc-400">{p.value}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-all px-4 py-3 font-mono text-xs text-zinc-300">
+              {formattedText || (
+                <span className="text-zinc-600">(empty)</span>
+              )}
+            </pre>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function EntryDetail({ entry }: { entry: HarEntry }) {
   const [showReq, setShowReq] = useState(false);
   const [showRes, setShowRes] = useState(false);
@@ -231,51 +409,110 @@ function EntryDetail({ entry }: { entry: HarEntry }) {
       {/* Left: URL + stats + timings */}
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">URL</span>
-          <span className="break-all text-xs text-zinc-300">{entry.request.url}</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            URL
+          </span>
+          <span className="break-all text-xs text-zinc-300">
+            {entry.request.url}
+          </span>
         </div>
 
         <div className="grid grid-cols-3 gap-2">
           {[
-            { label: "Status", value: `${entry.response.status} ${entry.response.statusText}`, className: statusText(entry.response.status) },
-            { label: "Total", value: formatMs(entry.time), className: "text-zinc-200" },
-            { label: "Type", value: entry.response.content.mimeType.split(";")[0], className: "text-zinc-200" },
+            {
+              label: "Status",
+              value: `${entry.response.status} ${entry.response.statusText}`,
+              className: statusText(entry.response.status),
+            },
+            {
+              label: "Total",
+              value: formatMs(entry.time),
+              className: "text-zinc-200",
+            },
+            {
+              label: "Type",
+              value: entry.response.content.mimeType.split(";")[0],
+              className: "text-zinc-200",
+            },
           ].map(({ label, value, className }) => (
-            <div key={label} className="flex flex-col gap-1 rounded-lg border border-zinc-800 bg-zinc-900 p-3">
+            <div
+              key={label}
+              className="flex flex-col gap-1 rounded-lg border border-zinc-800 bg-zinc-900 p-3"
+            >
               <span className="text-[10px] text-zinc-500">{label}</span>
-              <span className={`font-mono text-xs font-bold ${className}`}>{value}</span>
+              <span className={`font-mono text-xs font-bold ${className}`}>
+                {value}
+              </span>
             </div>
           ))}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Timings</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            Timings
+          </span>
           {timingRows.map((r) => (
-            <div key={r.key} className="flex items-center justify-between rounded-lg bg-zinc-900/60 px-3 py-1.5">
+            <div
+              key={r.key}
+              className="flex items-center justify-between rounded-lg bg-zinc-900/60 px-3 py-1.5"
+            >
               <div className="flex items-center gap-2">
                 <div className={`h-2 w-2 rounded-full ${r.color}`} />
                 <span className="text-xs text-zinc-400">{r.label}</span>
               </div>
-              <span className="font-mono text-xs text-zinc-300">{formatMs(r.ms ?? 0)}</span>
+              <span className="font-mono text-xs text-zinc-300">
+                {formatMs(r.ms ?? 0)}
+              </span>
             </div>
           ))}
           <div className="flex items-center justify-between rounded-lg bg-zinc-800/80 px-3 py-1.5">
             <span className="text-xs font-semibold text-zinc-300">Total</span>
-            <span className="font-mono text-xs font-bold text-zinc-200">{formatMs(entry.time)}</span>
+            <span className="font-mono text-xs font-bold text-zinc-200">
+              {formatMs(entry.time)}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Right: headers */}
+      {/* Right: body + headers */}
       <div className="flex flex-col gap-3">
+        {entry.request.postData && (
+          <RequestBodySection postData={entry.request.postData} />
+        )}
         {[
-          { label: "Request Headers", count: entry.request.headers.length, headers: entry.request.headers, shown: showReq, toggle: () => setShowReq((v) => !v), nameColor: "text-amber-400" },
-          { label: "Response Headers", count: entry.response.headers.length, headers: entry.response.headers, shown: showRes, toggle: () => setShowRes((v) => !v), nameColor: "text-emerald-400" },
+          {
+            label: "Request Headers",
+            count: entry.request.headers.length,
+            headers: entry.request.headers,
+            shown: showReq,
+            toggle: () => setShowReq((v) => !v),
+            nameColor: "text-amber-400",
+          },
+          {
+            label: "Response Headers",
+            count: entry.response.headers.length,
+            headers: entry.response.headers,
+            shown: showRes,
+            toggle: () => setShowRes((v) => !v),
+            nameColor: "text-emerald-400",
+          },
         ].map(({ label, count, headers, shown, toggle, nameColor }) => (
-          <div key={label} className="rounded-lg border border-zinc-800 bg-zinc-900/40">
-            <button onClick={toggle} className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-zinc-300">
-              <span>{label} ({count})</span>
-              {shown ? <ChevronDown className="h-4 w-4 text-zinc-500" /> : <ChevronRight className="h-4 w-4 text-zinc-500" />}
+          <div
+            key={label}
+            className="rounded-lg border border-zinc-800 bg-zinc-900/40"
+          >
+            <button
+              onClick={toggle}
+              className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-zinc-300"
+            >
+              <span>
+                {label} ({count})
+              </span>
+              {shown ? (
+                <ChevronDown className="h-4 w-4 text-zinc-500" />
+              ) : (
+                <ChevronRight className="h-4 w-4 text-zinc-500" />
+              )}
             </button>
             {shown && (
               <div className="max-h-52 overflow-y-auto border-t border-zinc-800 px-4 py-3">
@@ -344,9 +581,30 @@ export function HarViewer() {
   }, [entries]);
 
   const filterCounts = useMemo<Record<FilterType, number>>(() => {
-    const c = { all: entries.length, xhr: 0, js: 0, css: 0, img: 0, media: 0, other: 0, errors: 0 };
-    const keys: FilterType[] = ["xhr", "js", "css", "img", "media", "other", "errors"];
-    entries.forEach((entry) => keys.forEach((f) => { if (matchesFilter(entry, f)) c[f]++; }));
+    const c = {
+      all: entries.length,
+      xhr: 0,
+      js: 0,
+      css: 0,
+      img: 0,
+      media: 0,
+      other: 0,
+      errors: 0,
+    };
+    const keys: FilterType[] = [
+      "xhr",
+      "js",
+      "css",
+      "img",
+      "media",
+      "other",
+      "errors",
+    ];
+    entries.forEach((entry) =>
+      keys.forEach((f) => {
+        if (matchesFilter(entry, f)) c[f]++;
+      })
+    );
     return c;
   }, [entries]);
 
@@ -354,7 +612,11 @@ export function HarViewer() {
     const q = search.toLowerCase();
     return entries
       .map((e, i) => ({ entry: e, idx: i }))
-      .filter(({ entry: e }) => matchesFilter(e, activeFilter) && (!q || e.request.url.toLowerCase().includes(q)));
+      .filter(
+        ({ entry: e }) =>
+          matchesFilter(e, activeFilter) &&
+          (!q || e.request.url.toLowerCase().includes(q))
+      );
   }, [entries, activeFilter, search]);
 
   const reset = () => {
@@ -370,12 +632,16 @@ export function HarViewer() {
     return (
       <Fragment>
         <PrivacyAlert>
-          HAR files are parsed entirely in your browser. Nothing is uploaded to any server.
+          HAR files are parsed entirely in your browser. Nothing is uploaded to
+          any server.
         </PrivacyAlert>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragging(true);
+          }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
@@ -390,17 +656,22 @@ export function HarViewer() {
           </div>
           <div className="text-center">
             <p className="text-lg font-medium text-zinc-200">
-              Click or drag your <span className="font-mono text-amber-400">.har</span> file here
+              Click or drag your{" "}
+              <span className="font-mono text-amber-400">.har</span> file here
             </p>
             <p className="mt-1 text-sm text-zinc-500">
-              Export from Chrome / Firefox DevTools → Network tab → Save all as HAR
+              Export from Chrome / Firefox DevTools → Network tab → Save all as
+              HAR
             </p>
           </div>
           <input
             ref={fileInputRef}
             type="file"
             accept=".har,application/json"
-            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) handleFile(f);
+            }}
             className="hidden"
           />
         </motion.div>
@@ -416,7 +687,10 @@ export function HarViewer() {
         {FILTERS.map((f) => (
           <button
             key={f.value}
-            onClick={() => { setActiveFilter(f.value); setExpandedKey(null); }}
+            onClick={() => {
+              setActiveFilter(f.value);
+              setExpandedKey(null);
+            }}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-all ${
               activeFilter === f.value
                 ? f.isError
@@ -430,7 +704,9 @@ export function HarViewer() {
               <span
                 className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
                   activeFilter === f.value
-                    ? f.isError ? "bg-red-500/30 text-red-300" : "bg-amber-500/30 text-amber-300"
+                    ? f.isError
+                      ? "bg-red-500/30 text-red-300"
+                      : "bg-amber-500/30 text-amber-300"
                     : "bg-zinc-700 text-zinc-400"
                 }`}
               >
@@ -451,7 +727,9 @@ export function HarViewer() {
       {/* Legend + summary */}
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-3">
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">Legend</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+            Legend
+          </span>
           {TIMING_PHASES.map((p) => (
             <div key={p.key} className="flex items-center gap-1.5">
               <div className={`h-2.5 w-2.5 rounded-full ${p.color}`} />
@@ -474,8 +752,11 @@ export function HarViewer() {
           type="text"
           placeholder="Filter by URL..."
           value={search}
-          onChange={(e) => { setSearch(e.target.value); setExpandedKey(null); }}
-          className="flex-1 bg-transparent text-sm text-zinc-200 placeholder-zinc-600 outline-none"
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setExpandedKey(null);
+          }}
+          className="flex-1 border-none bg-transparent text-sm text-zinc-200 placeholder-zinc-600 outline-none"
         />
         {search && (
           <button onClick={() => setSearch("")}>
@@ -488,8 +769,13 @@ export function HarViewer() {
       <div className="overflow-x-auto rounded-xl border border-zinc-800">
         {/* Header */}
         <div className="grid min-w-[900px] grid-cols-[80px_64px_88px_1fr_280px_72px] border-b border-zinc-800 bg-zinc-900/60 px-3 py-2">
-          {(["STATUS", "METHOD", "STARTED", "REQUEST", "", "TOTAL"] as const).map((col, i) => (
-            <div key={i} className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+          {(
+            ["STATUS", "METHOD", "STARTED", "REQUEST", "", "TOTAL"] as const
+          ).map((col, i) => (
+            <div
+              key={i}
+              className="text-[10px] font-bold uppercase tracking-widest text-zinc-500"
+            >
               {col === "" ? <TimelineHeader totalRange={totalRange} /> : col}
             </div>
           ))}
@@ -514,17 +800,35 @@ export function HarViewer() {
                     onClick={() => setExpandedKey(isExpanded ? null : key)}
                     className={`grid w-full min-w-[900px] grid-cols-[80px_64px_88px_1fr_280px_72px] items-center px-3 py-2.5 text-left transition-colors ${
                       isError ? "hover:bg-red-950/25" : "hover:bg-zinc-800/40"
-                    } ${isExpanded ? (isError ? "bg-red-950/20" : "bg-zinc-800/30") : ""}`}
+                    } ${
+                      isExpanded
+                        ? isError
+                          ? "bg-red-950/20"
+                          : "bg-zinc-800/30"
+                        : ""
+                    }`}
                   >
                     {/* Status */}
                     <div className="flex items-center gap-1.5">
-                      <div className={`h-2 w-2 shrink-0 rounded-full ${statusDot(entry.response.status)}`} />
-                      <span className={`font-mono text-sm font-medium ${statusText(entry.response.status)}`}>
+                      <div
+                        className={`h-2 w-2 shrink-0 rounded-full ${statusDot(
+                          entry.response.status
+                        )}`}
+                      />
+                      <span
+                        className={`font-mono text-sm font-medium ${statusText(
+                          entry.response.status
+                        )}`}
+                      >
                         {entry.response.status || "—"}
                       </span>
                     </div>
                     {/* Method */}
-                    <span className={`text-xs font-bold ${methodColor(entry.request.method)}`}>
+                    <span
+                      className={`text-xs font-bold ${methodColor(
+                        entry.request.method
+                      )}`}
+                    >
                       {entry.request.method}
                     </span>
                     {/* Started */}
@@ -533,12 +837,20 @@ export function HarViewer() {
                     </span>
                     {/* Request URL */}
                     <div className="flex min-w-0 flex-col pr-4">
-                      <span className="truncate text-xs font-medium text-zinc-300">{domain}</span>
-                      <span className="truncate text-xs text-zinc-500">{path}</span>
+                      <span className="truncate text-xs font-medium text-zinc-300">
+                        {domain}
+                      </span>
+                      <span className="truncate text-xs text-zinc-500">
+                        {path}
+                      </span>
                     </div>
                     {/* Waterfall */}
                     <div className="relative h-8">
-                      <WaterfallBar entry={entry} minStart={minStart} totalRange={totalRange} />
+                      <WaterfallBar
+                        entry={entry}
+                        minStart={minStart}
+                        totalRange={totalRange}
+                      />
                     </div>
                     {/* Total */}
                     <span className="text-right font-mono text-xs text-zinc-300">
