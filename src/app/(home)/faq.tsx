@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FAQ_ITEMS = [
   {
@@ -34,38 +35,50 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="flex flex-col gap-3 mt-12">
+    <section className="mt-12 flex flex-col gap-3">
       <div className="flex items-center gap-4">
-        <h2 className="whitespace-nowrap text-xl font-semibold text-zinc-100">
+        <h2 className="whitespace-nowrap text-xl font-semibold text-neutral-100">
           Frequently Asked Questions
         </h2>
-        <div className="h-px w-full bg-gradient-to-r from-zinc-800 to-transparent" />
+        <div className="h-px w-full bg-gradient-to-r from-neutral-800 to-transparent" />
       </div>
-      <span className="text-sm text-zinc-500 mb-4">
-        Quick answers to the most common questions about tools.dnnr.dev. 
-        Our goal is to make using the tools simple and straightforward, 
-        so we've gathered everything you need to know here. If you still have questions, 
+      <span className="mb-4 text-sm text-neutral-500">
+        Quick answers to the most common questions about tools.dnnr.dev.
+        Our goal is to make using the tools simple and straightforward,
+        so we've gathered everything you need to know here. If you still have questions,
         you can freely explore the tools or contact us to learn more.
       </span>
-      <div className="flex flex-col divide-y divide-zinc-800/60 overflow-hidden">
+      <div className="flex flex-col divide-y divide-neutral-800/60 overflow-hidden">
         {FAQ_ITEMS.map((item, i) => (
           <div key={i}>
             <button
               onClick={() => setOpen(open === i ? null : i)}
-              className="flex w-full items-center justify-between gap-4 px-0 py-3 text-left transition-colors hover:bg-zinc-900/40"
+              className="flex w-full items-center justify-between gap-4 px-0 py-3 text-left transition-colors"
             >
-              <span className="text-sm font-medium text-zinc-200">{item.q}</span>
-              <ChevronDown
-                className={`h-4 w-4 shrink-0 text-zinc-500 transition-transform duration-200 ${
-                  open === i ? "rotate-180" : ""
-                }`}
-              />
+              <span className="text-sm font-medium text-neutral-200">{item.q}</span>
+              <motion.div
+                animate={{ rotate: open === i ? 180 : 0 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <ChevronDown className="h-4 w-4 shrink-0 text-neutral-500" />
+              </motion.div>
             </button>
-            {open === i && (
-              <p className="px-4 pb-4 pt-1 text-xs leading-relaxed text-zinc-500">
-                {item.a}
-              </p>
-            )}
+            <AnimatePresence initial={false}>
+              {open === i && (
+                <motion.div
+                  key="faq-content"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <p className="px-1 pb-4 pt-1 text-xs leading-relaxed text-neutral-500">
+                    {item.a}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         ))}
       </div>

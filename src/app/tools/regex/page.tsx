@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function RegexPage() {
   return (
-    <div className="flex flex-col gap-6 w-full max-w-5xl mx-auto">
+    <div className="flex flex-col">
       <PageHeader
         title="Regex Tool"
         description="Test your regular expressions against text and understand what they do."

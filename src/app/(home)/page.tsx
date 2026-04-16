@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import HomeCard from "./card";
 import FAQ from "./faq";
 import { HomeNavbar } from "./navbar";
+import { HeroBackground } from "./hero-background";
+import { CommandPalette } from "./command-palette";
 
 import {
   FileCode2,
@@ -22,11 +24,9 @@ import {
   Code2 as Code,
   Asterisk,
   Palette,
-  Hammer,
   Regex,
   Network,
 } from "lucide-react";
-import Link from "next/link";
 
 const CATEGORIES = [
   {
@@ -169,8 +169,10 @@ export default function Home() {
       <HomeNavbar />
       <div className="flex flex-col gap-12 py-10">
         {/* Hero Section */}
-        <section className="flex flex-col items-center gap-6 text-center">
-          <div className="animate-hero-1 mb-2 flex gap-2">
+        <section className="relative flex flex-col items-center gap-6 overflow-hidden rounded-2xl py-4 text-center">
+          <HeroBackground />
+
+          <div className="animate-hero-1 relative z-10 mb-2 flex gap-2">
             <span className="flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-sm font-medium text-amber-400">
               <ShieldCheck className="h-3 w-3" />
               100% private
@@ -181,25 +183,22 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="animate-hero-2 max-w-4xl bg-gradient-to-b from-neutral-100 via-neutral-200 to-neutral-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-6xl">
+          <h1 className="animate-hero-2 relative z-10 max-w-4xl bg-gradient-to-b from-neutral-100 via-neutral-200 to-neutral-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-6xl">
             Free Web Tools That Respect Your Privacy
           </h1>
 
-          <p className="animate-hero-3 max-w-2xl text-lg leading-relaxed text-neutral-400 md:text-xl">
+          <p className="animate-hero-3 relative z-10 max-w-2xl text-lg leading-relaxed text-neutral-400 md:text-xl">
             Your privacy is our priority. We process all data
             locally in your browser, ensuring nothing leaves your
             device.
           </p>
 
-          <div className="animate-hero-4">
+          <div className="animate-hero-4 relative z-10">
             <Zap className="h-5 w-5 text-amber-500 opacity-60" />
           </div>
 
-          <div className="animate-hero-5">
-            <Link href="/tools" className="group flex items-center gap-2 rounded-full bg-amber-500 px-8 py-3 font-semibold text-neutral-950 shadow-highlight transition-all hover:bg-amber-400 active:scale-95">
-              <Hammer className="h-4 w-4" />
-              Get started
-            </Link>
+          <div className="animate-hero-5 relative z-10">
+            <CommandPalette />
           </div>
         </section>
 
@@ -218,7 +217,7 @@ export default function Home() {
                 {category.tools.map((tool) => (
                   <HomeCard
                     key={tool.href}
-                    icon={tool.icon}
+                    icon={<tool.icon className="h-3.5 w-3.5" />}
                     label={tool.label}
                     href={tool.href}
                     description={tool.description}
