@@ -12,6 +12,7 @@ import {
   Sparkles,
   Rocket,
   Regex,
+  Network,
 } from "lucide-react";
 
 import { NavItem } from "./NavItem";
@@ -103,6 +104,12 @@ export function Navigation({ onClose }: NavigationProps) {
         icon={Layers}
         title="Spreadsheet"
         to="/tools/spreadsheet"
+        onClose={onClose}
+      />
+      <NavItem
+        icon={Network}
+        title="HAR Viewer"
+        to="/tools/har"
         onClose={onClose}
       />
     </nav>

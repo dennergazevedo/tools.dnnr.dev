@@ -24,6 +24,7 @@ import {
   Palette,
   Hammer,
   Regex,
+  Network,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -123,6 +124,13 @@ const CATEGORIES = [
         label: "UUID & Passwords",
         href: "/tools/generators",
         description: "Generate random UUIDs and secure passwords instantly.",
+      },
+      {
+        icon: Network,
+        label: "HAR Viewer",
+        href: "/tools/har",
+        description:
+          "Inspect .har files visually — requests, status codes, timings, and headers at a glance.",
       },
     ],
   },
