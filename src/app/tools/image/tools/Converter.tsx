@@ -10,7 +10,45 @@ const SUPPORTED_FORMATS = [
   { label: "PNG", value: "image/png", ext: "png" },
   { label: "JPEG", value: "image/jpeg", ext: "jpg" },
   { label: "WEBP", value: "image/webp", ext: "webp" },
+  { label: "ICO", value: "image/x-icon", ext: "ico" },
 ];
+
+async function convertToIco(canvas: HTMLCanvasElement): Promise<Blob> {
+  const size = Math.min(canvas.width, canvas.height, 256);
+  const icoCanvas = document.createElement("canvas");
+  icoCanvas.width = size;
+  icoCanvas.height = size;
+  const ctx = icoCanvas.getContext("2d");
+  if (!ctx) throw new Error("Could not get canvas context");
+  ctx.drawImage(canvas, 0, 0, size, size);
+
+  const pngBlob = await new Promise<Blob>((resolve, reject) => {
+    icoCanvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png");
+  });
+
+  const pngData = new Uint8Array(await pngBlob.arrayBuffer());
+  const buffer = new ArrayBuffer(6 + 16 + pngData.byteLength);
+  const view = new DataView(buffer);
+
+  // ICONDIR header
+  view.setUint16(0, 0, true); // reserved
+  view.setUint16(2, 1, true); // type: ICO
+  view.setUint16(4, 1, true); // image count
+
+  // ICONDIRENTRY
+  view.setUint8(6, size === 256 ? 0 : size); // width (0 = 256)
+  view.setUint8(7, size === 256 ? 0 : size); // height (0 = 256)
+  view.setUint8(8, 0);  // color count
+  view.setUint8(9, 0);  // reserved
+  view.setUint16(10, 1, true);  // color planes
+  view.setUint16(12, 32, true); // bits per pixel
+  view.setUint32(14, pngData.byteLength, true); // image data size
+  view.setUint32(18, 22, true); // offset (6 + 16)
+
+  new Uint8Array(buffer, 22).set(pngData);
+
+  return new Blob([buffer], { type: "image/x-icon" });
+}
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -65,6 +103,15 @@ export function Converter() {
       if (!ctx) throw new Error("Could not get canvas context");
 
       ctx.drawImage(img, 0, 0);
+
+      if (outputFormat === "image/x-icon") {
+        const blob = await convertToIco(canvas);
+        const url = URL.createObjectURL(blob);
+        setConvertedUrl(url);
+        setIsProcessing(false);
+        toast.success("Image converted successfully!");
+        return;
+      }
 
       canvas.toBlob((blob) => {
         if (blob) {
@@ -173,7 +220,7 @@ export function Converter() {
                     <label className="text-xs font-semibold text-zinc-500">
                       Output Format
                     </label>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-2 gap-2">
                       {SUPPORTED_FORMATS.map((format) => (
                         <button
                           key={format.value}
