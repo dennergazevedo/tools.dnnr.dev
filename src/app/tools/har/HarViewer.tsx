@@ -72,14 +72,16 @@ const TIMING_PHASES = [
 
 function getResourceType(entry: HarEntry): string {
   if (entry._resourceType) return entry._resourceType.toLowerCase();
-  const mime = (entry.response.content.mimeType ?? "").toLowerCase();
-  if (mime.includes("json") || mime.includes("xml")) return "xhr";
+  // Strip parameters like "; charset=utf-8" before matching
+  const mime = (entry.response.content.mimeType ?? "").split(";")[0].trim().toLowerCase();
+  // Most-specific checks first — order matters to avoid false matches
+  if (mime.startsWith("image/")) return "image";                          // image/svg+xml must not hit xml check
+  if (mime.startsWith("audio/") || mime.startsWith("video/")) return "media";
   if (mime.includes("javascript")) return "script";
   if (mime.includes("css")) return "stylesheet";
-  if (mime.startsWith("image/")) return "image";
-  if (mime.startsWith("audio/") || mime.startsWith("video/")) return "media";
-  if (mime.includes("html")) return "document";
-  if (mime.includes("font")) return "font";
+  if (mime.includes("html")) return "document";                           // xhtml+xml must not hit xml check
+  if (mime.includes("json") || mime.includes("xml")) return "xhr";
+  if (mime.includes("font") || mime.includes("woff")) return "font";
   return "other";
 }
 
@@ -142,8 +144,8 @@ function clamp(v: number, lo: number, hi: number) {
   return Math.max(lo, Math.min(hi, v));
 }
 
-function entryKey(e: HarEntry) {
-  return `${e.startedDateTime}-${e.request.url}`;
+function entryKey(idx: number) {
+  return String(idx);
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -350,9 +352,9 @@ export function HarViewer() {
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return entries.filter(
-      (e) => matchesFilter(e, activeFilter) && (!q || e.request.url.toLowerCase().includes(q))
-    );
+    return entries
+      .map((e, i) => ({ entry: e, idx: i }))
+      .filter(({ entry: e }) => matchesFilter(e, activeFilter) && (!q || e.request.url.toLowerCase().includes(q)));
   }, [entries, activeFilter, search]);
 
   const reset = () => {
@@ -500,8 +502,8 @@ export function HarViewer() {
               No requests match the current filter.
             </div>
           ) : (
-            filtered.map((entry) => {
-              const key = entryKey(entry);
+            filtered.map(({ entry, idx }) => {
+              const key = entryKey(idx);
               const isExpanded = expandedKey === key;
               const isError = entry.response.status >= 400;
               const { domain, path } = parseUrl(entry.request.url);
