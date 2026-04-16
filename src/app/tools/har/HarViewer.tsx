@@ -52,7 +52,7 @@ interface HarEntry {
     status: number;
     statusText: string;
     headers: HarHeader[];
-    content: { mimeType: string; size: number };
+    content: { mimeType: string; size: number; text?: string };
   };
   timings: HarTimings;
   _resourceType?: string;
@@ -394,6 +394,99 @@ function RequestBodySection({ postData }: { postData: HarPostData }) {
   );
 }
 
+function ResponseBodySection({
+  content,
+}: {
+  content: HarEntry["response"]["content"];
+}) {
+  const [copied, setCopied] = useState(false);
+  const [shown, setShown] = useState(true);
+
+  if (!content.text) return null;
+
+  const isJson = content.mimeType.includes("json");
+  const isXml =
+    content.mimeType.includes("xml") && !content.mimeType.includes("html");
+
+  const formattedText = (() => {
+    if (isJson) {
+      try {
+        return JSON.stringify(JSON.parse(content.text), null, 2);
+      } catch {
+        return content.text;
+      }
+    }
+    return content.text;
+  })();
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(formattedText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  };
+
+  return (
+    <div className="rounded-lg border border-zinc-800 bg-zinc-900/40">
+      <button
+        onClick={() => setShown((v) => !v)}
+        className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-zinc-300"
+      >
+        <span>
+          Response Body
+          <span className="ml-2 text-[10px] font-normal text-zinc-500">
+            {content.mimeType.split(";")[0]}
+          </span>
+        </span>
+        <div className="flex items-center gap-2">
+          <span
+            role="button"
+            tabIndex={0}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCopy();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.stopPropagation();
+                handleCopy();
+              }
+            }}
+            className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-zinc-500 transition-colors hover:bg-zinc-700 hover:text-zinc-300"
+          >
+            {copied ? (
+              <Check className="h-3 w-3 text-emerald-400" />
+            ) : (
+              <Copy className="h-3 w-3" />
+            )}
+            {copied ? "Copied" : "Copy"}
+          </span>
+          {shown ? (
+            <ChevronDown className="h-4 w-4 text-zinc-500" />
+          ) : (
+            <ChevronRight className="h-4 w-4 text-zinc-500" />
+          )}
+        </div>
+      </button>
+      {shown && (
+        <div className="border-t border-zinc-800">
+          <pre
+            className={`max-h-64 overflow-auto whitespace-pre-wrap break-all px-4 py-3 font-mono text-xs ${
+              isJson
+                ? "text-emerald-300"
+                : isXml
+                ? "text-sky-300"
+                : "text-zinc-300"
+            }`}
+          >
+            {formattedText || <span className="text-zinc-600">(empty)</span>}
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function EntryDetail({ entry }: { entry: HarEntry }) {
   const [showReq, setShowReq] = useState(false);
   const [showRes, setShowRes] = useState(false);
@@ -479,6 +572,7 @@ function EntryDetail({ entry }: { entry: HarEntry }) {
         {entry.request.postData && (
           <RequestBodySection postData={entry.request.postData} />
         )}
+        <ResponseBodySection content={entry.response.content} />
         {[
           {
             label: "Request Headers",
