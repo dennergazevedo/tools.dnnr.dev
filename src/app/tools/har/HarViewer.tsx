@@ -114,7 +114,7 @@ function statusText(status: number) {
 
 function methodColor(method: string) {
   const map: Record<string, string> = {
-    GET: "text-sky-400", POST: "text-orange-400", PUT: "text-purple-400",
+    GET: "text-amber-400", POST: "text-orange-400", PUT: "text-purple-400",
     DELETE: "text-red-400", PATCH: "text-yellow-400",
   };
   return map[method?.toUpperCase()] ?? "text-zinc-400";
@@ -269,7 +269,7 @@ function EntryDetail({ entry }: { entry: HarEntry }) {
       {/* Right: headers */}
       <div className="flex flex-col gap-3">
         {[
-          { label: "Request Headers", count: entry.request.headers.length, headers: entry.request.headers, shown: showReq, toggle: () => setShowReq((v) => !v), nameColor: "text-sky-400" },
+          { label: "Request Headers", count: entry.request.headers.length, headers: entry.request.headers, shown: showReq, toggle: () => setShowReq((v) => !v), nameColor: "text-amber-400" },
           { label: "Response Headers", count: entry.response.headers.length, headers: entry.response.headers, shown: showRes, toggle: () => setShowRes((v) => !v), nameColor: "text-emerald-400" },
         ].map(({ label, count, headers, shown, toggle, nameColor }) => (
           <div key={label} className="rounded-lg border border-zinc-800 bg-zinc-900/40">
@@ -381,16 +381,16 @@ export function HarViewer() {
           onClick={() => fileInputRef.current?.click()}
           className={`group mt-6 flex cursor-pointer flex-col items-center justify-center gap-5 rounded-2xl border-2 border-dashed p-16 transition-all ${
             isDragging
-              ? "border-sky-500 bg-sky-500/5"
-              : "border-zinc-800 bg-zinc-900/20 hover:border-sky-500/50 hover:bg-zinc-900/40"
+              ? "border-amber-500 bg-amber-500/5"
+              : "border-zinc-800 bg-zinc-900/20 hover:border-amber-500/50 hover:bg-zinc-900/40"
           }`}
         >
           <div className="rounded-full bg-zinc-800 p-4 transition-transform group-hover:scale-110">
-            <FileText className="h-8 w-8 text-zinc-400 group-hover:text-sky-400" />
+            <FileText className="h-8 w-8 text-zinc-400 group-hover:text-amber-400" />
           </div>
           <div className="text-center">
             <p className="text-lg font-medium text-zinc-200">
-              Click or drag your <span className="font-mono text-sky-400">.har</span> file here
+              Click or drag your <span className="font-mono text-amber-400">.har</span> file here
             </p>
             <p className="mt-1 text-sm text-zinc-500">
               Export from Chrome / Firefox DevTools → Network tab → Save all as HAR
@@ -421,7 +421,7 @@ export function HarViewer() {
               activeFilter === f.value
                 ? f.isError
                   ? "bg-red-500/20 text-red-400 ring-1 ring-red-500/40"
-                  : "bg-sky-500/20 text-sky-400 ring-1 ring-sky-500/40"
+                  : "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/40"
                 : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
             }`}
           >
@@ -430,7 +430,7 @@ export function HarViewer() {
               <span
                 className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
                   activeFilter === f.value
-                    ? f.isError ? "bg-red-500/30 text-red-300" : "bg-sky-500/30 text-sky-300"
+                    ? f.isError ? "bg-red-500/30 text-red-300" : "bg-amber-500/30 text-amber-300"
                     : "bg-zinc-700 text-zinc-400"
                 }`}
               >

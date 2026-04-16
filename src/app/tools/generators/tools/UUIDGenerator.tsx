@@ -60,7 +60,7 @@ export function UUIDGenerator() {
                     Math.min(50, Math.max(1, parseInt(e.target.value) || 1))
                   )
                 }
-                className="w-24 rounded-lg border border-zinc-800 bg-zinc-950 p-2 text-center font-mono text-sm text-zinc-100 focus:border-sky-500 focus:outline-none"
+                className="w-24 rounded-lg border border-zinc-800 bg-zinc-950 p-2 text-center font-mono text-sm text-zinc-100 focus:border-amber-500 focus:outline-none"
               />
             </div>
             <Button
@@ -76,7 +76,7 @@ export function UUIDGenerator() {
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-sky-400">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-amber-400">
               Result
             </h3>
             {uuids.length > 0 && (

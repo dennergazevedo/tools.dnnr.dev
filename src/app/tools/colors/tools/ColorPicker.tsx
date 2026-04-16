@@ -250,11 +250,11 @@ export function ColorPicker() {
                 type="text"
                 value={hex}
                 onChange={(e) => updateColorFromHex(e.target.value)}
-                className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 font-mono text-zinc-100 transition-all focus:outline-none focus:ring-2 focus:ring-sky-500/50"
+                className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 font-mono text-zinc-100 transition-all focus:outline-none focus:ring-2 focus:ring-amber-500/50"
               />
               <button
                 onClick={() => handleCopy(hex, "hex")}
-                className="absolute right-3 rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-sky-500/10 hover:text-sky-500"
+                className="absolute right-3 rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-amber-500/10 hover:text-amber-500"
                 title="Copy HEX"
               >
                 {copyStatus["hex"] ? (
@@ -277,11 +277,11 @@ export function ColorPicker() {
                   type="text"
                   value={rgb}
                   onChange={(e) => updateColorFromRgb(e.target.value)}
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-3 py-2 font-mono text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-sky-500/50"
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-3 py-2 font-mono text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-amber-500/50"
                 />
                 <button
                   onClick={() => handleCopy(rgb, "rgb")}
-                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-sky-500"
+                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-amber-500"
                 >
                   {copyStatus["rgb"] ? (
                     <CheckCheck size={16} className="text-emerald-500" />
@@ -302,11 +302,11 @@ export function ColorPicker() {
                   type="text"
                   value={cmyk}
                   onChange={(e) => updateColorFromCmyk(e.target.value)}
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-3 py-2 font-mono text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-sky-500/50"
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-3 py-2 font-mono text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-amber-500/50"
                 />
                 <button
                   onClick={() => handleCopy(cmyk, "cmyk")}
-                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-sky-500"
+                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-amber-500"
                 >
                   {copyStatus["cmyk"] ? (
                     <CheckCheck size={16} className="text-emerald-500" />
@@ -331,7 +331,7 @@ export function ColorPicker() {
                 />
                 <button
                   onClick={() => handleCopy(hsl, "hsl")}
-                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-sky-500"
+                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-amber-500"
                 >
                   {copyStatus["hsl"] ? (
                     <CheckCheck size={16} className="text-emerald-500" />
@@ -356,7 +356,7 @@ export function ColorPicker() {
                 />
                 <button
                   onClick={() => handleCopy(hsv, "hsv")}
-                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-sky-500"
+                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-amber-500"
                 >
                   {copyStatus["hsv"] ? (
                     <CheckCheck size={16} className="text-emerald-500" />
@@ -378,11 +378,11 @@ export function ColorPicker() {
                   type="text"
                   value={oklchValue}
                   onChange={(e) => updateColorFromOklch(e.target.value)}
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-3 py-2 font-mono text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-sky-500/50"
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-3 py-2 font-mono text-sm text-zinc-200 focus:outline-none focus:ring-1 focus:ring-amber-500/50"
                 />
                 <button
                   onClick={() => handleCopy(oklchValue, "oklch")}
-                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-sky-500"
+                  className="absolute right-2 rounded-md p-1 text-zinc-500 transition-colors hover:text-amber-500"
                 >
                   {copyStatus["oklch"] ? (
                     <CheckCheck size={16} className="text-emerald-500" />

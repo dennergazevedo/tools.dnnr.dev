@@ -17,7 +17,7 @@ export function PrivacyAlert({
 }: PrivacyAlertProps) {
   return (
     <Alert className={`${className} border-neutral-800 bg-neutral-900/50`}>
-      <ShieldCheck className="h-4 w-4 text-sky-500" />
+      <ShieldCheck className="h-4 w-4 text-amber-500" />
       <AlertTitle className="text-foreground">{title}</AlertTitle>
       <AlertDescription className="text-muted-foreground">
         {children}

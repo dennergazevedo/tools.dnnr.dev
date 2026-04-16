@@ -32,7 +32,7 @@ export default function TimerControl({
               <PopoverTrigger asChild>
                 <Button
                   variant="primary"
-                  className="gap-2 shadow-lg shadow-sky-500/20 transition-all active:scale-95"
+                  className="gap-2 shadow-lg shadow-amber-500/20 transition-all active:scale-95"
                 >
                   <Timer className="h-4 w-4 flex-shrink-0" />
                   Set timer
@@ -70,7 +70,7 @@ export default function TimerControl({
             <Button
               onClick={startTimer}
               variant="primary"
-              className="h-12 gap-2 rounded-full px-8 shadow-lg shadow-sky-500/20 transition-all active:scale-95"
+              className="h-12 gap-2 rounded-full px-8 shadow-lg shadow-amber-500/20 transition-all active:scale-95"
             >
               <Play className="h-5 w-5 fill-current" />
               Start Focus

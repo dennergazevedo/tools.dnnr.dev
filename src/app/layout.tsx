@@ -2,12 +2,12 @@ import "./globals.css";
 
 import Script from "next/script";
 import { ReactNode } from "react";
-import { Ubuntu } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { Toaster } from "sonner";
 import { AuthContextProvider } from "./auth/context";
 
-const ubuntu = Ubuntu({
-  weight: ["400", "500", "700"],
+const outfit = Outfit({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   preload: true,
 });
@@ -19,7 +19,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-br">
-      <body className={`${ubuntu.className} min-h-screen`}>
+      <body className={`${outfit.className} min-h-screen`}>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-PR3L6CCNJE"
           strategy="afterInteractive"
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
         </Script>
         <AuthContextProvider>
-          <Toaster />
+          <Toaster richColors />
           {children}
         </AuthContextProvider>
       </body>

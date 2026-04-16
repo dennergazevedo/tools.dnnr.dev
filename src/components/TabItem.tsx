@@ -29,16 +29,16 @@ export function TabItem({ title, value, isSelected }: TabItemProps) {
   return (
     <Tabs.Trigger
       value={value}
-      className="group relative px-1 pb-4 text-sm font-medium leading-5 text-zinc-500 outline-none data-[state=active]:text-sky-500 hover:text-zinc-200"
+      className="group relative px-1 pb-4 text-sm font-medium leading-5 text-neutral-500 outline-none transition-colors data-[state=active]:text-amber-500 hover:text-neutral-200"
     >
-      <span className="whitespace-nowrap rounded group-focus-visible:ring-2 group-focus-visible:ring-sky-400 group-focus-visible:ring-offset-4">
+      <span className="whitespace-nowrap rounded group-focus-visible:ring-2 group-focus-visible:ring-amber-400 group-focus-visible:ring-offset-4">
         {title}
       </span>
 
       {isSelected && (
         <motion.div
           layoutId="activeTab"
-          className="absolute -bottom-px left-0 right-0 h-0.5 bg-sky-700"
+          className="absolute -bottom-px left-0 right-0 h-0.5 bg-amber-500"
         />
       )}
     </Tabs.Trigger>

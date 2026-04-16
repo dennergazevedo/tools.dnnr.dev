@@ -128,7 +128,7 @@ export default function Register() {
             Don't have an account?{" "}
             <Link
               href="/auth/register"
-              className="font-semibold text-primary transition-colors hover:text-sky-400"
+              className="font-semibold text-primary transition-colors hover:text-amber-400"
             >
               Sign up
             </Link>

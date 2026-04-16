@@ -16,14 +16,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {children}
         </main>
 
-        <footer className="border-t border-zinc-800/50 py-8 text-center text-sm text-zinc-500">
+        <footer className="border-t border-neutral-800/50 py-8 text-center text-sm text-neutral-500">
           <p>
             © {new Date().getFullYear()} Direitos reservados. Feito por{" "}
             <a
               href="https://dnnr.dev"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer border-b border-zinc-800 font-medium text-zinc-300 transition-colors hover:border-sky-500/50 hover:text-sky-400"
+              className="cursor-pointer border-b border-neutral-800 font-medium text-neutral-300 transition-colors hover:border-amber-500/50 hover:text-amber-400"
             >
               dnnr.dev
             </a>

@@ -212,7 +212,7 @@ export function JSONValidator() {
 
                 {error.suggestion && (
                   <div className="rounded-lg border border-neutral-700 bg-neutral-800/80 p-3 text-sm">
-                    <p className="mb-1 font-bold italic text-sky-400">
+                    <p className="mb-1 font-bold italic text-amber-400">
                       Suggestion:
                     </p>
                     <p className="text-neutral-300">{error.suggestion}</p>

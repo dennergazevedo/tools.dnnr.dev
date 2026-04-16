@@ -57,7 +57,7 @@ export function PasswordGenerator() {
                 max="64"
                 value={length}
                 onChange={(e) => setLength(parseInt(e.target.value))}
-                className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-800 accent-sky-500"
+                className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-zinc-800 accent-amber-500"
               />
             </div>
 
@@ -87,7 +87,7 @@ export function PasswordGenerator() {
                     type="checkbox"
                     checked={opt.val}
                     onChange={(e) => opt.set(e.target.checked)}
-                    className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-sky-500 focus:ring-sky-500 focus:ring-offset-zinc-900"
+                    className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-amber-500 focus:ring-amber-500 focus:ring-offset-zinc-900"
                   />
                   {opt.label}
                 </label>
@@ -106,7 +106,7 @@ export function PasswordGenerator() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-sky-400">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-amber-400">
             Generated Password
           </h3>
           <div className="flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-6">

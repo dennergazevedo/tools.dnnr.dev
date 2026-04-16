@@ -9,8 +9,8 @@
   --card-foreground: 250 250 250;
   --popover: 10 10 10;
   --popover-foreground: 250 250 250;
-  --primary: 14 165 233;
-  --primary-foreground: 255 255 255;
+  --primary: 245 158 11;
+  --primary-foreground: 10 10 10;
   --secondary: 23 23 23;
   --secondary-foreground: 250 250 250;
   --muted: 38 38 38;
@@ -21,7 +21,7 @@
   --destructive-foreground: 255 255 255;
   --border: 38 38 38;
   --input: 38 38 38;
-  --ring: 14 165 233;
+  --ring: 245 158 11;
   --radius: 0.75rem;
 }
 
@@ -44,10 +44,40 @@ body {
 
 .hero-glow {
   background: radial-gradient(
-    ellipse 600px 400px at 50% 0%,
-    oklch(0.62 0.22 275 / 0.12),
+    ellipse 700px 450px at 50% 0%,
+    oklch(0.75 0.16 80 / 0.10),
     transparent
   );
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-1 {
+  animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-hero-2 {
+  animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+.animate-hero-3 {
+  animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+}
+.animate-hero-4 {
+  animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+.animate-hero-5 {
+  animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
+}
+.animate-hero-6 {
+  animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.40s both;
 }
 
 ::-webkit-scrollbar {
@@ -61,12 +91,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #999;
+  background: #555;
   border-radius: 20px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #707070;
+  background: #777;
 }
 
 html {

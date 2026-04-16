@@ -20,7 +20,7 @@ export function Background({
       {showGlow && (
         <div className={cn("hero-glow fixed inset-0", glowClassName)} />
       )}
-      {showGrid && <div className="bg-grid fixed inset-0 opacity-30" />}
+      {showGrid && <div className="bg-grid fixed inset-0 opacity-20" />}
     </div>
   );
 }

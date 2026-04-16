@@ -71,14 +71,14 @@ export default async function ToDo() {
             Your tasks will not be saved. To save your data in the cloud and
             access it from any device, please{" "}
             <Link
-              className="font-bold text-white underline hover:text-sky-600"
+              className="font-bold text-white underline hover:text-amber-500"
               href="/auth/login"
             >
               log in
             </Link>{" "}
             or{" "}
             <Link
-              className="font-bold text-white underline hover:text-sky-600"
+              className="font-bold text-white underline hover:text-amber-500"
               href="/auth/register"
             >
               register

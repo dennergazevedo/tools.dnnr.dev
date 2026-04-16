@@ -124,7 +124,7 @@ export function DiffChecker() {
         {diffResult.length > 0 && (
           <div className="flex flex-col gap-4 pt-8">
             <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-              <Split className="h-4 w-4 text-sky-500" />
+              <Split className="h-4 w-4 text-amber-500" />
               Difference Result
             </div>
             <div className="overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950 font-mono text-sm leading-relaxed">

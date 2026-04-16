@@ -161,10 +161,10 @@ export function Converter() {
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className="group flex cursor-pointer flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-900/20 p-12 transition-all hover:border-sky-500/50 hover:bg-zinc-900/40"
+              className="group flex cursor-pointer flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-900/20 p-12 transition-all hover:border-amber-500/50 hover:bg-zinc-900/40"
             >
               <div className="rounded-full bg-zinc-800 p-4 transition-transform group-hover:scale-110">
-                <Upload className="h-8 w-8 text-zinc-400 group-hover:text-sky-400" />
+                <Upload className="h-8 w-8 text-zinc-400 group-hover:text-amber-400" />
               </div>
               <div className="text-center">
                 <p className="text-lg font-medium text-zinc-200">
@@ -230,7 +230,7 @@ export function Converter() {
                           }}
                           className={`rounded-lg border p-3 text-sm font-medium transition-all ${
                             outputFormat === format.value
-                              ? "border-sky-500 bg-sky-500/10 text-sky-400"
+                              ? "border-amber-500 bg-amber-500/10 text-amber-400"
                               : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:border-zinc-700"
                           }`}
                         >

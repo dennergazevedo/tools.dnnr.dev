@@ -51,7 +51,7 @@ export default function TimerClock() {
 
       <div className="relative flex h-[340px] w-[340px] items-center justify-center md:h-[400px] md:w-[400px]">
         {/* Outer Ring */}
-        <div className="absolute inset-0 rounded-full border-[12px] border-zinc-800/50 shadow-2xl shadow-sky-500/10" />
+        <div className="absolute inset-0 rounded-full border-[12px] border-zinc-800/50 shadow-2xl shadow-amber-500/10" />
 
         {/* Progress Ring (Visual only for now, can be improved with SVG stroke-dasharray) */}
         <div className="absolute inset-2 rounded-full border-[6px] border-zinc-700/30" />

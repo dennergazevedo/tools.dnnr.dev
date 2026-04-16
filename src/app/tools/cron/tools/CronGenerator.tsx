@@ -105,7 +105,7 @@ export function CronGenerator() {
                   type="text"
                   value={field.val}
                   onChange={(e) => field.set(e.target.value)}
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2 text-center font-mono text-sm text-zinc-100 focus:border-sky-500 focus:outline-none"
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-950 p-2 text-center font-mono text-sm text-zinc-100 focus:border-amber-500 focus:outline-none"
                 />
                 <span className="text-center text-[10px] text-zinc-600">
                   {field.hint}
@@ -117,7 +117,7 @@ export function CronGenerator() {
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-sky-400">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-amber-400">
               Generated Expression
             </h3>
             <div className="flex gap-2">
@@ -151,13 +151,13 @@ export function CronGenerator() {
             </Button>
           </div>
 
-          <div className="flex items-start gap-3 rounded-xl border border-sky-500/10 bg-sky-500/5 p-4 text-xs text-sky-400/80">
+          <div className="flex items-start gap-3 rounded-xl border border-amber-500/10 bg-amber-500/5 p-4 text-xs text-amber-400/80">
             <Info className="h-4 w-4 flex-shrink-0" />
             <p>
               This expression will run tasks at the specified intervals. Use{" "}
-              <code className="text-sky-300">*</code> for "every",
-              <code className="text-sky-300">*/n</code> for "every n", and{" "}
-              <code className="text-sky-300">n,m</code> for specific values.
+              <code className="text-amber-300">*</code> for "every",
+              <code className="text-amber-300">*/n</code> for "every n", and{" "}
+              <code className="text-amber-300">n,m</code> for specific values.
             </p>
           </div>
         </div>

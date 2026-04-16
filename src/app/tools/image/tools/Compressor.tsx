@@ -151,10 +151,10 @@ export function Compressor() {
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className="group flex cursor-pointer flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-900/20 p-12 transition-all hover:border-sky-500/50 hover:bg-zinc-900/40"
+              className="group flex cursor-pointer flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-900/20 p-12 transition-all hover:border-amber-500/50 hover:bg-zinc-900/40"
             >
               <div className="rounded-full bg-zinc-800 p-4 transition-transform group-hover:scale-110">
-                <Upload className="h-8 w-8 text-zinc-400 group-hover:text-sky-400" />
+                <Upload className="h-8 w-8 text-zinc-400 group-hover:text-amber-400" />
               </div>
               <div className="text-center">
                 <p className="text-lg font-medium text-zinc-200">
@@ -224,7 +224,7 @@ export function Compressor() {
                         type="number"
                         value={targetSize}
                         onChange={(e) => setTargetSize(e.target.value)}
-                        className="flex-1 rounded-lg border border-zinc-800 bg-zinc-950 p-3 text-zinc-100 focus:border-sky-500 focus:outline-none"
+                        className="flex-1 rounded-lg border border-zinc-800 bg-zinc-950 p-3 text-zinc-100 focus:border-amber-500 focus:outline-none"
                       />
                       <div className="flex overflow-hidden rounded-lg border border-zinc-800">
                         {UNITS.map((u) => (
@@ -233,7 +233,7 @@ export function Compressor() {
                             onClick={() => setUnit(u.value)}
                             className={`px-4 text-xs font-bold uppercase transition-all ${
                               unit === u.value
-                                ? "bg-sky-500 text-white"
+                                ? "bg-amber-500 text-white"
                                 : "bg-zinc-950 text-zinc-500 hover:bg-zinc-900"
                             }`}
                           >
@@ -300,7 +300,7 @@ export function Compressor() {
                   )}
                 </div>
 
-                <div className="flex items-start gap-3 rounded-xl border border-sky-500/10 bg-sky-500/5 p-4 text-xs text-sky-400/80">
+                <div className="flex items-start gap-3 rounded-xl border border-amber-500/10 bg-amber-500/5 p-4 text-xs text-amber-400/80">
                   <Info className="h-4 w-4 flex-shrink-0" />
                   <p>
                     The tool will try to get as close as possible to your target size without sacrificing too much quality.

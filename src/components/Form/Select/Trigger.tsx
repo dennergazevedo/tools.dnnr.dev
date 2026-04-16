@@ -12,16 +12,16 @@ export function Trigger({ children, ...props }: TriggerProps) {
     <Select.Trigger
       {...props}
       className={twMerge(
-        'flex h-11 w-full items-center justify-between gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm outline-none border-zinc-700 bg-zinc-800',
-        'data-[placeholder]:text-zinc-600 data-[placeholder]:text-zinc-400',
-        'focus:border-sky-300 focus:ring-4 focus:ring-sky-100 focus:border-sky-500 focus:ring-sky-500/10',
+        'flex h-11 w-full items-center justify-between gap-2 rounded-lg border border-neutral-700 bg-neutral-800 px-3 py-2 shadow-sm outline-none',
+        'data-[placeholder]:text-neutral-400',
+        'focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10',
         props.className,
       )}
     >
       {children}
 
       <Select.Icon>
-        <ChevronDown className="h-5 w-5 text-zinc-500" />
+        <ChevronDown className="h-5 w-5 text-neutral-500" />
       </Select.Icon>
     </Select.Trigger>
   )

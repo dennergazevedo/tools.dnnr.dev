@@ -120,7 +120,7 @@ export function JWTDecoder() {
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-sky-400">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-amber-400">
                   Header
                 </h3>
                 <Button

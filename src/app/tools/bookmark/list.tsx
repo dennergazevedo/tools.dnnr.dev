@@ -52,7 +52,7 @@ export default function BookmarkList() {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400 opacity-0 transition-all group-hover:opacity-100 hover:bg-zinc-700 hover:text-sky-400"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400 opacity-0 transition-all group-hover:opacity-100 hover:bg-zinc-700 hover:text-amber-400"
                 >
                   <ExternalLink className="h-4 w-4" />
                 </a>

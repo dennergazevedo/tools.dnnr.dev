@@ -11,7 +11,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-primary text-primary-foreground shadow-highlight hover:bg-sky-400 active:bg-sky-600 transition-all",
+          "bg-primary text-neutral-950 font-semibold shadow-highlight hover:bg-amber-400 active:bg-amber-600 transition-all",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-neutral-800 transition-all",
         outline:
@@ -59,7 +59,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <Loader2 className="h-5 w-5 flex-shrink-0 animate-spin text-white" />
+          <Loader2 className="h-5 w-5 flex-shrink-0 animate-spin" />
         ) : (
           children
         )}

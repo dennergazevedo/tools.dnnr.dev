@@ -180,7 +180,7 @@ export default function Register() {
           Already have an account?{" "}
           <Link
             href="/auth/login"
-            className="font-semibold text-primary transition-colors hover:text-sky-400"
+            className="font-semibold text-primary transition-colors hover:text-amber-400"
           >
             Sign in
           </Link>

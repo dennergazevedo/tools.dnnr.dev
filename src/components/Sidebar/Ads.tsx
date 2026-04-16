@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export function Ads() {
   return (
-    <div className="flex flex-col gap-3 px-1">
+    <div className="flex flex-col gap-2 px-1">
       <Link
         href="https://divisor.dev"
         target="_blank"
@@ -13,8 +13,8 @@ export function Ads() {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-purple-600/10 text-purple-500 transition-all group-hover:bg-purple-600 group-hover:text-white">
-              <Sparkles className="h-4 w-4" />
+            <div className="flex h-5 w-5 items-center justify-center rounded-md bg-purple-600/10 text-purple-500 transition-all group-hover:bg-purple-600 group-hover:text-white">
+              <Sparkles className="h-3 w-3" />
             </div>
             <span className="text-xs font-bold uppercase tracking-wider text-purple-400">
               Divisor
@@ -34,8 +34,8 @@ export function Ads() {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-neutral-800 text-neutral-400 transition-all group-hover:bg-neutral-700 group-hover:text-white">
-              <Monitor className="h-4 w-4" />
+            <div className="flex h-5 w-5 items-center justify-center rounded-md bg-neutral-800 text-neutral-400 transition-all group-hover:bg-neutral-700 group-hover:text-white">
+              <Monitor className="h-3 w-3" />
             </div>
             <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">
               Janelas XD
@@ -55,8 +55,8 @@ export function Ads() {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary/10 text-primary transition-all group-hover:bg-primary group-hover:text-white">
-              <User className="h-4 w-4" />
+            <div className="flex h-5 w-5 items-center justify-center rounded-md bg-primary/10 text-primary transition-all group-hover:bg-primary group-hover:text-neutral-950">
+              <User className="h-3 w-3" />
             </div>
             <span className="text-xs font-bold uppercase tracking-wider text-primary">
               Portfolio
