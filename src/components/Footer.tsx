@@ -25,19 +25,34 @@ const SOCIAL_LINKS = [
 
 const FEATURED_PROJECTS = [
   {
-    name: "Divisor",
+    name: "divisor.dev",
     href: "https://divisor.dev",
     description: "A/B testing without complexity. Open source.",
   },
   {
-    name: "Janelas XD",
+    name: "os.dnnr.dev",
     href: "https://os.dnnr.dev",
-    description: "Portfolio com temática Windows XP. Pura nostalgia.",
+    description: "Windows XP-themed portfolio. Pure nostalgia.",
   },
   {
-    name: "dnews",
+    name: "news.dnnr.dev",
     href: "https://news.dnnr.dev",
-    description: "Notícias de Tech, Curadas por IA. Seu jornal digital.",
+    description: "Tech news curated by AI. Your digital newspaper.",
+  },
+  {
+    name: "bibliotecasecreta.com.br",
+    href: "https://bibliotecasecreta.com.br",
+    description: "Personalized literary recommendations powered by AI.",
+  },
+  {
+    name: "dnnr.dev",
+    href: "https://dnnr.dev",
+    description: "Learn more about me.",
+  },
+  {
+    name: "short.dnnr.dev",
+    href: "https://short.dnnr.dev",
+    description: "Turn long URLs into short, trackable links.",
   },
 ];
 
