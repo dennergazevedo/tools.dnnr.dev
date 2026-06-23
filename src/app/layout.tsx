@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { Outfit } from "next/font/google";
 import { Toaster } from "sonner";
 import { AuthContextProvider } from "./auth/context";
+import { TopBar } from "@/components/TopBar";
 
 const outfit = Outfit({
   weight: ["400", "500", "600", "700"],
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
         </Script>
         <AuthContextProvider>
+          <TopBar currentProjectId="tools.dnnr.dev" />
           <Toaster richColors />
           {children}
         </AuthContextProvider>
