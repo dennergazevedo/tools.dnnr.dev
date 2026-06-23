@@ -151,7 +151,7 @@ export function TopBar({ currentProjectId, theme = "dark" }: TopBarProps) {
     >
       {/* Left: brand / current project breadcrumb */}
       <a
-        href="https://dnnr.dev"
+        href="https://tools.dnnr.dev"
         target="_blank"
         rel="noopener noreferrer"
         className={`flex items-center gap-1.5 text-[11px] font-mono transition-colors ${t.breadcrumbRoot}`}
