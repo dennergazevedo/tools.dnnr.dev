@@ -9,7 +9,7 @@ export function Logo({ onClose }: LogoProps) {
   return (
     <Link
       href="/"
-      className="mx-1 flex items-center gap-3 text-xl font-bold tracking-tight text-foreground transition-opacity hover:opacity-80"
+      className="mx-1 mt-4 flex items-center gap-3 text-xl font-bold tracking-tight text-foreground transition-opacity hover:opacity-80"
     >
       <span
         onClick={onClose}

@@ -3,7 +3,7 @@ import { Hammer } from "lucide-react";
 
 export function HomeNavbar() {
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-neutral-800/60 bg-neutral-950/70 backdrop-blur-md">
+    <nav className="fixed left-0 right-0 top-8 z-50 border-b border-neutral-800/60 bg-neutral-950/70 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
         <Link
           href="/"
