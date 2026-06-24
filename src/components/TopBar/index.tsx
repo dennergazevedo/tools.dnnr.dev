@@ -9,75 +9,6 @@ type Project = {
   description: string;
 };
 
-const PROJECTS: Project[] = [
-  {
-    id: "dnnr.dev",
-    label: "dnnr.dev",
-    url: "https://dnnr.dev",
-    description: "Portfólio pessoal",
-  },
-  {
-    id: "tools.dnnr.dev",
-    label: "tools.dnnr.dev",
-    url: "https://tools.dnnr.dev",
-    description: "Kit de ferramentas para dev",
-  },
-  {
-    id: "news.dnnr.dev",
-    label: "news.dnnr.dev",
-    url: "https://news.dnnr.dev",
-    description: "Newsletter com IA",
-  },
-  {
-    id: "short.dnnr.dev",
-    label: "short.dnnr.dev",
-    url: "https://short.dnnr.dev",
-    description: "Encurtador de links",
-  },
-  {
-    id: "mybio.dnnr.dev",
-    label: "mybio.dnnr.dev",
-    url: "https://mybio.dnnr.dev",
-    description: "Link na Bio",
-  },
-  {
-    id: "blog.dnnr.dev",
-    label: "blog.dnnr.dev",
-    url: "https://blog.dnnr.dev",
-    description: "Blog de tecnologia",
-  },
-  {
-    id: "os.dnnr.dev",
-    label: "os.dnnr.dev",
-    url: "https://os.dnnr.dev",
-    description: "Portfólio temático XP",
-  },
-  {
-    id: "divisor.dev",
-    label: "divisor.dev",
-    url: "https://divisor.dev",
-    description: "Gerenciador de experimentos A/B",
-  },
-  {
-    id: "bibliotecasecreta.com.br",
-    label: "bibliotecasecreta.com.br",
-    url: "https://bibliotecasecreta.com.br",
-    description: "Sugestão de livros com IA",
-  },
-  {
-    id: "links.dnnr.dev",
-    label: "links.dnnr.dev",
-    url: "https://links.dnnr.dev",
-    description: "Minha lista de links",
-  },
-  {
-    id: "social.dnnr.dev",
-    label: "social.dnnr.dev",
-    url: "https://social.dnnr.dev",
-    description: "Portfólio em rede social",
-  },
-];
-
 const themes = {
   dark: {
     bar: "bg-zinc-950/95 border-zinc-800/60",
@@ -120,10 +51,18 @@ type TopBarProps = {
 
 export function TopBar({ currentProjectId, theme = "dark" }: TopBarProps) {
   const [open, setOpen] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const t = themes[theme];
-  const currentProject = PROJECTS.find((p) => p.id === currentProjectId);
+  const currentProject = projects.find((p) => p.id === currentProjectId);
+
+  useEffect(() => {
+    fetch("https://dnnr.dev/projects.json")
+      .then((res) => res.json())
+      .then(setProjects)
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -198,7 +137,7 @@ export function TopBar({ currentProjectId, theme = "dark" }: TopBarProps) {
             className={`absolute right-0 top-full mt-1 w-68 border rounded-lg shadow-2xl overflow-hidden ${t.dropdown}`}
           >
             <div className="p-1">
-              {PROJECTS.map((project, index) => {
+              {projects.map((project, index) => {
                 const isCurrent = project.id === currentProjectId;
                 const isTop = index < 3;
                 return (
