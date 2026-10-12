@@ -13,6 +13,7 @@ import {
   Rocket,
   Regex,
   Network,
+  CodeXml,
 } from "lucide-react";
 
 import { NavItem } from "./NavItem";
@@ -50,6 +51,12 @@ export function Navigation({ onClose }: NavigationProps) {
         onClose={onClose}
       />
       <NavItem icon={Code2} title="JSON" to="/tools/json" onClose={onClose} />
+      <NavItem
+        icon={CodeXml}
+        title="XML Tools"
+        to="/tools/xml"
+        onClose={onClose}
+      />
       <NavItem
         icon={Regex}
         title="Regex"

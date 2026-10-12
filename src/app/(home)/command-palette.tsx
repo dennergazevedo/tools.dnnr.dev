@@ -19,6 +19,7 @@ import {
   Rocket,
   Regex,
   Network,
+  CodeXml,
 } from "lucide-react";
 import {
   CommandDialog,
@@ -50,6 +51,13 @@ const CATEGORIES = [
         label: "JSON",
         href: "/tools/json",
         description: "Validate JSON and transform it into TypeScript interfaces.",
+      },
+      {
+        icon: CodeXml,
+        label: "XML Tools",
+        href: "/tools/xml",
+        description:
+          "Beautify XML and convert between XML and JSON.",
       },
       {
         icon: GitCompare,

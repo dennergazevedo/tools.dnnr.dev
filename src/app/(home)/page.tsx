@@ -26,6 +26,7 @@ import {
   Palette,
   Regex,
   Network,
+  CodeXml,
 } from "lucide-react";
 
 const CATEGORIES = [
@@ -39,6 +40,13 @@ const CATEGORIES = [
         href: "/tools/json",
         description:
           "Validate JSON and transform it into TypeScript interfaces automatically.",
+      },
+      {
+        icon: CodeXml,
+        label: "XML Tools",
+        href: "/tools/xml",
+        description:
+          "Beautify XML and convert it to JSON and back with ease.",
       },
       {
         icon: GitCompare,
