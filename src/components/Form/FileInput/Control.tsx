@@ -3,7 +3,7 @@
 import { ChangeEvent, InputHTMLAttributes } from 'react'
 import { useFileInput } from './Root'
 
-export interface ControlProps extends InputHTMLAttributes<HTMLInputElement> {}
+export type ControlProps = InputHTMLAttributes<HTMLInputElement>;
 
 export function Control(props: ControlProps) {
   const { onFilesSelected, multiple, id } = useFileInput()

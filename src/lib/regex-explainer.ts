@@ -94,7 +94,7 @@ export function explainRegex(regexString: string): RegexToken[] {
         const inverted = value.startsWith('[^');
         let desc = inverted ? 'Matches any character NOT in the list:' : 'Matches any single character in the list:';
         
-        let inner = inverted ? value.slice(2, -1) : value.slice(1, -1);
+        const inner = inverted ? value.slice(2, -1) : value.slice(1, -1);
         const ranges = [];
         const chars = [];
         

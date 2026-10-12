@@ -41,10 +41,10 @@ export async function convertSvgToIco(svgString: string): Promise<string> {
 
 export function svgToReactFC(
   svgString: string,
-  componentName: string = "Icon"
+  componentName = "Icon"
 ): string {
   // Clean up SVG for React
-  let cleanSvg = svgString
+  const cleanSvg = svgString
     .replace(/class=/g, "className=")
     .replace(/for=/g, "htmlFor=")
     .replace(/stroke-width=/g, "strokeWidth=")

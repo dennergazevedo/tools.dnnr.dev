@@ -5,7 +5,7 @@ import { ChevronDown } from 'lucide-react'
 import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-export interface TriggerProps extends ComponentProps<typeof Select.Trigger> {}
+export type TriggerProps = ComponentProps<typeof Select.Trigger>;
 
 export function Trigger({ children, ...props }: TriggerProps) {
   return (

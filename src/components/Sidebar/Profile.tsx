@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 
-export interface ProfileProps {}
+export type ProfileProps = Record<string, never>;
 
 export function Profile() {
   const { user, handleLogout } = useAuth();

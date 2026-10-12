@@ -3,7 +3,7 @@
 import { FileItem } from './FileItem'
 import { useFileInput } from './Root'
 
-export interface FileListProps {}
+export type FileListProps = Record<string, never>;
 
 export function FileList(props: FileListProps) {
   const { files } = useFileInput()

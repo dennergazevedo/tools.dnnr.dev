@@ -61,7 +61,7 @@ export function TopBar({ currentProjectId, theme = "dark" }: TopBarProps) {
     fetch("https://dnnr.dev/projects.json")
       .then((res) => res.json())
       .then(setProjects)
-      .catch(() => {});
+      .catch(() => undefined);
   }, []);
 
   useEffect(() => {

@@ -125,7 +125,7 @@ export default function Register() {
           </form>
 
           <p className="text-sm text-muted-foreground">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/auth/register"
               className="font-semibold text-primary transition-colors hover:text-amber-400"

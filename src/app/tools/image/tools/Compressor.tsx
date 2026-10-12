@@ -81,7 +81,6 @@ export function Compressor() {
       let low = 0.01;
       let high = 1.0;
       let bestBlob: Blob | null = null;
-      let bestSize = Infinity;
 
       // Iterative binary search for the best quality
       for (let i = 0; i < 8; i++) {

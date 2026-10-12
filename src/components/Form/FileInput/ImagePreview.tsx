@@ -4,7 +4,7 @@ import { User } from 'lucide-react'
 import { useFileInput } from './Root'
 import { useMemo } from 'react'
 
-export interface ImagePreviewProps {}
+export type ImagePreviewProps = Record<string, never>;
 
 export function ImagePreview(props: ImagePreviewProps) {
   const { multiple, files } = useFileInput()

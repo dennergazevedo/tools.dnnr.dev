@@ -155,8 +155,8 @@ export function CronGenerator() {
             <Info className="h-4 w-4 flex-shrink-0" />
             <p>
               This expression will run tasks at the specified intervals. Use{" "}
-              <code className="text-amber-300">*</code> for "every",
-              <code className="text-amber-300">*/n</code> for "every n", and{" "}
+              <code className="text-amber-300">*</code> for &quot;every&quot;,
+              <code className="text-amber-300">*/n</code> for &quot;every n&quot;, and{" "}
               <code className="text-amber-300">n,m</code> for specific values.
             </p>
           </div>

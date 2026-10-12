@@ -45,7 +45,7 @@ export default function FAQ() {
       <span className="mb-4 text-sm text-neutral-500">
         Quick answers to the most common questions about tools.dnnr.dev.
         Our goal is to make using the tools simple and straightforward,
-        so we've gathered everything you need to know here. If you still have questions,
+        so we&apos;ve gathered everything you need to know here. If you still have questions,
         you can freely explore the tools or contact us to learn more.
       </span>
       <div className="flex flex-col divide-y divide-neutral-800/60 overflow-hidden">

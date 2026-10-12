@@ -4,7 +4,7 @@ import * as Select from '@radix-ui/react-select'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { ComponentProps } from 'react'
 
-export interface ContentProps extends ComponentProps<typeof Select.Content> {}
+export type ContentProps = ComponentProps<typeof Select.Content>;
 
 export function Content({ children, ...props }: ContentProps) {
   return (

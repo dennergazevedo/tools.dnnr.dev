@@ -1,7 +1,7 @@
 import { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
-export interface TextareaProps extends ComponentProps<"textarea"> {}
+export type TextareaProps = ComponentProps<"textarea">;
 
 export function Textarea({ className, ...props }: TextareaProps) {
   return (
