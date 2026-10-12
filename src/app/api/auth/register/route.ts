@@ -20,8 +20,11 @@ export async function POST(request: Request) {
         INSERT INTO users (email, password, "firstname", "lastname")
         VALUES (${email}, ${hashedPassword}, ${firstname}, ${lastname})
       `;
-    } catch (dbError: any) {
-      if (dbError.message.includes("unique constraint")) {
+    } catch (dbError) {
+      if (
+        dbError instanceof Error &&
+        dbError.message.includes("unique constraint")
+      ) {
         return NextResponse.json(
           { error: "User already exists." },
           { status: 400 }
@@ -31,10 +34,15 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ data: { status: "OK" } });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { error: error.message || "[!] Something went wrong." },
+      {
+        error:
+          error instanceof Error && error.message
+            ? error.message
+            : "[!] Something went wrong.",
+      },
       { status: 500 }
     );
   }

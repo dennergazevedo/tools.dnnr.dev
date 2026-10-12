@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import * as FileInput from "@/components/Form/FileInput";
 import { Textarea } from "@/components/Form/Textarea";
 import { FormEvent, Fragment, useCallback, useState } from "react";
-import { Eraser, Flame, DownloadCloud, ShieldCheck } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Eraser, Flame, DownloadCloud } from "lucide-react";
 import { convertSvgToImage, downloadDataUrl } from "./converter";
 
 import { PrivacyAlert } from "@/components/ui/privacy-alert";

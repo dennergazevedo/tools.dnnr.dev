@@ -40,10 +40,15 @@ export async function GET(request: NextRequest) {
         { status: 401 }
       );
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error("User verification error:", error);
     return NextResponse.json(
-      { error: error.message || "[!] Something went wrong." },
+      {
+        error:
+          error instanceof Error && error.message
+            ? error.message
+            : "[!] Something went wrong.",
+      },
       { status: 500 }
     );
   }

@@ -5,7 +5,7 @@ import { useFileInput } from './Root'
 
 export type FileListProps = Record<string, never>;
 
-export function FileList(props: FileListProps) {
+export function FileList() {
   const { files } = useFileInput()
 
   if (files.length === 0) {

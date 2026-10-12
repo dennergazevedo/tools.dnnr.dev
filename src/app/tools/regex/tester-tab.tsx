@@ -43,7 +43,7 @@ export function TesterTab() {
     if (!pattern) return testString;
 
     try {
-      const regex = new RegExp(pattern, flags);
+      new RegExp(pattern, flags); // throws on invalid pattern
       setError(null);
 
       // If no global flag, we only match once, so split using match is harder.
@@ -101,8 +101,8 @@ export function TesterTab() {
       
       return elements;
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
       return testString;
     }
   }, [pattern, flags, testString]);

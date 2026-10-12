@@ -3,15 +3,7 @@
 import { useState, useCallback, Fragment } from "react";
 import { Textarea } from "@/components/Form/Textarea";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import {
-  GitCompare,
-  Eraser,
-  Copy,
-  CheckCheck,
-  ShieldCheck,
-  Split,
-} from "lucide-react";
+import { GitCompare, Eraser, Copy, CheckCheck, Split } from "lucide-react";
 import { diffLines, Change } from "diff";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 

@@ -1,8 +1,9 @@
+import { ReactNode } from "react";
 import { ToDoItem } from "./page";
 
 export type TodoContextProviderProps = {
   todos: ToDoItem[]
-  children: any
+  children: ReactNode
 };
 
 export interface TodoContextProps{

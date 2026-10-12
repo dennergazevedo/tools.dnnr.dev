@@ -73,10 +73,15 @@ export async function POST(request: Request) {
     });
 
     return response;
-  } catch (error: any) {
+  } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
-      { error: error.message || "[!] Something went wrong." },
+      {
+        error:
+          error instanceof Error && error.message
+            ? error.message
+            : "[!] Something went wrong.",
+      },
       { status: 500 }
     );
   }

@@ -12,11 +12,17 @@ interface PaletteColor {
   isLocked: boolean;
 }
 
+interface SavedPalette {
+  id: string;
+  name: string;
+  colors: string[];
+}
+
 export function PaletteGenerator() {
   const { user } = useAuth();
   const [colors, setColors] = useState<PaletteColor[]>([]);
   const [paletteName, setPaletteName] = useState("");
-  const [savedPalettes, setSavedPalettes] = useState<any[]>([]);
+  const [savedPalettes, setSavedPalettes] = useState<SavedPalette[]>([]);
   const [isSaving, setIsSaving] = useState(false);
 
   const generateRandomColor = () => {

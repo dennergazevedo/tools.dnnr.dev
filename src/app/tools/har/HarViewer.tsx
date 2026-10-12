@@ -2,7 +2,6 @@
 
 import { Fragment, useState, useRef, useCallback, useMemo } from "react";
 import {
-  Upload,
   Search,
   X,
   ChevronDown,

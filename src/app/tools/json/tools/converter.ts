@@ -1,9 +1,11 @@
-export function jsonToTypescriptInterfaces(obj: any, interfaceName = "Root") {
+type JsonObject = Record<string, unknown>;
+
+export function jsonToTypescriptInterfaces(obj: unknown, interfaceName = "Root") {
     const lines = [];
-    const queue: any = [{ name: interfaceName, value: obj }];
+    const queue: { name: string; value: JsonObject }[] = [{ name: interfaceName, value: obj as JsonObject }];
 
     while (queue.length > 0) {
-        const { name, value } = queue.shift();
+        const { name, value } = queue.shift() as { name: string; value: JsonObject };
         const interfaceLines = [`interface ${name} {`];
 
         for (const key in value) {
@@ -12,13 +14,13 @@ export function jsonToTypescriptInterfaces(obj: any, interfaceName = "Root") {
                 if (type === "object") {
                     const subInterfaceName = capitalizeFirstLetter(key);
                     interfaceLines.push(`  ${key}: ${subInterfaceName};`);
-                    queue.push({ name: subInterfaceName, value: value[key] });
+                    queue.push({ name: subInterfaceName, value: value[key] as JsonObject });
                 } else if (type === "array") {
-                    const arrayType = getArrayType(value[key]);
+                    const arrayType = getArrayType(value[key] as unknown[]);
                     if (arrayType === "object") {
                         const subInterfaceName = capitalizeFirstLetter(key);
                         interfaceLines.push(`  ${key}: ${subInterfaceName}[];`);
-                        queue.push({ name: subInterfaceName, value: value[key][0] });
+                        queue.push({ name: subInterfaceName, value: (value[key] as unknown[])[0] as JsonObject });
                     } else {
                         interfaceLines.push(`  ${key}: ${arrayType}[];`);
                     }
@@ -35,7 +37,7 @@ export function jsonToTypescriptInterfaces(obj: any, interfaceName = "Root") {
     return lines.join("\n\n");
 }
 
-function getType(value: any) {
+function getType(value: unknown) {
     if (Array.isArray(value)) {
         return "array";
     }
@@ -45,7 +47,7 @@ function getType(value: any) {
     return typeof value;
 }
 
-function getArrayType(array: Array<any>) {
+function getArrayType(array: unknown[]) {
     if (array.length === 0) {
         return "any";
     }

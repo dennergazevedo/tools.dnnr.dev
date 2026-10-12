@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import TimerConfig from "./config";
 import Clock from "./clock";
 import TimerControl from "./control";

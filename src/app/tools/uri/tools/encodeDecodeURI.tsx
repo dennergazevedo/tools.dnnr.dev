@@ -3,9 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/Form/Textarea";
 import { FormEvent, Fragment, useCallback, useState } from "react";
-import { Copy, CheckCheck, ShieldCheck, Link, Unlock } from "lucide-react";
+import { Copy, CheckCheck, Link, Unlock } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { PrivacyAlert } from "@/components/ui/privacy-alert";
 

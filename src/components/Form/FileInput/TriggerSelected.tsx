@@ -23,7 +23,7 @@ export function TriggerSelected({ reset = false }: TriggerSelectedProps) {
 
   useEffect(() => {
     if(reset) onFilesSelected([]);
-  }, [reset])
+  }, [reset, onFilesSelected])
 
   if(!fileData?.name){
     return <Fragment />

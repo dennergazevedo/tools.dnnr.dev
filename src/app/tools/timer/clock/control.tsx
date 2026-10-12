@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Ban, Flame, Pause, Play, Timer } from "lucide-react";
+import { Ban, Pause, Play, Timer } from "lucide-react";
 import { Fragment, useCallback, useState } from "react";
 import * as Input from "../../../../components/Form/Input";
 import {
@@ -21,7 +21,7 @@ export default function TimerControl({
 
   const handleChangeTime = useCallback(() => {
     setNewTime(minutes * 60);
-  }, [minutes]);
+  }, [minutes, setNewTime]);
 
   return (
     <div className="flex flex-col items-center">

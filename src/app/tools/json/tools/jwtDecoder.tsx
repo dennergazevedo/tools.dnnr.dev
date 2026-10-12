@@ -3,20 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/Form/Textarea";
 import { Fragment, useCallback, useState, useEffect } from "react";
-import {
-  Copy,
-  CheckCheck,
-  Eraser,
-  ShieldCheck,
-  AlertCircle,
-} from "lucide-react";
+import { Copy, CheckCheck, Eraser, AlertCircle } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { PrivacyAlert } from "@/components/ui/privacy-alert";
 
 interface DecodedJWT {
-  header: any;
-  payload: any;
+  header: Record<string, unknown>;
+  payload: Record<string, unknown>;
   signature: string;
 }
 
@@ -67,7 +61,7 @@ export function JWTDecoder() {
     setError(null);
   }, []);
 
-  const handleCopy = useCallback(async (content: any, key: string) => {
+  const handleCopy = useCallback(async (content: unknown, key: string) => {
     const text =
       typeof content === "string" ? content : JSON.stringify(content, null, 2);
     const success = await copyToClipboard(text);

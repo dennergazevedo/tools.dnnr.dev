@@ -37,7 +37,7 @@ export function ColorPicker() {
   }, [color]);
   const cmyk = useMemo(() => {
     try {
-      return (color as any).toCmykString();
+      return color.toCmykString();
     } catch (e) {
       return "N/A";
     }

@@ -39,7 +39,7 @@ async function getTodos(): Promise<ToDoItem[]> {
     const json = await response.json();
     const items = json.data || [];
 
-    return items.map((todoItem: any) => ({
+    return items.map((todoItem: ToDoItem) => ({
       id: todoItem.id,
       description: todoItem.description,
       completed: !!todoItem.completed,
@@ -87,7 +87,7 @@ export default async function ToDo() {
           </AlertDescription>
         </Alert>
       )}
-      <ToDoForm todos={todos} />
+      <ToDoForm />
       <ToDoList />
     </TodoContextProvider>
   );

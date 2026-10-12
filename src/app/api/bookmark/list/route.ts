@@ -38,10 +38,15 @@ export async function GET(request: NextRequest) {
     `;
 
     return NextResponse.json({ data: bookmarks });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Bookmark list error:", error);
     return NextResponse.json(
-      { error: error.message || "[!] Something went wrong." },
+      {
+        error:
+          error instanceof Error && error.message
+            ? error.message
+            : "[!] Something went wrong.",
+      },
       { status: 500 }
     );
   }

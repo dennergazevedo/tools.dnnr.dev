@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Fragment, useCallback, useState, useEffect } from "react";
-import { Copy, CheckCheck, RefreshCw, Layers } from "lucide-react";
+import { Copy, CheckCheck, RefreshCw } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { PrivacyAlert } from "@/components/ui/privacy-alert";
 

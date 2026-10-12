@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useCallback, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import * as Input from "../../../components/Form/Input";
 import {
   CheckCircle,
@@ -22,11 +22,11 @@ export default function Register() {
   const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = useCallback(
-    async (event: any) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setLoading(true);
       try {
-        const formData = new FormData(event.target);
+        const formData = new FormData(event.currentTarget);
 
         const user = {
           firstname: String(formData.get("firstname")),
@@ -61,7 +61,7 @@ export default function Register() {
       }
       setLoading(false);
     },
-    [router]
+    [router, handleRegister]
   );
 
   return (

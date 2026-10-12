@@ -120,28 +120,22 @@ export function explainRegex(regexString: string): RegexToken[] {
     // Groups
     if (char === '(') {
        // Lookarounds and non-capturing
-       let isCapturing = true;
        let groupType = 'Capturing Group';
        let length = 1;
        
        if (regexString.substring(i, i+3) === '(?:') {
-         isCapturing = false;
          groupType = 'Non-capturing Group';
          length = 3;
        } else if (regexString.substring(i, i+3) === '(?=') {
-         isCapturing = false;
          groupType = 'Positive Lookahead';
          length = 3;
        } else if (regexString.substring(i, i+3) === '(?!') {
-         isCapturing = false;
          groupType = 'Negative Lookahead';
          length = 3;
        } else if (regexString.substring(i, i+4) === '(?<=') {
-         isCapturing = false;
          groupType = 'Positive Lookbehind';
          length = 4;
        } else if (regexString.substring(i, i+4) === '(?<!') {
-         isCapturing = false;
          groupType = 'Negative Lookbehind';
          length = 4;
        }

@@ -49,9 +49,9 @@ export function XmlConverter({
       try {
         setOutput(action.run(entryData));
         setError(null);
-      } catch (err: any) {
+      } catch (err) {
         setOutput("");
-        setError(err?.message ?? String(err));
+        setError(err instanceof Error ? err.message : String(err));
       }
     },
     [entryData]

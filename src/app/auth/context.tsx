@@ -12,7 +12,7 @@ import { toast } from "sonner";
 
 const AuthContext = createContext<AuthContext>({} as AuthContext);
 
-export const AuthContextProvider: React.FC<AuthContextProvider> = ({
+export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();

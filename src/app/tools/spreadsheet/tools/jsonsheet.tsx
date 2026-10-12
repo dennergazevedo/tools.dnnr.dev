@@ -17,7 +17,6 @@ import * as XLSX from "xlsx";
 export function JSONSheet() {
   const [entryData, setEntryData] = useState<string>("");
   const [outputFormat, setOutputFormat] = useState<XLSX.BookType>("xlsx");
-  const [copySuccess, setCopySuccess] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
   const [convertedBuffer, setConvertedBuffer] = useState<ArrayBuffer | null>(null);
 
@@ -59,7 +58,6 @@ export function JSONSheet() {
   const handleClear = useCallback(() => {
     setEntryData("");
     setConvertedBuffer(null);
-    setCopySuccess(false);
     setReset(true);
   }, []);
 

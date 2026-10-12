@@ -1,14 +1,7 @@
 "use client";
-import { Fragment, useCallback, useState } from "react";
+import { FormEvent, Fragment, useCallback, useState } from "react";
 import * as Input from "../../../components/Form/Input";
-import {
-  CheckCircle,
-  Lock,
-  Mail,
-  ShieldCheck,
-  User,
-  UserCog,
-} from "lucide-react";
+import { CheckCircle, Lock, Mail, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context";
@@ -21,11 +14,11 @@ export default function Register() {
   const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = useCallback(
-    async (event: any) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setLoading(true);
       try {
-        const formData = new FormData(event.target);
+        const formData = new FormData(event.currentTarget);
 
         const success = await handleLogin({
           email: String(formData.get("email")),
@@ -43,7 +36,7 @@ export default function Register() {
       }
       setLoading(false);
     },
-    [router]
+    [router, handleLogin]
   );
 
   return (

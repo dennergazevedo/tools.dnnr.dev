@@ -8,7 +8,6 @@ import {
   Flame,
   CheckCheck,
   Copy,
-  ShieldCheck,
   AlertCircle,
   CheckCircle2,
 } from "lucide-react";
@@ -44,9 +43,9 @@ export function JSONValidator() {
       JSON.parse(jsonString);
       setError(null);
       setIsValid(true);
-    } catch (e: any) {
+    } catch (e) {
       setIsValid(false);
-      const message = e.message;
+      const message = e instanceof Error ? e.message : String(e);
       let line, column;
 
       // Try to extract position from V8 error message: "at position 123"

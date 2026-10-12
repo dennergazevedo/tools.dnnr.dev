@@ -24,7 +24,7 @@ export function TabItem({ title, value, isSelected }: TabItemProps) {
 
   useEffect(() => {
     if(isSelected) addParameter()
-  }, [isSelected])
+  }, [isSelected, addParameter])
 
   return (
     <Tabs.Trigger

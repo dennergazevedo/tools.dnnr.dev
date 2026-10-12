@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import * as FileInput from "@/components/Form/FileInput";
 import { Textarea } from "@/components/Form/Textarea";
 import { FormEvent, Fragment, useCallback, useState } from "react";
-import { Eraser, Flame, Copy, CheckCheck, ShieldCheck } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Eraser, Flame, Copy, CheckCheck } from "lucide-react";
 import { svgToReactFC } from "./converter";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 

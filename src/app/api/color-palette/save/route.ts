@@ -45,10 +45,15 @@ export async function POST(request: NextRequest) {
     `;
 
     return NextResponse.json({ data: palette });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Save palette error:", error);
     return NextResponse.json(
-      { error: error.message || "[!] Something went wrong." },
+      {
+        error:
+          error instanceof Error && error.message
+            ? error.message
+            : "[!] Something went wrong.",
+      },
       { status: 500 }
     );
   }

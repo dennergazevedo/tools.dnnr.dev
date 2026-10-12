@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 
 export type ImagePreviewProps = Record<string, never>;
 
-export function ImagePreview(props: ImagePreviewProps) {
+export function ImagePreview() {
   const { multiple, files } = useFileInput()
 
   if (multiple) {

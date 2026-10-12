@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Fragment, useState, useRef, useCallback } from "react";
-import { Upload, Download, RefreshCw, FileImage, CheckCircle2 } from "lucide-react";
+import { Upload, Download, RefreshCw, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { PrivacyAlert } from "@/components/ui/privacy-alert";
 
@@ -88,12 +88,12 @@ export function Converter() {
   };
 
   const convertImage = useCallback(async () => {
-    if (!selectedFile) return;
+    if (!selectedFile || !previewUrl) return;
 
     setIsProcessing(true);
     try {
       const img = new Image();
-      img.src = previewUrl!;
+      img.src = previewUrl;
       await new Promise((resolve) => (img.onload = resolve));
 
       const canvas = document.createElement("canvas");
@@ -192,7 +192,7 @@ export function Converter() {
               <div className="flex flex-col gap-4">
                 <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
                   <img
-                    src={previewUrl!}
+                    src={previewUrl ?? undefined}
                     alt="Preview"
                     className="h-full w-full object-contain"
                   />

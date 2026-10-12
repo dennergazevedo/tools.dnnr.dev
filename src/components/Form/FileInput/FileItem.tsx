@@ -35,7 +35,7 @@ export interface FileItemProps extends VariantProps<typeof fileItem> {
   type: string
 }
 
-export function FileItem({ state, name, size, type }: FileItemProps) {
+export function FileItem({ state, name, size }: FileItemProps) {
   const uploadProgress = state === 'complete' ? '100%' : '25%'
 
   const fileSize = useMemo(() => {

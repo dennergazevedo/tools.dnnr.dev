@@ -47,7 +47,7 @@ export function JSONPreview({ sendData }: JSONPreviewProps) {
     };
 
     reader.readAsText(file);
-  }, [files]);
+  }, [files, sendData]);
 
   return <></>;
 }

@@ -1,28 +1,13 @@
 "use client";
-import {
-  FormEvent,
-  Fragment,
-  useCallback,
-  useEffect,
-  useState,
-  ChangeEvent,
-} from "react";
+import { FormEvent, useCallback, useState, ChangeEvent } from "react";
 import { Plus } from "lucide-react";
 import { useTodo } from "../context";
-import { ToDoItem } from "../page";
 import * as Input from "@/components/Form/Input";
 import { Button } from "@/components/ui/button";
 
-interface ToDoFormProps {
-  todos: ToDoItem[];
-}
-
-export default function ToDoForm({ todos }: ToDoFormProps) {
-  const { saveLocalTodos, setList, addTask } = useTodo();
+export default function ToDoForm() {
+  const { addTask } = useTodo();
   const [inputValue, setInputValue] = useState<string>("");
-
-  // We rely on the initial 'todos' prop passed to TodoContextProvider to populate the list.
-  // The client side 'setList' and 'saveLocalTodos' are only called for new interactions.
 
   const handleAddTask = useCallback(
     (event: FormEvent<HTMLFormElement>) => {

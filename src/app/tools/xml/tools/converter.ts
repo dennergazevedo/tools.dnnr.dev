@@ -66,7 +66,7 @@ function formatNode(node: Node, indent: string, depth: number): string[] {
 
       // Keep short text-only elements on a single line
       if (children.length === 1 && children[0].nodeType === Node.TEXT_NODE) {
-        const text = escapeText(children[0].nodeValue!.trim());
+        const text = escapeText((children[0].nodeValue ?? "").trim());
         return [`${pad}${open}>${text}</${element.tagName}>`];
       }
 
@@ -77,7 +77,7 @@ function formatNode(node: Node, indent: string, depth: number): string[] {
       ];
     }
     case Node.TEXT_NODE:
-      return [`${pad}${escapeText(node.nodeValue!.trim())}`];
+      return [`${pad}${escapeText((node.nodeValue ?? "").trim())}`];
     case Node.CDATA_SECTION_NODE:
       return [`${pad}<![CDATA[${node.nodeValue}]]>`];
     case Node.COMMENT_NODE:

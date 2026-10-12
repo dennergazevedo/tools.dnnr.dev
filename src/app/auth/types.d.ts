@@ -1,5 +1,3 @@
-type AuthContextProvider = any;
-
 interface UserLogin {
   email: string;
   password: string;
